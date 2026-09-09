@@ -1,0 +1,99 @@
+{
+  "recorded_at": "2026-09-09T09:29:31.067251+00:00",
+  "status": "PASS",
+  "scope": "Actual local execution; no real AWS/Bedrock/Databricks integration",
+  "python_tests": {
+    "tests": 284,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "python_test_seconds": 52.358,
+  "coverage": {
+    "scope": "services and packages statements",
+    "statements": 1377,
+    "covered": 1243,
+    "missing": 134,
+    "percent": 90.26870007262164
+  },
+  "frontend": {
+    "tests": 26,
+    "format": "PASS",
+    "lint": "PASS",
+    "types": "PASS",
+    "production_build": "PASS",
+    "dependency_vulnerabilities": 0
+  },
+  "python_format_lint_types": "PASS",
+  "bandit_findings_all_severities": 0,
+  "python_dependency_audit": "PASS",
+  "cdk_npm_vulnerabilities": 0,
+  "pip_dependency_consistency": "PASS",
+  "cdk_synthesis": "PASS",
+  "native_demo_five_scenarios": "PASS",
+  "financial_pipeline": {
+    "status": "PASS",
+    "bronze": 20,
+    "silver": 18,
+    "gold": 3,
+    "duplicate_rows": 1,
+    "rejected_rows": 1
+  },
+  "evaluation": {
+    "cases": 61,
+    "passed": true,
+    "aggregate": {
+      "answer_correctness": 1.0,
+      "retrieval_recall": 1.0,
+      "citation_correctness": 1.0,
+      "groundedness": 1.0,
+      "policy_compliance": 1.0,
+      "hallucination_rate": 0.0,
+      "correct_tool_selection": 1.0,
+      "correct_escalation": 1.0,
+      "latency_ms": 14.065262295081967,
+      "model_latency_ms": 0.0,
+      "retrieval_latency_ms": 1.9664754098360655,
+      "estimated_llm_cost_usd": 0.0,
+      "cost_measurement_complete": 1.0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_p50_ms": 13.835,
+      "latency_p95_ms": 19.101,
+      "total_estimated_llm_cost_usd": 0.0
+    },
+    "dataset_sha256": "c8b2f455a5878bf3db1b33207e00e25ab6a41d5849a25b75ab02b05ebe5d37d1"
+  },
+  "evaluation_smoke": {
+    "cases": 20,
+    "passed": true
+  },
+  "commands": [
+    "python -m pytest tests infra/cdk/tests -q --cov=services --cov=packages --cov-report=json:.runtime/coverage-final.json --junitxml=.runtime/tests-final.xml",
+    "python -m ruff format --check services packages tests scripts infra/cdk databricks",
+    "python -m ruff check services packages tests scripts infra/cdk databricks",
+    "python -m mypy services packages scripts infra/cdk databricks",
+    "python scripts/tasks.py security",
+    "python scripts/tasks.py synth",
+    "python -m packages.evals.run",
+    "python -m packages.evals.run --smoke",
+    "python scripts/tasks.py demo",
+    "python scripts/tasks.py financial-pipeline",
+    "python scripts/tasks.py financial-smoke",
+    "npm --prefix apps/web test",
+    "npm --prefix apps/web run format:check",
+    "npm --prefix apps/web run lint",
+    "npm --prefix apps/web run typecheck",
+    "npm --prefix apps/web run build",
+    "npm --prefix apps/web audit"
+  ],
+  "dependency_locks": {
+    "requirements.lock": "d571070ead765caab65efabc5132120073420fc347a16ca72f99272372b448a0",
+    "requirements-runtime.lock": "44ea25ad6fabe32a4e0606daf4d7752d25f60c0c08bd99787cf1a4c72291ef64",
+    "apps/web/package-lock.json": "8029f9e5898d2252dc028c5841e16d93ec677084ac50260ccf828ef146ebd72d",
+    "infra/cdk/package-lock.json": "9522d9627e080a863ea2c355e49581ad9dc5bc78f73288dc04ce1f9acff06afa"
+  },
+  "cloud_deployment": "NOT TESTED",
+  "live_llm": "NOT TESTED",
+  "databricks_workspace": "NOT TESTED"
+}

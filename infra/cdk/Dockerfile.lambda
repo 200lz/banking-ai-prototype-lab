@@ -1,0 +1,11 @@
+FROM public.ecr.aws/lambda/python:3.11
+
+# CDK builds this Dockerfile with the repository root as its context.
+# The lock is the same dependency resolution exercised by local tests and CI.
+COPY pyproject.toml README.md requirements-runtime.lock ./
+COPY services ./services
+COPY packages ./packages
+COPY data ./data
+RUN pip install --no-cache-dir -r requirements-runtime.lock && pip install --no-cache-dir --no-deps .
+
+CMD ["services.api.main.handler"]

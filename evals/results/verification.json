@@ -1,0 +1,53 @@
+{
+  "verified_at": "2026-09-09T08:21:01.683986+00:00",
+  "python_test_count": 109,
+  "web_test_count": 18,
+  "python_coverage_percent": 86.76028084252758,
+  "evaluation": {
+    "count": 61,
+    "dataset_sha256": "c8b2f455a5878bf3db1b33207e00e25ab6a41d5849a25b75ab02b05ebe5d37d1",
+    "aggregate": {
+      "answer_correctness": 1.0,
+      "retrieval_recall": 1.0,
+      "citation_correctness": 1.0,
+      "groundedness": 1.0,
+      "policy_compliance": 1.0,
+      "hallucination_rate": 0.0,
+      "correct_tool_selection": 1.0,
+      "correct_escalation": 1.0,
+      "latency_ms": 11.871344262295082,
+      "model_latency_ms": 0.0,
+      "retrieval_latency_ms": 1.660295081967213,
+      "estimated_llm_cost_usd": 0.0,
+      "cost_measurement_complete": 1.0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "latency_p50_ms": 11.581,
+      "latency_p95_ms": 14.999,
+      "total_estimated_llm_cost_usd": 0.0
+    },
+    "passed": true
+  },
+  "checks": {
+    "ruff": "passed",
+    "mypy": "passed",
+    "bandit": "no findings",
+    "pip_audit": "no known vulnerabilities",
+    "npm_audit_web": "zero vulnerabilities",
+    "npm_audit_cdk": "zero vulnerabilities",
+    "web_production_build": "passed",
+    "cdk_synth": "passed offline",
+    "compose_config": "passed",
+    "native_http_smoke": "passed",
+    "browser_onboarding_calculation_refusal": "passed",
+    "mobile_horizontal_overflow": "none at tested 375 CSS pixel content width"
+  },
+  "not_executed": [
+    "Docker image build and container execution: daemon not running",
+    "AWS deployment",
+    "Live Bedrock inference",
+    "Live Cognito authentication",
+    "Hosted GitHub Actions",
+    "GitHub publication"
+  ]
+}

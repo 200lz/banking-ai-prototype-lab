@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-09-09T08:51:06.419802+00:00",
+  "mode": "container_deterministic_baseline",
+  "status": "FAIL",
+  "cloud_deployed": false,
+  "live_model_called": false,
+  "synthetic_only": true,
+  "build_from_scratch": true,
+  "scenarios": [
+    {
+      "scenario": "normal_policy",
+      "status": "PASS",
+      "request_id": "bffa805b-c1ee-46ab-88e0-a21ad65197c6",
+      "stages": 9,
+      "evidence_count": 6,
+      "verified_citations": 6,
+      "human_review_required": false,
+      "risk_flags": [],
+      "latency_ms": 8.266,
+      "model_tokens": 0,
+      "estimated_model_cost_usd": 0,
+      "answer_sha256": "8d0ba8c993b729e4b55e67fc1728f9ee02dc0af19ab64e53ba563b18cbc2b5ac"
+    }
+  ],
+  "checks": {
+    "health": {
+      "api": "PASS",
+      "web": "PASS",
+      "otel-collector": "PASS"
+    },
+    "container_dns_web_to_api": "PASS",
+    "runtime_python_dependencies": "PASS",
+    "clean_shutdown": "PASS"
+  },
+  "engine": {
+    "Version": "20.10.17",
+    "Os": "linux",
+    "Arch": "amd64"
+  },
+  "runtime": {
+    "api": {
+      "configured_user": "lab",
+      "image_id": "sha256:adadf94c2878a71c39d4d31ea27e616f7582f8464b8994a090570bee75b81c8a",
+      "image_size_bytes": 240657082,
+      "cap_drop": [
+        "ALL"
+      ],
+      "read_only_root": true,
+      "no_new_privileges": true
+    },
+    "web": {
+      "configured_user": "nextjs",
+      "image_id": "sha256:244af52e44e97542c7c2c943fe9c77b77d226a1ccea3cd3d9d89c512dbbadee7",
+      "image_size_bytes": 244156228,
+      "cap_drop": [
+        "ALL"
+      ],
+      "read_only_root": false,
+      "no_new_privileges": true
+    },
+    "otel-collector": {
+      "configured_user": "10001:10001",
+      "image_id": "sha256:7bd3546f577737f4015a53a940411da260c1b33e0f3dc4154ec1b1a4b82cfd99",
+      "image_size_bytes": 366967838,
+      "cap_drop": [
+        "ALL"
+      ],
+      "read_only_root": true,
+      "no_new_privileges": true
+    }
+  },
+  "failure": {
+    "type": "AssertionError",
+    "message": "DTI must be deterministically calculated as 30.00 percent"
+  },
+  "finished_at": "2026-09-09T08:52:54.514639+00:00",
+  "commands": [
+    {
+      "command": "version --format {{json .Server}}",
+      "returncode": 0,
+      "duration_seconds": 0.208
+    },
+    {
+      "command": "ps -aq --filter label=com.docker.compose.project=banking-ai-validation-9c6aa5e2ff",
+      "returncode": 0,
+      "duration_seconds": 0.168
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff config --quiet",
+      "returncode": 0,
+      "duration_seconds": 0.279
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff build --pull",
+      "returncode": 0,
+      "duration_seconds": 72.304
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff up -d",
+      "returncode": 0,
+      "duration_seconds": 18.118
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff ps -q",
+      "returncode": 0,
+      "duration_seconds": 0.305
+    },
+    {
+      "command": "inspect 00f4fe38cf7250c3280a1e3bbc5aea266497c705573fc1810b95c6e8d5e2ae2a",
+      "returncode": 0,
+      "duration_seconds": 0.184
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff ps -q",
+      "returncode": 0,
+      "duration_seconds": 0.321
+    },
+    {
+      "command": "inspect 4565722b2210dc95cd97f0825dc4875fd64e41430eba152da9d798fe3326799c",
+      "returncode": 0,
+      "duration_seconds": 0.199
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff ps -q",
+      "returncode": 0,
+      "duration_seconds": 0.338
+    },
+    {
+      "command": "inspect 601ca4efdd81e50a6acb797afae989c67425078cfe14a3a2f547793190a49331",
+      "returncode": 0,
+      "duration_seconds": 0.17
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff ps -q",
+      "returncode": 0,
+      "duration_seconds": 0.332
+    },
+    {
+      "command": "inspect 00f4fe38cf7250c3280a1e3bbc5aea266497c705573fc1810b95c6e8d5e2ae2a",
+      "returncode": 0,
+      "duration_seconds": 0.197
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff ps -q",
+      "returncode": 0,
+      "duration_seconds": 0.294
+    },
+    {
+      "command": "inspect 4565722b2210dc95cd97f0825dc4875fd64e41430eba152da9d798fe3326799c",
+      "returncode": 0,
+      "duration_seconds": 0.183
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff ps -q",
+      "returncode": 0,
+      "duration_seconds": 0.321
+    },
+    {
+      "command": "inspect 601ca4efdd81e50a6acb797afae989c67425078cfe14a3a2f547793190a49331",
+      "returncode": 0,
+      "duration_seconds": 0.186
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff ps -q",
+      "returncode": 0,
+      "duration_seconds": 0.309
+    },
+    {
+      "command": "inspect 00f4fe38cf7250c3280a1e3bbc5aea266497c705573fc1810b95c6e8d5e2ae2a",
+      "returncode": 0,
+      "duration_seconds": 0.155
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff ps -q",
+      "returncode": 0,
+      "duration_seconds": 0.292
+    },
+    {
+      "command": "inspect 4565722b2210dc95cd97f0825dc4875fd64e41430eba152da9d798fe3326799c",
+      "returncode": 0,
+      "duration_seconds": 0.156
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff ps -q",
+      "returncode": 0,
+      "duration_seconds": 0.273
+    },
+    {
+      "command": "inspect 601ca4efdd81e50a6acb797afae989c67425078cfe14a3a2f547793190a49331",
+      "returncode": 0,
+      "duration_seconds": 0.157
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff ps -q",
+      "returncode": 0,
+      "duration_seconds": 0.294
+    },
+    {
+      "command": "inspect 00f4fe38cf7250c3280a1e3bbc5aea266497c705573fc1810b95c6e8d5e2ae2a",
+      "returncode": 0,
+      "duration_seconds": 0.158
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff ps -q",
+      "returncode": 0,
+      "duration_seconds": 0.288
+    },
+    {
+      "command": "inspect 4565722b2210dc95cd97f0825dc4875fd64e41430eba152da9d798fe3326799c",
+      "returncode": 0,
+      "duration_seconds": 0.173
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff ps -q",
+      "returncode": 0,
+      "duration_seconds": 0.274
+    },
+    {
+      "command": "inspect 601ca4efdd81e50a6acb797afae989c67425078cfe14a3a2f547793190a49331",
+      "returncode": 0,
+      "duration_seconds": 0.144
+    },
+    {
+      "command": "image inspect sha256:adadf94c2878a71c39d4d31ea27e616f7582f8464b8994a090570bee75b81c8a",
+      "returncode": 0,
+      "duration_seconds": 0.144
+    },
+    {
+      "command": "image inspect sha256:244af52e44e97542c7c2c943fe9c77b77d226a1ccea3cd3d9d89c512dbbadee7",
+      "returncode": 0,
+      "duration_seconds": 0.147
+    },
+    {
+      "command": "image inspect sha256:7bd3546f577737f4015a53a940411da260c1b33e0f3dc4154ec1b1a4b82cfd99",
+      "returncode": 0,
+      "duration_seconds": 0.137
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff exec -T",
+      "returncode": 0,
+      "duration_seconds": 1.836
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff exec -T",
+      "returncode": 0,
+      "duration_seconds": 0.444
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff port web",
+      "returncode": 0,
+      "duration_seconds": 0.261
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff logs --no-color",
+      "returncode": 0,
+      "duration_seconds": 0.266
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-9c6aa5e2ff down --volumes",
+      "returncode": 0,
+      "duration_seconds": 1.351
+    },
+    {
+      "command": "ps -aq --filter label=com.docker.compose.project=banking-ai-validation-9c6aa5e2ff",
+      "returncode": 0,
+      "duration_seconds": 0.15
+    }
+  ]
+}

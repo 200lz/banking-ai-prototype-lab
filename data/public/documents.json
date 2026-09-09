@@ -1,0 +1,40 @@
+[
+  {
+    "id": "PUB-FDIC-001",
+    "title": "FDIC deposit insurance overview — curated summary",
+    "text": "The FDIC describes a standard insurance limit of $250,000 for each depositor at each FDIC-insured bank in each ownership category. Deposits in the same ownership category at the same insured institution are combined when assessing coverage. This dated educational summary does not determine insurance coverage for an individual account.",
+    "source_type": "public",
+    "source_url": "https://www.fdic.gov/resources/deposit-insurance/faq/",
+    "classification": "public",
+    "version": "reviewed-2026-09-09",
+    "effective_date": "2026-09-09",
+    "topic": "deposit_insurance",
+    "tags": [
+      "fdic",
+      "deposit",
+      "insurance",
+      "250000",
+      "coverage"
+    ],
+    "supersedes": []
+  },
+  {
+    "id": "PUB-FINCEN-001",
+    "title": "FinCEN customer due diligence — curated summary",
+    "text": "FinCEN describes customer due diligence as identifying customers and beneficial owners, understanding customer relationships, and ongoing risk-based monitoring. Its current CDD page also links 2026 exceptive relief regarding beneficial owner identification at each account opening. A compliance specialist must assess the applicable rule, exceptions, and current guidance for any real case.",
+    "source_type": "public",
+    "source_url": "https://www.fincen.gov/resources/statutes-and-regulations/cdd-final-rule",
+    "classification": "public",
+    "version": "reviewed-2026-09-09",
+    "effective_date": "2026-09-09",
+    "topic": "onboarding",
+    "tags": [
+      "cdd",
+      "onboarding",
+      "beneficial",
+      "ownership",
+      "fincen"
+    ],
+    "supersedes": []
+  }
+]

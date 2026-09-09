@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "mode": "container_financial_local_adapter",
+  "fresh_build_evidence": "containers-2026-09-09.json",
+  "reused_image_runtime_evidence": "containers-financial-2026-09-09.json",
+  "runtime_images_match_fresh_build": true,
+  "scenario": {
+    "scenario": "financial_profile",
+    "status": "PASS",
+    "request_id": "82742f0f-bb06-4bc1-8b03-4949af19a6c1",
+    "stages": 9,
+    "evidence_count": 3,
+    "verified_citations": 3,
+    "human_review_required": true,
+    "risk_flags": [],
+    "latency_ms": 5.039,
+    "model_tokens": 0,
+    "estimated_model_cost_usd": 0,
+    "financial_source": "local",
+    "financial_metric_count": 4,
+    "answer_sha256": "58abf89093169eaa7057aff250aa53b47d0360f8247613d3fb9c143b58dc285f"
+  },
+  "checks": {
+    "telemetry_including_company_id_canary": {
+      "status": "PASS",
+      "payload_matches": 0,
+      "stage_names_observed": [
+        "user_request",
+        "intent_analysis",
+        "retrieval",
+        "agent_planning",
+        "controlled_tool_execution",
+        "guardrail_validation",
+        "citation_verification",
+        "human_approval_decision",
+        "final_response"
+      ],
+      "log_sha256": "05ecfe20d4c855f5b26f0ad14a3fc8393340853ed86c1814e9712250b02f8b90",
+      "log_bytes": 173148
+    },
+    "restart": "PASS",
+    "clean_shutdown": "PASS"
+  },
+  "databricks_workspace_called": false,
+  "live_model_called": false
+}

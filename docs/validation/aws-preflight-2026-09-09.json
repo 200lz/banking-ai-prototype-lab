@@ -1,0 +1,17 @@
+{
+  "date": "2026-09-09",
+  "performed_after_docker_pass": true,
+  "aws_cli_version": "2.36.41",
+  "official_installer_signature_verified": true,
+  "credentials_available": false,
+  "credential_profiles": 0,
+  "configured_region": null,
+  "sts_identity_obtained": false,
+  "sts_observed_error": "Unable to locate credentials",
+  "account_intent_established": false,
+  "aws_deployment": "NOT TESTED",
+  "model_availability_api": "NOT TESTED",
+  "live_bedrock_inference": "NOT TESTED",
+  "cloud_resources_created": false,
+  "private_identifiers_recorded": false
+}

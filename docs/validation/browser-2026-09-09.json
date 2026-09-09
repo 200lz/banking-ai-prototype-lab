@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-09",
+  "status": "PASS",
+  "scope": "Actual native local Next.js production server to FastAPI; deterministic local mode",
+  "checks": {
+    "policy_question_verified_excerpts": "PASS",
+    "policy_question_human_review": "PASS",
+    "sme_profile_local_gold": "PASS",
+    "sme_profile_mandatory_review": "PASS",
+    "sme_profile_policy_citations": "PASS",
+    "sme_profile_nine_stages_and_financial_tool": "PASS",
+    "mobile_no_horizontal_overflow": "PASS"
+  },
+  "synthetic_company": "SYN-SME-001",
+  "financial_indicators": {
+    "revenue_trend": "20.00",
+    "cashflow_volatility": "44596.96",
+    "debt_service_ratio": "0.0860",
+    "liquidity_indicator": "1.9433"
+  },
+  "mobile_viewport_width": 390,
+  "mobile_document_scroll_width": 375,
+  "screenshots": ["docs/demo/policy-workbench.png", "docs/demo/sme-workbench.png", "docs/demo/sme-mobile.png"],
+  "cloud_workspace_or_llm_evidence": false
+}

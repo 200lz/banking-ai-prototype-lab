@@ -1,0 +1,572 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-09-09T09:07:26.793197+00:00",
+  "mode": "container_deterministic_baseline",
+  "status": "NOT TESTED",
+  "cloud_deployed": false,
+  "live_model_called": false,
+  "synthetic_only": true,
+  "build_from_scratch": false,
+  "scenarios": [
+    {
+      "scenario": "normal_policy",
+      "status": "PASS",
+      "request_id": "31c72202-bfea-4d97-aa71-2346e5c7f18d",
+      "stages": 9,
+      "evidence_count": 6,
+      "verified_citations": 6,
+      "human_review_required": false,
+      "risk_flags": [],
+      "latency_ms": 8.248,
+      "model_tokens": 0,
+      "estimated_model_cost_usd": 0,
+      "financial_source": null,
+      "financial_metric_count": 0,
+      "answer_sha256": "8d0ba8c993b729e4b55e67fc1728f9ee02dc0af19ab64e53ba563b18cbc2b5ac"
+    },
+    {
+      "scenario": "deterministic_dti",
+      "status": "PASS",
+      "request_id": "4778d81b-a232-4c0f-b09c-97012fe3e042",
+      "stages": 9,
+      "evidence_count": 6,
+      "verified_citations": 6,
+      "human_review_required": true,
+      "risk_flags": [],
+      "latency_ms": 6.411,
+      "model_tokens": 0,
+      "estimated_model_cost_usd": 0,
+      "financial_source": null,
+      "financial_metric_count": 0,
+      "answer_sha256": "65f2e56c8cedd4e30f48e4cae89b8c209f2e3dca8d7215a0eb9a8053b0a18a83"
+    },
+    {
+      "scenario": "prohibited_approval",
+      "status": "PASS",
+      "request_id": "c211df85-236d-4ca5-bda1-49cb187a5d7a",
+      "stages": 9,
+      "evidence_count": 6,
+      "verified_citations": 6,
+      "human_review_required": true,
+      "risk_flags": [
+        "prohibited_action"
+      ],
+      "latency_ms": 6.616,
+      "model_tokens": 0,
+      "estimated_model_cost_usd": 0,
+      "financial_source": null,
+      "financial_metric_count": 0,
+      "answer_sha256": "a9843885cf9855d0a3d94f5eda535ed2207d11856f0c3055e37fb6b2d278d656"
+    },
+    {
+      "scenario": "human_review",
+      "status": "PASS",
+      "request_id": "d4a35479-d882-494b-9dfc-b04f669a4d89",
+      "stages": 9,
+      "evidence_count": 3,
+      "verified_citations": 3,
+      "human_review_required": true,
+      "risk_flags": [],
+      "latency_ms": 4.219,
+      "model_tokens": 0,
+      "estimated_model_cost_usd": 0,
+      "financial_source": null,
+      "financial_metric_count": 0,
+      "answer_sha256": "39f808d6341917a6fbacbc76a6f4bf4a353f23ecbd9afe5a89c6f6c46692aa82"
+    },
+    {
+      "scenario": "pii_canary",
+      "status": "PASS",
+      "request_id": "fdb23cf1-659f-49ea-9e0f-fac0b2cc9849",
+      "stages": 9,
+      "evidence_count": 9,
+      "verified_citations": 9,
+      "human_review_required": true,
+      "risk_flags": [
+        "pii_redacted"
+      ],
+      "latency_ms": 9.137,
+      "model_tokens": 0,
+      "estimated_model_cost_usd": 0,
+      "financial_source": null,
+      "financial_metric_count": 0,
+      "answer_sha256": "06346be23c587bb6cb14fa719506affe82beee87cbf8d5eeef4ae1aedc9f9dbb"
+    },
+    {
+      "scenario": "financial_profile",
+      "status": "PASS",
+      "request_id": "82742f0f-bb06-4bc1-8b03-4949af19a6c1",
+      "stages": 9,
+      "evidence_count": 3,
+      "verified_citations": 3,
+      "human_review_required": true,
+      "risk_flags": [],
+      "latency_ms": 5.039,
+      "model_tokens": 0,
+      "estimated_model_cost_usd": 0,
+      "financial_source": "local",
+      "financial_metric_count": 4,
+      "answer_sha256": "58abf89093169eaa7057aff250aa53b47d0360f8247613d3fb9c143b58dc285f"
+    },
+    {
+      "scenario": "retrieved_injection",
+      "status": "PASS",
+      "request_id": "b9b18889-c483-478b-a4c9-01f38d14220d",
+      "stages": 9,
+      "evidence_count": 0,
+      "verified_citations": 0,
+      "human_review_required": true,
+      "risk_flags": [
+        "insufficient_evidence",
+        "prompt_injection_detected"
+      ],
+      "latency_ms": 2.229,
+      "model_tokens": 0,
+      "estimated_model_cost_usd": 0,
+      "financial_source": null,
+      "financial_metric_count": 0,
+      "answer_sha256": "ec14abfe46cacd81221878cbe13af15cc7fda4c4978dbaf3aaecdd4e0ae188e9"
+    }
+  ],
+  "checks": {
+    "lambda_local_image_probe": {
+      "status": "PASS",
+      "uid": 10001,
+      "stages": 9,
+      "model_tokens": 0,
+      "image_id": "sha256:0677b68c9582c456a905a7c6312a0b26eb4e52d90c568ba7d2703dbc16d5e42f",
+      "image_size_bytes": 810790963,
+      "network": "none",
+      "aws_invocation": false
+    },
+    "health": {
+      "api": "PASS",
+      "web": "PASS",
+      "otel-collector": "PASS"
+    },
+    "container_dns_web_to_api": "PASS",
+    "runtime_python_dependencies": "PASS",
+    "telemetry": {
+      "status": "PASS",
+      "payload_matches": 0,
+      "stage_names_observed": [
+        "user_request",
+        "intent_analysis",
+        "retrieval",
+        "agent_planning",
+        "controlled_tool_execution",
+        "guardrail_validation",
+        "citation_verification",
+        "human_approval_decision",
+        "final_response"
+      ],
+      "log_sha256": "86dad4ddf50efda180bcd6e79e9ee97f561e13dbd35fbe258374ab3d809faca0",
+      "log_bytes": 166717
+    },
+    "restart": {
+      "status": "PASS",
+      "audit_before": {
+        "records": 111,
+        "contains_initial_request": true,
+        "sha256": "d19a7a9d9223628ae93040ddea21a026dd88c6406e506b7c6737cd1daa4fda59"
+      },
+      "audit_after": {
+        "records": 127,
+        "contains_initial_request": true,
+        "sha256": "bfe1796f8917b2935085e32d6788e999229033d37daa645e41b5af0d47ad86eb"
+      },
+      "answer_unchanged": true
+    },
+    "runtime_logs": {
+      "error_count": 0,
+      "warning_count": 0
+    },
+    "clean_shutdown": "PASS"
+  },
+  "engine": {
+    "Version": "20.10.17",
+    "Os": "linux",
+    "Arch": "amd64"
+  },
+  "runtime": {
+    "api": {
+      "configured_user": "lab",
+      "image_id": "sha256:a1383d8647938774abeb88efd7dc79d9bef25cf4a739b85bd06ca5be00bdac0c",
+      "image_size_bytes": 240676967,
+      "cap_drop": [
+        "ALL"
+      ],
+      "read_only_root": true,
+      "no_new_privileges": true
+    },
+    "web": {
+      "configured_user": "nextjs",
+      "image_id": "sha256:fadcd3d8231aaeb2b181e0f03f751f18ad3677d11ac3af0b88b8117d219867d3",
+      "image_size_bytes": 244157518,
+      "cap_drop": [
+        "ALL"
+      ],
+      "read_only_root": false,
+      "no_new_privileges": true
+    },
+    "otel-collector": {
+      "configured_user": "10001:10001",
+      "image_id": "sha256:ac008a0d5bd2c6b7f01de2f47df8b5a53f9ebe3ce79ef7028c99acec6da153c0",
+      "image_size_bytes": 366967838,
+      "cap_drop": [
+        "ALL"
+      ],
+      "read_only_root": true,
+      "no_new_privileges": true
+    }
+  },
+  "limitation": "Runtime scenarios passed but --skip-build does not prove fresh builds",
+  "finished_at": "2026-09-09T09:08:17.280532+00:00",
+  "commands": [
+    {
+      "command": "version --format {{json .Server}}",
+      "returncode": 0,
+      "duration_seconds": 0.15
+    },
+    {
+      "command": "ps -aq --filter label=com.docker.compose.project=banking-ai-validation-ae306e2633",
+      "returncode": 0,
+      "duration_seconds": 0.155
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 config --quiet",
+      "returncode": 0,
+      "duration_seconds": 0.262
+    },
+    {
+      "command": "run --rm -i --network none --read-only --cap-drop ALL --security-opt no-new-privileges:true --user 10001:10001 --tmpfs /tmp --entrypoint python banking-ai-validation-ae306e2633-lambda -",
+      "returncode": 0,
+      "duration_seconds": 0.893
+    },
+    {
+      "command": "image inspect banking-ai-validation-ae306e2633-lambda",
+      "returncode": 0,
+      "duration_seconds": 0.152
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 up -d --no-build",
+      "returncode": 0,
+      "duration_seconds": 17.602
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q api",
+      "returncode": 0,
+      "duration_seconds": 0.281
+    },
+    {
+      "command": "inspect 2d15ce7ae9aa5fb14f050e9d3e3e9b8e5c5520328ba9479c779099bf2ab5da3d",
+      "returncode": 0,
+      "duration_seconds": 0.155
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q web",
+      "returncode": 0,
+      "duration_seconds": 0.266
+    },
+    {
+      "command": "inspect ae2e326d03bd29571b61cbd806e2116fbc3935ca9d0f28841ee0c0bf7600caeb",
+      "returncode": 0,
+      "duration_seconds": 0.138
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q otel-collector",
+      "returncode": 0,
+      "duration_seconds": 0.264
+    },
+    {
+      "command": "inspect 8afd8f407b81b36556d39774f11a3ce5540414b1677c9105489e19d1ed48db07",
+      "returncode": 0,
+      "duration_seconds": 0.14
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q api",
+      "returncode": 0,
+      "duration_seconds": 0.26
+    },
+    {
+      "command": "inspect 2d15ce7ae9aa5fb14f050e9d3e3e9b8e5c5520328ba9479c779099bf2ab5da3d",
+      "returncode": 0,
+      "duration_seconds": 0.14
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q web",
+      "returncode": 0,
+      "duration_seconds": 0.237
+    },
+    {
+      "command": "inspect ae2e326d03bd29571b61cbd806e2116fbc3935ca9d0f28841ee0c0bf7600caeb",
+      "returncode": 0,
+      "duration_seconds": 0.138
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q otel-collector",
+      "returncode": 0,
+      "duration_seconds": 0.249
+    },
+    {
+      "command": "inspect 8afd8f407b81b36556d39774f11a3ce5540414b1677c9105489e19d1ed48db07",
+      "returncode": 0,
+      "duration_seconds": 0.139
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q api",
+      "returncode": 0,
+      "duration_seconds": 0.249
+    },
+    {
+      "command": "inspect 2d15ce7ae9aa5fb14f050e9d3e3e9b8e5c5520328ba9479c779099bf2ab5da3d",
+      "returncode": 0,
+      "duration_seconds": 0.136
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q web",
+      "returncode": 0,
+      "duration_seconds": 0.244
+    },
+    {
+      "command": "inspect ae2e326d03bd29571b61cbd806e2116fbc3935ca9d0f28841ee0c0bf7600caeb",
+      "returncode": 0,
+      "duration_seconds": 0.138
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q otel-collector",
+      "returncode": 0,
+      "duration_seconds": 0.246
+    },
+    {
+      "command": "inspect 8afd8f407b81b36556d39774f11a3ce5540414b1677c9105489e19d1ed48db07",
+      "returncode": 0,
+      "duration_seconds": 0.13
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q api",
+      "returncode": 0,
+      "duration_seconds": 0.242
+    },
+    {
+      "command": "inspect 2d15ce7ae9aa5fb14f050e9d3e3e9b8e5c5520328ba9479c779099bf2ab5da3d",
+      "returncode": 0,
+      "duration_seconds": 0.14
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q web",
+      "returncode": 0,
+      "duration_seconds": 0.251
+    },
+    {
+      "command": "inspect ae2e326d03bd29571b61cbd806e2116fbc3935ca9d0f28841ee0c0bf7600caeb",
+      "returncode": 0,
+      "duration_seconds": 0.136
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q otel-collector",
+      "returncode": 0,
+      "duration_seconds": 0.25
+    },
+    {
+      "command": "inspect 8afd8f407b81b36556d39774f11a3ce5540414b1677c9105489e19d1ed48db07",
+      "returncode": 0,
+      "duration_seconds": 0.139
+    },
+    {
+      "command": "image inspect sha256:a1383d8647938774abeb88efd7dc79d9bef25cf4a739b85bd06ca5be00bdac0c",
+      "returncode": 0,
+      "duration_seconds": 0.139
+    },
+    {
+      "command": "image inspect sha256:fadcd3d8231aaeb2b181e0f03f751f18ad3677d11ac3af0b88b8117d219867d3",
+      "returncode": 0,
+      "duration_seconds": 0.13
+    },
+    {
+      "command": "image inspect sha256:ac008a0d5bd2c6b7f01de2f47df8b5a53f9ebe3ce79ef7028c99acec6da153c0",
+      "returncode": 0,
+      "duration_seconds": 0.139
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 exec -T api python -m pip check",
+      "returncode": 0,
+      "duration_seconds": 1.778
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 exec -T web node -e fetch('http://api:8000/health').then(async r=>{if(!r.ok)process.exit(1);console.log((await r.json()).service)}).catch(()=>process.exit(1))",
+      "returncode": 0,
+      "duration_seconds": 0.419
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 port web 3000",
+      "returncode": 0,
+      "duration_seconds": 0.246
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 exec -T api python -",
+      "returncode": 0,
+      "duration_seconds": 0.833
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 exec -T api python -c import json,hashlib; from pathlib import Path; data=Path('/app/.runtime/audit.jsonl').read_bytes(); print(json.dumps({'records':len(data.splitlines()),'contains_initial_request':'31c72202-bfea-4d97-aa71-2346e5c7f18d'.encode() in data,'sha256':hashlib.sha256(data).hexdigest()}))",
+      "returncode": 0,
+      "duration_seconds": 0.386
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 logs --no-color",
+      "returncode": 0,
+      "duration_seconds": 0.292
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 restart",
+      "returncode": 0,
+      "duration_seconds": 1.943
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q api",
+      "returncode": 0,
+      "duration_seconds": 0.293
+    },
+    {
+      "command": "inspect 2d15ce7ae9aa5fb14f050e9d3e3e9b8e5c5520328ba9479c779099bf2ab5da3d",
+      "returncode": 0,
+      "duration_seconds": 0.153
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q web",
+      "returncode": 0,
+      "duration_seconds": 0.261
+    },
+    {
+      "command": "inspect ae2e326d03bd29571b61cbd806e2116fbc3935ca9d0f28841ee0c0bf7600caeb",
+      "returncode": 0,
+      "duration_seconds": 0.136
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q otel-collector",
+      "returncode": 0,
+      "duration_seconds": 0.258
+    },
+    {
+      "command": "inspect 8afd8f407b81b36556d39774f11a3ce5540414b1677c9105489e19d1ed48db07",
+      "returncode": 0,
+      "duration_seconds": 0.138
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q api",
+      "returncode": 0,
+      "duration_seconds": 0.261
+    },
+    {
+      "command": "inspect 2d15ce7ae9aa5fb14f050e9d3e3e9b8e5c5520328ba9479c779099bf2ab5da3d",
+      "returncode": 0,
+      "duration_seconds": 0.152
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q web",
+      "returncode": 0,
+      "duration_seconds": 0.277
+    },
+    {
+      "command": "inspect ae2e326d03bd29571b61cbd806e2116fbc3935ca9d0f28841ee0c0bf7600caeb",
+      "returncode": 0,
+      "duration_seconds": 0.166
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q otel-collector",
+      "returncode": 0,
+      "duration_seconds": 0.271
+    },
+    {
+      "command": "inspect 8afd8f407b81b36556d39774f11a3ce5540414b1677c9105489e19d1ed48db07",
+      "returncode": 0,
+      "duration_seconds": 0.153
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q api",
+      "returncode": 0,
+      "duration_seconds": 0.277
+    },
+    {
+      "command": "inspect 2d15ce7ae9aa5fb14f050e9d3e3e9b8e5c5520328ba9479c779099bf2ab5da3d",
+      "returncode": 0,
+      "duration_seconds": 0.153
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q web",
+      "returncode": 0,
+      "duration_seconds": 0.277
+    },
+    {
+      "command": "inspect ae2e326d03bd29571b61cbd806e2116fbc3935ca9d0f28841ee0c0bf7600caeb",
+      "returncode": 0,
+      "duration_seconds": 0.151
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q otel-collector",
+      "returncode": 0,
+      "duration_seconds": 0.266
+    },
+    {
+      "command": "inspect 8afd8f407b81b36556d39774f11a3ce5540414b1677c9105489e19d1ed48db07",
+      "returncode": 0,
+      "duration_seconds": 0.154
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q api",
+      "returncode": 0,
+      "duration_seconds": 0.283
+    },
+    {
+      "command": "inspect 2d15ce7ae9aa5fb14f050e9d3e3e9b8e5c5520328ba9479c779099bf2ab5da3d",
+      "returncode": 0,
+      "duration_seconds": 0.181
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q web",
+      "returncode": 0,
+      "duration_seconds": 0.258
+    },
+    {
+      "command": "inspect ae2e326d03bd29571b61cbd806e2116fbc3935ca9d0f28841ee0c0bf7600caeb",
+      "returncode": 0,
+      "duration_seconds": 0.137
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 ps -q otel-collector",
+      "returncode": 0,
+      "duration_seconds": 0.264
+    },
+    {
+      "command": "inspect 8afd8f407b81b36556d39774f11a3ce5540414b1677c9105489e19d1ed48db07",
+      "returncode": 0,
+      "duration_seconds": 0.154
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 port web 3000",
+      "returncode": 0,
+      "duration_seconds": 0.248
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 exec -T api python -c import json,hashlib; from pathlib import Path; data=Path('/app/.runtime/audit.jsonl').read_bytes(); print(json.dumps({'records':len(data.splitlines()),'contains_initial_request':'31c72202-bfea-4d97-aa71-2346e5c7f18d'.encode() in data,'sha256':hashlib.sha256(data).hexdigest()}))",
+      "returncode": 0,
+      "duration_seconds": 0.408
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 logs --no-color",
+      "returncode": 0,
+      "duration_seconds": 0.316
+    },
+    {
+      "command": "compose -f <repository>\\compose.yaml -p banking-ai-validation-ae306e2633 down --volumes --remove-orphans",
+      "returncode": 0,
+      "duration_seconds": 1.396
+    },
+    {
+      "command": "ps -aq --filter label=com.docker.compose.project=banking-ai-validation-ae306e2633",
+      "returncode": 0,
+      "duration_seconds": 0.136
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+bundle:
+  name: banking-ai-synthetic-financial
+
+variables:
+  catalog:
+    description: Existing Unity Catalog catalog permitted for this synthetic development job
+  schema:
+    description: Dedicated synthetic development schema
+    default: banking_ai_synthetic
+
+# The common ancestor is the repository root; relative package/data paths remain intact.
+sync:
+  paths:
+    - ../packages/financial
+    - ../data/synthetic
+    - .
+  exclude:
+    - '**/__pycache__/**'
+    - .databricks/**
+
+resources:
+  jobs:
+    financial_pipeline:
+      name: banking-ai-synthetic-financial
+      max_concurrent_runs: 1
+      timeout_seconds: 900
+      tasks:
+        - task_key: publish_gold
+          environment_key: financial
+          spark_python_task:
+            python_file: ./run_pipeline.py
+            parameters:
+              - --repo-root
+              - ${workspace.file_path}
+              - --catalog
+              - ${var.catalog}
+              - --schema
+              - ${var.schema}
+      environments:
+        - environment_key: financial
+          spec:
+            environment_version: '2'
+            dependencies:
+              - pydantic==2.13.5
+
+targets:
+  dev:
+    default: true
+    mode: development

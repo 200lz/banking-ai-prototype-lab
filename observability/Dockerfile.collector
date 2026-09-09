@@ -1,0 +1,7 @@
+FROM golang:1.26-alpine AS health-probe
+COPY health-probe.go /src/health-probe.go
+RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /health-probe /src/health-probe.go
+
+FROM otel/opentelemetry-collector-contrib:0.149.0
+# A fixed-purpose readiness binary avoids adding a shell to the collector image.
+COPY --from=health-probe /health-probe /health-probe

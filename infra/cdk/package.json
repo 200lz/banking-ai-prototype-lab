@@ -1,0 +1,12 @@
+{
+  "name": "banking-ai-infrastructure",
+  "version": "0.1.0",
+  "private": true,
+  "engines": { "node": ">=22" },
+  "devDependencies": { "aws-cdk": "2.1140.0" },
+  "scripts": {
+    "synth": "cdk synth",
+    "diff": "cdk diff",
+    "deploy": "cdk deploy --require-approval broadening"
+  }
+}

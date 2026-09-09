@@ -1,0 +1,7 @@
+{
+  "app": "python app.py",
+  "context": {
+    "@aws-cdk/aws-ecr-assets:dockerIgnoreSupport": true,
+    "@aws-cdk/aws-lambda:useCdkManagedLogGroup": false
+  }
+}
