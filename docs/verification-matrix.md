@@ -19,16 +19,24 @@ that capability; NOT TESTED means an applicable integration was not executed.
 | Stack health, restart, audit persistence and clean shutdown | NOT APPLICABLE | PASS | NOT TESTED | NOT APPLICABLE | NOT APPLICABLE |
 | Lambda handler import and direct workflow smoke | NOT APPLICABLE | PASS | NOT TESTED | NOT APPLICABLE | NOT APPLICABLE |
 | CDK synthesis and infrastructure security assertions | PASS | NOT APPLICABLE | NOT TESTED | NOT APPLICABLE | NOT APPLICABLE |
+| Approved CDK bootstrap and actual resource/trust verification | PASS (template review) | NOT APPLICABLE | PASS (bootstrap only) | NOT APPLICABLE | NOT APPLICABLE |
 | 61-case deterministic regression | PASS | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE |
 | Single-case live-model qualification and retry | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | FAIL | NOT APPLICABLE |
 | Twenty-case live-model qualification | NOT APPLICABLE | NOT APPLICABLE | NOT TESTED | NOT TESTED | NOT APPLICABLE |
 
 ## Evidence supporting PASS
 
-- **Latest previously verified hosted run:** [34346854721](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34346854721)
-  passed at commit `6f24ef61fcf5dcbb7d3906fc38aa3c124b436b19`. The following original-run details remain historical
-  evidence. A hosted run covering the subsequent AWS evidence and harness change
-  has not yet been recorded here.
+- **Latest previously verified hosted run:** [34354616969](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34354616969)
+  passed all 22 steps at commit `8e8c65f227cc9c876792ca835452d2a032d80fb2`,
+  including fresh Docker validation and artifact `evidence-and-infrastructure`.
+  The following original-run details remain historical evidence. This is the
+  source revision used for the subsequently approved bootstrap; the documentation
+  update's new hosted run is verified separately.
+- **Actual CDK bootstrap: PASS / PERFORMED.** Explicit user approval cleared the
+  prior administrator-role approval blocker. Tokyo `CDKToolkit` is CREATE_COMPLETE;
+  all 11 resources and 25 control checks passed. The deployed template matches
+  the review, extra trusted accounts are absent and runtime IAM is unchanged.
+  See [inventory/cleanup](cdk-bootstrap.md) and [actual AWS evidence](validation/cdk-bootstrap-2026-09-09.json).
 - **Current local AWS-harness correction:** 294 Python/API/infrastructure tests,
   26 frontend tests, formatting/lint/types and security checks passed; a focused
   70-test harness regression also passed. See [local regression evidence](validation/aws-local-regressions-2026-09-09.json).
@@ -74,8 +82,9 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 | Integration | Status | Evidence or blocker |
 | --- | --- | --- |
-| GitHub repository publication and hosted Actions | PASS | Latest previously verified run [34346854721](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34346854721), commit `6f24ef61fcf5dcbb7d3906fc38aa3c124b436b19`; earlier detailed hosted evidence above. Subsequent changes await a new hosted result. |
-| AWS sandbox deployment and smoke | NOT TESTED | Tokyo identity/discovery/target synth/diff PASS. Bootstrap was not executed after automatic approval review rejected persistent administrator-capable roles. Lambda applied concurrency remains 10; quota request 1001 NOT_APPROVED. Amplify connection missing. |
+| GitHub repository publication and hosted Actions | PASS | Latest previously verified run [34354616969](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34354616969), commit `8e8c65f227cc9c876792ca835452d2a032d80fb2`; all 22 steps and artifact preservation passed. Later documentation requires its own hosted result. |
+| CDK sandbox bootstrap | PASS / PERFORMED | Approved standard stack CREATE_COMPLETE in Tokyo, 11 resources, 25 passing checks; no extra trusted accounts or application runtime IAM changes. Kept for planned sandbox deployment. |
+| AWS sandbox application deployment and smoke | NOT TESTED | Application stack absent. Last observed Lambda concurrency 10; quota request 1001 NOT_APPROVED. Amplify connection missing. Bootstrap completion does not establish application behavior. |
 | Live Bedrock twenty-case evaluation | NOT TESTED | Single-case qualification and diagnostic retry FAIL with `ModelThrottledException`; relevant Nova Lite quotas zero. Three-case and twenty-case phases did not run; token/cost reporting incomplete. |
 | Databricks workspace pipeline and Gold read | NOT TESTED | No configured workspace, unified authentication, SQL warehouse/catalog/schema or CLI. |
 

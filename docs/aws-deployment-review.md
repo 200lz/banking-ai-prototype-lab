@@ -144,11 +144,15 @@ use `--profile jdd-sandbox`, and retain default public-access blocking. No liter
 account number is needed in this public review. Bootstrap is independently
 reviewable while the quota blocker is unresolved; it does not clear that blocker.
 
-**Actual execution outcome:** automatic approval review rejected the standard
-bootstrap because it would create persistent administrator-capable deployment
-roles. The bootstrap did not run and no roles or asset resources were created.
-Explicit user approval for that reviewed action is still required; authenticated
-sandbox access alone did not satisfy the approval review.
+**Actual execution outcome:** automatic approval review initially rejected the
+standard bootstrap because it creates persistent administrator-capable roles.
+The user subsequently explicitly approved those reviewed roles and the default
+`AdministratorAccess` execution policy in the same Tokyo sandbox, with no added
+trusted accounts or application runtime IAM change. Bootstrap was **PERFORMED**
+and reached **CREATE_COMPLETE**. Actual verification passed all 25 checks and
+matched the reviewed template and all 11 resources. The four operator-facing roles
+trust only the same account principal; the execution role trusts CloudFormation.
+See the [actual inventory and cleanup procedure](cdk-bootstrap.md).
 
 ## Actual Bedrock and application outcome
 
@@ -164,11 +168,13 @@ evaluation did not run. Token/cost reporting was incomplete, so neither zero
 billing nor model-quality results can be inferred. Configured Tokyo standard
 rates were verified at $0.072 input and $0.288 output per million tokens.
 
-Actual target synthesis and diff passed. `CDKToolkit` and the application stack
-were missing; neither was created. The Amplify connection secret is missing.
+Actual target synthesis and diff passed. Both stacks were initially missing;
+the later approved `CDKToolkit` bootstrap now exists successfully. The application
+stack is still absent and the last inspected Amplify connection secret was missing.
 Overall AWS deployment/smoke and the live evaluation remain **NOT TESTED**,
-with **FAIL** recorded separately for the two qualification attempts. No newly
-created infrastructure requires cleanup. See the [cloud validation record](cloud-validation.md)
+with **FAIL** recorded separately for the two qualification attempts. Bootstrap
+is deliberately retained for planned deployment, with a preserved cleanup
+procedure. See the [cloud validation record](cloud-validation.md)
 and [sanitized Tokyo evidence](validation/aws-tokyo-preflight-2026-09-09.json).
 
 ## Planned application controls and remaining concerns
@@ -218,6 +224,6 @@ new bootstrap avoids introducing a customer-managed key.
 Choose and record KEEP FOR INTERVIEW DEMO or DESTROY AFTER VALIDATION once the
 actual deployment outcome is known. Follow a resource inventory and the
 [cleanup/retention runbook](cloud-deployment.md) rather than assuming `cdk destroy`
-removes all retained resources or ends every charge. Deployment results, actual
-quota decisions, bootstrap state and cloud evidence will be appended by the
-deployment owner after their respective AWS checks complete.
+removes all retained resources or ends every charge. Bootstrap's actual inventory,
+empty asset state and KEEP decision are now recorded in [its execution record](cdk-bootstrap.md).
+Application deployment and model-capacity validation remain separate milestones.

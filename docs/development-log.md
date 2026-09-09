@@ -1,5 +1,45 @@
 # Development log
 
+## Explicitly approved Tokyo CDK bootstrap (2026-09-09)
+
+- The user explicitly approved the reviewed standard bootstrap, acknowledging
+  persistent administrator-capable deployment roles. Conditions were same account,
+  Tokyo only, no added trusted accounts, unchanged runtime IAM, complete inventory
+  and preserved cleanup. This resolved the earlier automatic approval rejection;
+  no further confirmation was requested for that exact action.
+- Reverified the authorized non-root Identity Center role, Tokyo target and missing
+  CDKToolkit/application stacks. The pinned template's SHA-256 still matched the
+  completed review. Executed only the named Tokyo bootstrap with AWS-managed
+  asset encryption, the explicit AdministratorAccess execution policy and no
+  deployment/lookup trust arguments. CLI completed at 13:18:44 UTC with exit zero.
+- Read actual CloudFormation, IAM, S3, ECR and SSM state. The stack is CREATE_COMPLETE,
+  its template matches the reviewed template, and all 11 expected resources are
+  CREATE_COMPLETE. All 25 checks passed at 13:21:27 UTC: five role trust policies,
+  no additional trusted account, exact execution managed policy, private/versioned/
+  encrypted/TLS-protected S3, immutable encrypted ECR, bootstrap version 32 and
+  no customer-managed key. IAM roles are account-global; stack/S3/ECR/SSM are Tokyo.
+- Verified the application stack remains missing and no application/runtime IAM
+  source changed. No model invocation, Support case or Databricks call was made.
+  The prior Lambda/Bedrock quota and Amplify prerequisites still block the broader
+  application milestone; bootstrap PASS does not promote AWS application status.
+- Preserved a full physical-ID inventory only in ignored local execution evidence
+  and a public inventory with account identifiers redacted. Kept all 11 resources
+  deliberately for planned sandbox deployment. S3 and ECR were empty when checked;
+  no actual bill or zero-charge guarantee is claimed.
+- Independent cleanup review noted that stack deletion retains the asset bucket
+  while removing its separate TLS-deny bucket policy. The runbook checks identity,
+  asset emptiness and stack protection before deletion, and separately removes the
+  retained bucket. Four mocked cleanup cases passed; no cleanup was executed.
+  [Bootstrap evidence and cleanup](cdk-bootstrap.md) record the full outcome.
+- The preceding source commit `8e8c65f227cc9c876792ca835452d2a032d80fb2` passed
+  hosted run `34354616969`, all 22 steps and artifact `evidence-and-infrastructure`.
+  The Node.js 20 action-runtime warning remained non-blocking and unchanged.
+- Publication checks passed: nine Markdown files parsed, one new JSON record
+  validated, 99 local links/anchors resolved, LF/private-identifier checks passed,
+  and source/history secret scans found no leaks. Runtime, infrastructure source,
+  evaluation cases and test code have no changes in this bootstrap documentation
+  update; full hosted regression remains the publication gate.
+
 ## Tokyo AWS and live Bedrock continuation (2026-09-09)
 
 - Recorded [acceptance criteria](aws-live-acceptance.md) before deployment changes.

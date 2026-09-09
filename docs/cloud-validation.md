@@ -5,6 +5,12 @@ Date: 2026-09-09. Region: **ap-northeast-1 (Tokyo)**.
 The single-case live qualification and diagnostic retry **FAILED**. Databricks
 workspace execution remains **NOT TESTED**.
 
+**CDK bootstrap: PERFORMED / PASS.** Following explicit user approval, the
+standard Tokyo `CDKToolkit` stack reached `CREATE_COMPLETE`; all 11 resources and
+25 verification checks passed. [Execution, inventory and cleanup](cdk-bootstrap.md)
+and [machine-readable evidence](validation/cdk-bootstrap-2026-09-09.json) record
+this later milestone separately from the preserved preflight failures.
+
 Authenticated preflight now supersedes the earlier missing-credentials blocker.
 The [historical preflight](validation/aws-preflight-2026-09-09.json) is preserved
 unchanged. The [Tokyo evidence summary](validation/aws-tokyo-preflight-2026-09-09.json)
@@ -21,9 +27,9 @@ excluded from published evidence.
 | Bedrock model discovery | PASS: 62 regional model entries returned |
 | Nova Lite access metadata | AUTHORIZED; agreement, entitlement and region AVAILABLE. Successful inference was not established |
 | Actual target CDK synthesis and diff | PASS: reviewed target configuration with regional Nova Lite pricing; these checks created no infrastructure |
-| `CDKToolkit` and application stack | Both MISSING at preflight |
-| Bootstrap | NOT TESTED: automatic approval review rejected persistent administrator-capable deployment-role creation; explicit user approval remains required |
-| Application deployment and AWS smoke | NOT TESTED: no stack was created |
+| `CDKToolkit` and application stack | Bootstrap CREATE_COMPLETE after approval; application stack still MISSING |
+| Bootstrap | PERFORMED / PASS: 11 resources, exact reviewed template, empty external-trust parameters, five verified role trust policies and 25 passing checks |
+| Application deployment and AWS smoke | NOT TESTED: no application stack was created |
 | Lambda concurrency | Applied limit 10, unreserved 10; required application reservation remains three |
 | Lambda quota requests | 103 rejected because the API requires more than default 1000; 1001 request NOT_APPROVED, support-case creation disabled |
 | Bedrock quota checks | All 166 queried on-demand/daily entries returned zero; this is not a claim about every Bedrock quota type |
@@ -95,32 +101,34 @@ or twenty-case evaluation results are claimed.
 
 ## Remaining external actions
 
-1. Obtain explicit approval for the reviewed standard bootstrap's persistent
-   administrator-capable deployment roles before retrying that action.
-2. Resolve Lambda applied concurrency and Bedrock on-demand capacity through
+1. Resolve Lambda applied concurrency and Bedrock on-demand capacity through
    separately authorized operator/support actions. Keep reservation three and
    the exact regional model IAM scope. No Support case has been created.
-3. Connect the repository to Tokyo Amplify using the required user-controlled
+2. Connect the repository to Tokyo Amplify using the required user-controlled
    GitHub App/secret, and prepare an authorized Cognito demo session.
-4. Once prerequisites pass, follow the [deployment runbook](cloud-deployment.md),
+3. Once prerequisites pass, follow the [deployment runbook](cloud-deployment.md),
    review the current diff, deploy, publish the synthetic corpus manifest last,
    and execute [AWS smoke checks](cloud-smoke.md), actual IAM inspection and
    Amplify build/site verification.
-5. Run one successful qualification, then three-case smoke, then the twenty-case
+4. Run one successful qualification, then three-case smoke, then the twenty-case
    suite. Preserve failures, real token usage and regional cost estimates.
 
 The previously verified GitHub Actions
-[run 34346854721](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34346854721)
-passed at commit `6f24ef61fcf5dcbb7d3906fc38aa3c124b436b19`. That hosted result does not certify the subsequent
-AWS evidence and harness correction; a new hosted run must be recorded separately.
+[run 34354616969](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34354616969)
+passed at commit `8e8c65f227cc9c876792ca835452d2a032d80fb2`, including all 22
+steps and artifact `evidence-and-infrastructure`. This is the tested source used
+for bootstrap. A new hosted run for this later documentation is verified separately.
 
 ## Resource inventory and cleanup
 
-No bootstrap or application resources were created. Both stacks were missing
-at preflight; no running application stack, API, Amplify site or retained data
-resources were provisioned by this deployment attempt. There is no newly created
-infrastructure to destroy. Quota requests do not provision running compute.
-Actual inference billing is unavailable; no zero-bill claim is made.
+Bootstrap now has 11 resources: five IAM roles, two IAM policy resources, S3
+bucket and policy, ECR repository and SSM version parameter. They are deliberately
+**kept for the planned sandbox deployment**. IAM is account-global; the stack,
+S3, ECR and SSM are in Tokyo. Actual bucket/repository inventories were empty.
+No application stack, API, Lambda workload or Amplify site was created. No new
+model call was made during bootstrap; earlier inference billing remains unknown.
+The [bootstrap cleanup procedure](cdk-bootstrap.md) records physical-ID discovery,
+empty-asset checks and retained-bucket handling. It has not been executed.
 
 For a future deployed stack selected for destruction, first reverify the same
 non-root sandbox identity and inventory the retained resources. These exact

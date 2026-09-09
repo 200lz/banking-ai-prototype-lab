@@ -41,29 +41,40 @@ as-of dates. Failures abstain and surface missing evidence or required review.
 
 [![Quality and safety regression](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml)
 
-**Local application, Docker and GitHub Actions: PASS. AWS deployment, live
-Bedrock evaluation and real Databricks workspace execution: NOT TESTED.** Hosted CI runs
-without cloud credentials and does not establish those external integrations.
+**Local application, Docker, GitHub Actions and CDK bootstrap: PASS. Application
+AWS deployment, twenty-case live Bedrock evaluation and real Databricks workspace
+execution: NOT TESTED.** Hosted CI runs without cloud credentials and does not
+establish those external integrations.
 
 On 2026-09-09, real non-root sandbox identity, Tokyo model discovery, model access
-checks and a target-environment CDK diff passed. Deployment is blocked by missing
-bootstrap approval, insufficient Lambda concurrency and the Amplify GitHub
-connection. Nova Lite qualification failed with provider throttling; actual
-queried regional inference quotas are zero. The three-case smoke and twenty-case live
-suite were not run. [Cloud evidence and blockers](docs/cloud-validation.md)
-distinguish these attempts from a successful deployment or model evaluation.
+checks and a target-environment CDK diff passed. The explicitly approved Tokyo
+`CDKToolkit` bootstrap then reached `CREATE_COMPLETE`; actual verification passed
+for its 11 reviewed resources and version 32. Its five roles have the reviewed
+same-account or CloudFormation service trust, including explicitly approved
+`AdministratorAccess` on the bootstrap CloudFormation execution role. No external
+trust was added and application runtime IAM was unchanged. The private versioned
+staging bucket uses AWS-managed KMS encryption; it and the immutable-tag ECR
+repository were empty at verification. No customer-managed KMS key or application
+stack was created by this bootstrap. The resources are kept for the planned
+sandbox deployment. [Bootstrap evidence](docs/validation/cdk-bootstrap-2026-09-09.json)
+and [inventory, cost and cleanup](docs/cdk-bootstrap.md) record the actual scope.
 
-Independently verified with `gh`: [hosted run 34344534926](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34344534926),
-commit `827888ab0d3c82f937d8106b51f8bf04f4a3fcc4`, job `quality` on GitHub-hosted
-Linux (`ubuntu-latest`). All recorded steps passed: dependency installation,
+The last preflight still leaves Lambda concurrency at 10, the queried Bedrock
+inference quotas at zero, and the Amplify GitHub connection unresolved. The two
+Nova Lite qualification attempts failed with provider throttling; the three-case
+smoke and twenty-case live suite were not run. Bootstrap made no further model
+calls. [Cloud evidence and blockers](docs/cloud-validation.md) distinguish the
+completed bootstrap from application deployment and model qualification.
+
+Latest independently verified with `gh`: [hosted run 34354616969](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34354616969),
+commit `8e8c65f227cc9c876792ca835452d2a032d80fb2`, job `quality` on GitHub-hosted
+Linux (`ubuntu-latest`). All 22 recorded steps passed: dependency installation,
 formatting/lint, types, Python/API/infrastructure and frontend tests, evaluation
 smoke/full gates, security audits, Next.js build, credential-free CDK synthesis,
 source/history secret scans, fresh Docker builds, health/scenario/telemetry/restart
 checks, cleanup and preservation of artifact `evidence-and-infrastructure`.
-
-The subsequent documentation push also passed [hosted run 34346854721](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34346854721)
-at commit `6f24ef61fcf5dcbb7d3906fc38aa3c124b436b19`, with the same gates and
-artifact name. The badge reflects the current `main` workflow state.
+This evidence applies to the named commit; the bootstrap documentation update
+requires its own completed run. The badge reflects the current `main` workflow state.
 
 The Node.js 20 action-runtime deprecation annotation is **NON-BLOCKING**. GitHub
 forced the pinned actions onto Node.js 24; updating those action pins remains a
@@ -122,6 +133,8 @@ added. Offline synthesis and a local Lambda image are distinct from deployment.
 
 [AWS validation](docs/cloud-validation.md) states the actual sandbox status;
 [deployment runbook](docs/cloud-deployment.md) covers configuration and review.
+The completed [CDK bootstrap](docs/cdk-bootstrap.md) provides persistent asset
+storage and deployment roles; the application stack remains undeployed.
 `make deploy` requires an explicit account/region and presents a CDK diff and IAM
 approval. Retained storage and log resources require deliberate cleanup.
 

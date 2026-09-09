@@ -43,7 +43,9 @@ architecture and necessary bootstrap. A concrete IAM diff is still reviewed
 before accepting CDK's deployment prompt. Credentials remain in providers or
 secret stores and are never placed in public evidence.
 
-Execution outcome: automatic approval review required specific approval for the
-standard bootstrap's persistent administrator deployment roles. That command did
-not execute. The [concrete review](aws-deployment-review.md) records the boundary;
-deployment remains blocked pending that approval and the account prerequisites.
+Execution outcome: automatic approval review initially required specific approval
+for the standard bootstrap's persistent administrator roles. The user then
+explicitly approved that boundary, and Tokyo bootstrap completed successfully.
+The [execution and inventory](cdk-bootstrap.md) record all 11 resources and 25
+passing checks. Application deployment remains blocked by the account and Amplify
+prerequisites; no runtime IAM boundary was relaxed.

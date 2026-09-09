@@ -5,12 +5,19 @@
 The [authoritative verification matrix](docs/verification-matrix.md) links every PASS to executed evidence. Hosted CI was independently verified using `gh`; deployed AWS, live Bedrock and Databricks workspace success is not inferred from local or hosted tests.
 
 The real Tokyo attempt verified the expected non-root sandbox identity, discovered
-62 text-output models and completed a target CDK synth/diff. Deployment remains
-blocked by bootstrap approval, Lambda quota and the Amplify GitHub connection.
+62 text-output models and completed a target CDK synth/diff. The subsequently
+approved Tokyo bootstrap is now **PERFORMED / PASS**: `CDKToolkit` reached
+`CREATE_COMPLETE` and all 11 reviewed resources passed actual verification.
+Application deployment remains blocked by Lambda quota and the Amplify GitHub connection.
 Nova Lite qualification failed with provider throttling, and all 166 queried
 on-demand/daily-token account quotas were zero. No three-case smoke or twenty-case
 live suite ran. Actual failed artifacts and redacted preflight evidence are
 linked in [cloud validation](docs/cloud-validation.md).
+
+The [bootstrap execution and cleanup record](docs/cdk-bootstrap.md) documents
+same-account trust, the approved administrator execution role, 25 passing checks,
+private/versioned/encrypted assets and the deliberate decision to keep bootstrap
+for the planned sandbox deployment. Application runtime IAM was not changed.
 
 ## What was built and extended
 
@@ -142,6 +149,15 @@ on GitHub-hosted Linux, with all 22 steps successful and artifact
 reverified hosted baseline for the Tokyo continuation; the current `main` badge
 links to subsequent workflow runs.
 
+The Tokyo evidence and canonical model-ID fix then passed
+[hosted run 34354616969](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34354616969)
+at commit `8e8c65f227cc9c876792ca835452d2a032d80fb2`. All 22 steps passed on
+GitHub-hosted `ubuntu-latest`, job `quality` (`102476028977`), including Docker
+validation. Artifact `evidence-and-infrastructure`, ID `10105375539`, was
+124,595 bytes and unexpired when verified; SHA-256
+`b487fb985de0735ee96ac63c4400fe8c975dacb7adc5815eb301c6bba03ab95f`.
+This is the verified hosted baseline preceding the bootstrap documentation update.
+
 ## Docker status: PASS
 
 The installed Docker Desktop was started safely. Actual Linux/AMD64 Engine 20.10.17 built all four runtime images with --pull --no-cache. The canonical run took 151.5 seconds and verified three healthy services, web-to-API container DNS, policy citations, 30.00% DTI, prohibited approval refusal, human review, PII canary and retrieved-document injection quarantine. Exported traces contained all nine stages and no tested payload canaries; runtime logs had zero errors/warnings. Restart retained the original audit event and produced the same policy answer. The isolated stack shut down cleanly.
@@ -188,17 +204,23 @@ telemetry, not successful Bedrock planning, model usage or AWS deployment.
 | External milestone | Status | Actual blocker/evidence |
 | --- | --- | --- |
 | Public GitHub repository and hosted Actions | **PASS** | Independently verified hosted Linux run [34344534926](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34344534926), `quality`, commit `827888ab0d3c82f937d8106b51f8bf04f4a3fcc4`; artifact `evidence-and-infrastructure`. |
-| AWS deployment | **NOT TESTED** | Actual non-root SSO identity and Tokyo synth/diff verified. CDKToolkit and application stack missing; bootstrap approval, Lambda quota and Amplify GitHub connection block deployment. AWS smoke not run. |
+| CDK bootstrap | **PASS / PERFORMED** | Tokyo `CDKToolkit` is CREATE_COMPLETE; all 11 resources and 25 control checks passed after explicit approval. No extra trusted accounts or runtime IAM change. |
+| AWS deployment | **NOT TESTED** | Application stack still missing; Lambda quota and Amplify GitHub connection block deployment. AWS smoke not run. Bootstrap alone does not establish application behavior. |
 | Live Bedrock evaluation | **NOT TESTED** | Model discovery/access preflight PASS; qualification and diagnostic retry FAIL with provider throttling. Nova Lite regional quotas are zero. No successful completion, three-case smoke or twenty-case suite. |
 | Databricks workspace | **NOT TESTED** | No configured workspace/auth/warehouse/catalog/schema or CLI; no real job, Delta table or Statement Execution query was run. |
 
 The authorized personal sandbox was verified in `ap-northeast-1`; public evidence
-omits account and principal identifiers. No bootstrap/application resources were
-created. A Lambda quota request made without an AWS Support case was NOT_APPROVED;
-the applied quota remains ten. Automatic approval review rejected bootstrap's
-persistent administrator deployment roles pending specific user approval. The
-existing runtime reservation of three executions and all security boundaries
-remain intact. No Databricks workspace calls were made.
+omits account and principal identifiers. Automatic approval review initially
+rejected bootstrap's persistent administrator roles; the user subsequently
+explicitly approved that exact boundary. Bootstrap completed at 13:18:44 UTC and
+the deployed template and actual resources passed verification at 13:21:27 UTC.
+The five bootstrap IAM roles are account-global; regional resources and the stack
+are in Tokyo. No additional account was trusted. The application stack is absent.
+
+The last Lambda quota request made without an AWS Support case was NOT_APPROVED;
+the last observed applied quota is ten. The runtime reservation remains three.
+No application IAM source was changed, and no model or Databricks workspace call
+was made during bootstrap. Earlier failed qualification evidence is unchanged.
 
 The [AWS record](docs/cloud-validation.md), [deployment security review](docs/aws-deployment-review.md),
 [Bedrock runbook](docs/milestone-4-bedrock.md) and [Databricks validation](docs/databricks-validation.md)
@@ -220,17 +242,17 @@ excluding platform costs. This is an estimate, not a measured bill.
 
 Infrastructure costs depend on Lambda duration, API traffic, S3/DynamoDB storage, CloudWatch, Amplify/Cognito and Databricks compute/warehouse usage. The optional $25 account-wide budget is an alert, not a spend cap. Retained resources can cost money after stack deletion. [COST.md](COST.md) explains assumptions and drivers.
 
-No application or bootstrap resources were created in this attempt, so there is
-no deployed interview demo to retain or destroy and no new infrastructure idle
-cost from this session. Before a future successful deployment, make an explicit
-keep-for-demo or destroy-after-validation decision. The
-[cleanup runbook](docs/cloud-deployment.md) covers the stack and retained
-resources; do not run destruction against a nonexistent deployment or assume it
-would remove retained data, identity, logs or bootstrap assets.
+The 11 bootstrap resources are deliberately **kept for the planned sandbox
+deployment**. The S3 bucket and ECR repository were empty when verified; no
+provisioned compute or customer-managed key was created. No actual AWS bill was
+measured. Asset storage, versions and requests can incur costs when used. The
+[bootstrap cleanup procedure](docs/cdk-bootstrap.md) inventories resources before
+deletion and separately handles the retained versioned bucket. Application
+resources and an interview demo have not been deployed.
 
 ## Unresolved issues and security limitations
 
-- AWS authentication is verified; bootstrap approval, the Lambda quota, Amplify GitHub setup and zero Bedrock inference quotas prevent deployed/live validation. Databricks workspace setup is still outstanding. Offline contracts and hosted CI do not prove those integrations.
+- AWS identity and bootstrap are verified; the Lambda quota, Amplify GitHub setup and zero last-observed Bedrock inference quotas prevent deployed/live validation. Databricks workspace setup is still outstanding. Offline contracts and hosted CI do not prove those integrations.
 - Pinned GitHub actions emit a non-blocking Node.js 20 runtime deprecation warning; the warning remains unresolved.
 - Keyword routing and heuristic injection/PII checks can miss new/multilingual attacks. Quote/hash correspondence does not establish truth or applicability.
 - S3's 60-second cache can delay revocation. Source/Gold hashes do not authenticate a publisher that can replace both content and hash.
@@ -242,7 +264,7 @@ would remove retained data, identity, logs or bootstrap assets.
 ## Next steps and recommended interview sequence
 
 1. Update the pinned GitHub actions for the Node.js 20 runtime deprecation in a separate maintenance change, then verify a new hosted run. Publication and the original hosted CI milestone are complete.
-2. Resolve the reviewed bootstrap approval, Lambda quota and Amplify GitHub connection. Revalidate identity and diff, deploy in Tokyo, publish corpus and configure the Cognito demo session. Execute make aws-smoke and preserve real resource/auth/audit evidence.
+2. Resolve Lambda quota and Amplify GitHub connection. Revalidate identity and diff, use the verified Tokyo bootstrap, deploy, publish corpus and configure the Cognito demo session. Execute make aws-smoke and preserve real resource/auth/audit evidence.
 3. Obtain usable regional Bedrock inference quota; repeat one qualification, then the three-case smoke and unchanged twenty-case suite. Preserve prior failures and compare actual usage, cost, latency and quality with the deterministic baseline.
 4. Configure a Databricks development workspace and native bundle, run it, query Gold and exercise the governed adapter with a separate read-only principal. Record real workspace evidence and cost separately.
 5. For institutional use, complete [production-readiness gaps](PRODUCTION_READINESS.md), including independent Japanese policy/privacy/model-risk review.

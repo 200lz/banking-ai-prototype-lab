@@ -1,0 +1,619 @@
+{
+  "captured_at": "2026-09-09T13:21:16.297666+00:00",
+  "region": "ap-northeast-1",
+  "stack": "CDKToolkit",
+  "status": "PASS",
+  "bootstrap": "PERFORMED",
+  "explicit_user_approval": true,
+  "checks": {
+    "stack_create_complete": true,
+    "stack_in_authorized_tokyo_account": true,
+    "no_extra_trusted_accounts": true,
+    "reviewed_execution_policy": true,
+    "aws_managed_asset_encryption": true,
+    "qualifier_and_boundaries": true,
+    "deployed_template_matches_review": true,
+    "all_eleven_reviewed_resources": true,
+    "all_resources_create_complete": true,
+    "no_customer_managed_key_created": true,
+    "CloudFormationExecutionRole_trust": true,
+    "execution_role_administrator_policy": true,
+    "DeploymentActionRole_trust": true,
+    "FilePublishingRole_trust": true,
+    "ImagePublishingRole_trust": true,
+    "LookupRole_trust": true,
+    "five_roles_verified": true,
+    "s3_all_public_access_blocks": true,
+    "s3_versioning_and_tokyo": true,
+    "s3_sse_kms": true,
+    "s3_tls_deny": true,
+    "ecr_tokyo_immutable_encrypted": true,
+    "ssm_version_32": true,
+    "application_stack_still_missing": true,
+    "application_runtime_sources_unchanged": true
+  },
+  "resources": [
+    {
+      "logical_id": "CdkBootstrapVersion",
+      "physical_id": "/cdk-bootstrap/hnb659fds/version",
+      "type": "AWS::SSM::Parameter",
+      "status": "CREATE_COMPLETE",
+      "deletion_policy": "Delete"
+    },
+    {
+      "logical_id": "CloudFormationExecutionRole",
+      "physical_id": "cdk-hnb659fds-cfn-exec-role-[ACCOUNT]-ap-northeast-1",
+      "type": "AWS::IAM::Role",
+      "status": "CREATE_COMPLETE",
+      "deletion_policy": "Delete"
+    },
+    {
+      "logical_id": "ContainerAssetsRepository",
+      "physical_id": "cdk-hnb659fds-container-assets-[ACCOUNT]-ap-northeast-1",
+      "type": "AWS::ECR::Repository",
+      "status": "CREATE_COMPLETE",
+      "deletion_policy": "Delete"
+    },
+    {
+      "logical_id": "DeploymentActionRole",
+      "physical_id": "cdk-hnb659fds-deploy-role-[ACCOUNT]-ap-northeast-1",
+      "type": "AWS::IAM::Role",
+      "status": "CREATE_COMPLETE",
+      "deletion_policy": "Delete"
+    },
+    {
+      "logical_id": "FilePublishingRole",
+      "physical_id": "cdk-hnb659fds-file-publishing-role-[ACCOUNT]-ap-northeast-1",
+      "type": "AWS::IAM::Role",
+      "status": "CREATE_COMPLETE",
+      "deletion_policy": "Delete"
+    },
+    {
+      "logical_id": "FilePublishingRoleDefaultPolicy",
+      "physical_id": "CDKTo-FileP-ooSxY6CQGtEy",
+      "type": "AWS::IAM::Policy",
+      "status": "CREATE_COMPLETE",
+      "deletion_policy": "Delete"
+    },
+    {
+      "logical_id": "ImagePublishingRole",
+      "physical_id": "cdk-hnb659fds-image-publishing-role-[ACCOUNT]-ap-northeast-1",
+      "type": "AWS::IAM::Role",
+      "status": "CREATE_COMPLETE",
+      "deletion_policy": "Delete"
+    },
+    {
+      "logical_id": "ImagePublishingRoleDefaultPolicy",
+      "physical_id": "CDKTo-Image-ph0CYpRvhQSk",
+      "type": "AWS::IAM::Policy",
+      "status": "CREATE_COMPLETE",
+      "deletion_policy": "Delete"
+    },
+    {
+      "logical_id": "LookupRole",
+      "physical_id": "cdk-hnb659fds-lookup-role-[ACCOUNT]-ap-northeast-1",
+      "type": "AWS::IAM::Role",
+      "status": "CREATE_COMPLETE",
+      "deletion_policy": "Delete"
+    },
+    {
+      "logical_id": "StagingBucket",
+      "physical_id": "cdk-hnb659fds-assets-[ACCOUNT]-ap-northeast-1",
+      "type": "AWS::S3::Bucket",
+      "status": "CREATE_COMPLETE",
+      "deletion_policy": "Retain"
+    },
+    {
+      "logical_id": "StagingBucketPolicy",
+      "physical_id": "cdk-hnb659fds-assets-[ACCOUNT]-ap-northeast-1",
+      "type": "AWS::S3::BucketPolicy",
+      "status": "CREATE_COMPLETE",
+      "deletion_policy": "Delete"
+    }
+  ],
+  "runtime_iam_changed": false,
+  "application_deployed": false,
+  "identity": {
+    "authorized_sandbox_matches": true,
+    "non_root_sso": true
+  },
+  "stack_status": "CREATE_COMPLETE",
+  "stack_id": "arn:aws:cloudformation:ap-northeast-1:[ACCOUNT]:stack/CDKToolkit/d9f1f530-ac50-11f1-b7b0-0e4668633a81",
+  "stack_created_at": "2026-09-09T13:17:48.067000+00:00",
+  "parameters": {
+    "FileAssetsBucketKmsKeyId": "AWS_MANAGED_KEY",
+    "PublicAccessBlockConfiguration": "true",
+    "UseExamplePermissionsBoundary": "false",
+    "FileAssetsBucketName": "",
+    "InputPermissionsBoundary": "",
+    "BootstrapVariant": "AWS CDK: Default Resources",
+    "DenyExternalId": "true",
+    "CloudFormationExecutionPolicies": "arn:aws:iam::aws:policy/AdministratorAccess",
+    "TrustedAccountsForLookup": "",
+    "Qualifier": "hnb659fds",
+    "ContainerAssetsRepositoryName": "",
+    "TrustedAccounts": ""
+  },
+  "outputs": {
+    "ImageRepositoryName": "cdk-hnb659fds-container-assets-[ACCOUNT]-ap-northeast-1",
+    "BucketName": "cdk-hnb659fds-assets-[ACCOUNT]-ap-northeast-1",
+    "BootstrapVersion": "32",
+    "BucketDomainName": "cdk-hnb659fds-assets-[ACCOUNT]-ap-northeast-1.s3.ap-northeast-1.amazonaws.com",
+    "FileAssetKeyArn": "AWS_MANAGED_KEY"
+  },
+  "roles": [
+    {
+      "logical_id": "CloudFormationExecutionRole",
+      "name": "cdk-hnb659fds-cfn-exec-role-[ACCOUNT]-ap-northeast-1",
+      "trust_policy": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "cloudformation.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+          }
+        ]
+      },
+      "attached_policies": [
+        {
+          "PolicyName": "AdministratorAccess",
+          "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+        }
+      ],
+      "inline_policies": {}
+    },
+    {
+      "logical_id": "DeploymentActionRole",
+      "name": "cdk-hnb659fds-deploy-role-[ACCOUNT]-ap-northeast-1",
+      "trust_policy": {
+        "Version": "2008-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::[ACCOUNT]:root"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+              "Null": {
+                "sts:ExternalId": "true"
+              }
+            }
+          },
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::[ACCOUNT]:root"
+            },
+            "Action": "sts:TagSession"
+          }
+        ]
+      },
+      "attached_policies": [
+        {
+          "PolicyName": "AWSCloudFormationReadOnlyAccess",
+          "PolicyArn": "arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess"
+        }
+      ],
+      "inline_policies": {
+        "default": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": [
+                "cloudformation:CreateChangeSet",
+                "cloudformation:DeleteChangeSet",
+                "cloudformation:ExecuteChangeSet",
+                "cloudformation:CreateStack",
+                "cloudformation:UpdateStack",
+                "cloudformation:RollbackStack",
+                "cloudformation:ContinueUpdateRollback"
+              ],
+              "Resource": "*",
+              "Effect": "Allow",
+              "Sid": "DeployPermissions"
+            },
+            {
+              "Condition": {
+                "StringNotEquals": {
+                  "s3:ResourceAccount": "[ACCOUNT]"
+                }
+              },
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:Abort*",
+                "s3:DeleteObject*",
+                "s3:PutObject*"
+              ],
+              "Resource": "*",
+              "Effect": "Allow",
+              "Sid": "PipelineCrossAccountArtifactsBucket"
+            },
+            {
+              "Condition": {
+                "StringEquals": {
+                  "kms:ViaService": "s3.ap-northeast-1.amazonaws.com"
+                }
+              },
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Resource": "*",
+              "Effect": "Allow",
+              "Sid": "PipelineCrossAccountArtifactsKey"
+            },
+            {
+              "Action": "iam:PassRole",
+              "Resource": "arn:aws:iam::[ACCOUNT]:role/cdk-hnb659fds-cfn-exec-role-[ACCOUNT]-ap-northeast-1",
+              "Effect": "Allow"
+            },
+            {
+              "Action": [
+                "cloudformation:DeleteStack",
+                "cloudformation:UpdateTerminationProtection",
+                "sts:GetCallerIdentity"
+              ],
+              "Resource": "*",
+              "Effect": "Allow",
+              "Sid": "CliPermissions"
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+              ],
+              "Resource": [
+                "arn:aws:s3:::cdk-hnb659fds-assets-[ACCOUNT]-ap-northeast-1",
+                "arn:aws:s3:::cdk-hnb659fds-assets-[ACCOUNT]-ap-northeast-1/*"
+              ],
+              "Effect": "Allow",
+              "Sid": "CliStagingBucket"
+            },
+            {
+              "Action": [
+                "ssm:GetParameter",
+                "ssm:GetParameters"
+              ],
+              "Resource": [
+                "arn:aws:ssm:ap-northeast-1:[ACCOUNT]:parameter/cdk-bootstrap/hnb659fds/version"
+              ],
+              "Effect": "Allow",
+              "Sid": "ReadVersion"
+            },
+            {
+              "Action": [
+                "cloudformation:CreateStackRefactor",
+                "cloudformation:ExecuteStackRefactor"
+              ],
+              "Resource": "*",
+              "Effect": "Allow",
+              "Sid": "Refactor"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "logical_id": "FilePublishingRole",
+      "name": "cdk-hnb659fds-file-publishing-role-[ACCOUNT]-ap-northeast-1",
+      "trust_policy": {
+        "Version": "2008-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::[ACCOUNT]:root"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+              "Null": {
+                "sts:ExternalId": "true"
+              }
+            }
+          },
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::[ACCOUNT]:root"
+            },
+            "Action": "sts:TagSession"
+          }
+        ]
+      },
+      "attached_policies": [],
+      "inline_policies": {
+        "cdk-hnb659fds-file-publishing-role-default-policy-[ACCOUNT]-ap-northeast-1": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Condition": {
+                "StringEquals": {
+                  "aws:ResourceAccount": [
+                    "[ACCOUNT]"
+                  ]
+                }
+              },
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:GetEncryptionConfiguration",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*"
+              ],
+              "Resource": [
+                "arn:aws:s3:::cdk-hnb659fds-assets-[ACCOUNT]-ap-northeast-1",
+                "arn:aws:s3:::cdk-hnb659fds-assets-[ACCOUNT]-ap-northeast-1/*"
+              ],
+              "Effect": "Allow"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Resource": "arn:aws:kms:ap-northeast-1:[ACCOUNT]:key/AWS_MANAGED_KEY",
+              "Effect": "Allow"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "logical_id": "ImagePublishingRole",
+      "name": "cdk-hnb659fds-image-publishing-role-[ACCOUNT]-ap-northeast-1",
+      "trust_policy": {
+        "Version": "2008-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::[ACCOUNT]:root"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+              "Null": {
+                "sts:ExternalId": "true"
+              }
+            }
+          },
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::[ACCOUNT]:root"
+            },
+            "Action": "sts:TagSession"
+          }
+        ]
+      },
+      "attached_policies": [],
+      "inline_policies": {
+        "cdk-hnb659fds-image-publishing-role-default-policy-[ACCOUNT]-ap-northeast-1": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": [
+                "ecr:PutImage",
+                "ecr:InitiateLayerUpload",
+                "ecr:UploadLayerPart",
+                "ecr:CompleteLayerUpload",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:DescribeRepositories",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetDownloadUrlForLayer"
+              ],
+              "Resource": "arn:aws:ecr:ap-northeast-1:[ACCOUNT]:repository/cdk-hnb659fds-container-assets-[ACCOUNT]-ap-northeast-1",
+              "Effect": "Allow"
+            },
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken"
+              ],
+              "Resource": "*",
+              "Effect": "Allow"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "logical_id": "LookupRole",
+      "name": "cdk-hnb659fds-lookup-role-[ACCOUNT]-ap-northeast-1",
+      "trust_policy": {
+        "Version": "2008-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::[ACCOUNT]:root"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+              "Null": {
+                "sts:ExternalId": "true"
+              }
+            }
+          },
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::[ACCOUNT]:root"
+            },
+            "Action": "sts:TagSession"
+          }
+        ]
+      },
+      "attached_policies": [
+        {
+          "PolicyName": "ReadOnlyAccess",
+          "PolicyArn": "arn:aws:iam::aws:policy/ReadOnlyAccess"
+        }
+      ],
+      "inline_policies": {
+        "LookupRolePolicy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": [
+                "kms:Decrypt"
+              ],
+              "Resource": "*",
+              "Effect": "Deny",
+              "Sid": "DontReadSecrets"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "s3": {
+    "public_access_block": {
+      "BlockPublicAcls": true,
+      "IgnorePublicAcls": true,
+      "BlockPublicPolicy": true,
+      "RestrictPublicBuckets": true
+    },
+    "encryption": {
+      "Rules": [
+        {
+          "ApplyServerSideEncryptionByDefault": {
+            "SSEAlgorithm": "aws:kms"
+          },
+          "BucketKeyEnabled": false,
+          "BlockedEncryptionTypes": {
+            "EncryptionType": [
+              "SSE-C"
+            ]
+          }
+        }
+      ]
+    },
+    "versioning": "Enabled",
+    "region": "ap-northeast-1",
+    "policy": {
+      "Version": "2012-10-17",
+      "Id": "AccessControl",
+      "Statement": [
+        {
+          "Sid": "AllowSSLRequestsOnly",
+          "Effect": "Deny",
+          "Principal": "*",
+          "Action": "s3:*",
+          "Resource": [
+            "arn:aws:s3:::cdk-hnb659fds-assets-[ACCOUNT]-ap-northeast-1",
+            "arn:aws:s3:::cdk-hnb659fds-assets-[ACCOUNT]-ap-northeast-1/*"
+          ],
+          "Condition": {
+            "Bool": {
+              "aws:SecureTransport": "false"
+            }
+          }
+        }
+      ]
+    },
+    "lifecycle": [
+      {
+        "ID": "CleanupOldVersions",
+        "Filter": {
+          "Prefix": ""
+        },
+        "Status": "Enabled",
+        "NoncurrentVersionExpiration": {
+          "NoncurrentDays": 30
+        }
+      },
+      {
+        "ID": "AbortIncompleteMultipartUploads",
+        "Filter": {
+          "Prefix": ""
+        },
+        "Status": "Enabled",
+        "AbortIncompleteMultipartUpload": {
+          "DaysAfterInitiation": 1
+        }
+      }
+    ],
+    "empty_at_verification": true
+  },
+  "ecr": {
+    "repository_name": "cdk-hnb659fds-container-assets-[ACCOUNT]-ap-northeast-1",
+    "encryption": {
+      "encryptionType": "AES256"
+    },
+    "tag_mutability": "IMMUTABLE",
+    "policy": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Sid": "LambdaECRImageRetrievalPolicy",
+          "Effect": "Allow",
+          "Principal": {
+            "Service": "lambda.amazonaws.com"
+          },
+          "Action": [
+            "ecr:BatchGetImage",
+            "ecr:GetDownloadUrlForLayer"
+          ],
+          "Condition": {
+            "StringLike": {
+              "aws:sourceArn": "arn:aws:lambda:ap-northeast-1:[ACCOUNT]:function:*"
+            }
+          }
+        },
+        {
+          "Sid": "EmrServerlessImageRetrievalPolicy",
+          "Effect": "Allow",
+          "Principal": {
+            "Service": "emr-serverless.amazonaws.com"
+          },
+          "Action": [
+            "ecr:BatchGetImage",
+            "ecr:GetDownloadUrlForLayer",
+            "ecr:DescribeImages"
+          ],
+          "Condition": {
+            "StringLike": {
+              "aws:sourceArn": "arn:aws:emr-serverless:ap-northeast-1:[ACCOUNT]:/applications/*"
+            }
+          }
+        }
+      ]
+    },
+    "empty_at_verification": true
+  },
+  "bootstrap_version": "32",
+  "decision": "KEEP FOR PLANNED SANDBOX DEPLOYMENT",
+  "verified_at": "2026-09-09T13:21:27.133639+00:00",
+  "source_commit": "8e8c65f227cc9c876792ca835452d2a032d80fb2",
+  "execution": {
+    "started_at": "2026-09-09T13:17:44.924678+00:00",
+    "finished_at": "2026-09-09T13:18:44.772874+00:00",
+    "exit_code": 0,
+    "region": "ap-northeast-1",
+    "stack": "CDKToolkit",
+    "actor_non_root_verified": true,
+    "explicit_user_approval": true,
+    "command": "node infra/cdk/node_modules/aws-cdk/bin/cdk bootstrap aws://[ACCOUNT]/ap-northeast-1 --profile jdd-sandbox --no-bootstrap-customer-key --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --tags Project=banking-ai-prototype-lab",
+    "extra_trusted_accounts": [],
+    "customer_managed_bootstrap_key_requested": false,
+    "runtime_iam_changed": false
+  },
+  "reviewed_template_sha256": "dc91dbee74bd71a259313d460f9cb4a64123d73e67d4bc7fad5d11a64f0ab9b6",
+  "private_inventory_location": ".runtime/aws/bootstrap-resources-private.json",
+  "public_inventory_account_ids_redacted": true
+}

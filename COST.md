@@ -19,13 +19,13 @@ or successful inference latency. Both stopped the harness in its first phase;
 the three-case smoke and twenty-case suite did not run. **Qualification: FAIL;
 twenty-case live Bedrock evaluation: NOT TESTED.**
 
-| Measurement | Local baseline | Actual Tokyo attempts |
+| Measurement | Local baseline | Tokyo cloud activity |
 | --- | --- | --- |
 | Cases | 61; all gates passed | Two attempts of one case; both failed |
 | Workflow p50 / p95 | 12.696 / 16.525 ms | Unavailable for an unrun smoke/suite |
 | Model tokens | Exactly zero; no model invoked | Unknown; usage was not returned |
 | LLM cost | $0 for the local run | Unknown; reported zero is an incomplete lower bound |
-| Infrastructure/billed cost | Not a cloud measurement | No AWS bill measured; no project resources created |
+| Infrastructure/billed cost | Not a cloud measurement | CDK bootstrap resources persist; no AWS bill measured |
 
 The API exposes model latency, retrieval latency, total workflow latency, token
 counts, estimated cost, and `cost_estimate_complete`. Failed model calls can be
@@ -75,15 +75,33 @@ remains incomplete.
 
 ## Infrastructure budget
 
-No project AWS resources were created. Bootstrap was blocked by approval review.
-The account's Lambda concurrent-execution quota was 10; a request for 1,001 with
-support-case creation disabled returned `NOT_APPROVED`. The Amplify GitHub secret
-was also absent. The subsequent Bedrock query returned 166 inference quota entries
-with value zero, including Nova Lite's on-demand request, token-per-minute and
-daily-token limits. These are deployment/capacity blockers, not a $0 cost claim.
-See [cloud validation](docs/cloud-validation.md) for current evidence and the
-remaining setup. The following table describes the existing template's potential
-cost drivers, not provisioned or billed resources.
+The explicitly approved Tokyo `CDKToolkit` bootstrap completed and its
+[actual resource verification passed](docs/validation/cdk-bootstrap-2026-09-09.json)
+on 2026-09-09: `CREATE_COMPLETE`, 11 reviewed resources, bootstrap version 32.
+The five IAM roles, policy resources, S3 staging bucket and policy, ECR repository,
+and SSM version parameter now persist for the planned sandbox deployment. The
+bootstrap CloudFormation execution role's `AdministratorAccess` was explicitly
+approved; role trust remains same-account or the CloudFormation service, with no
+added external trust or change to application runtime IAM.
+
+The private, versioned staging bucket uses AWS-managed KMS encryption. Both the
+bucket and immutable-tag ECR repository were empty at verification. No
+customer-managed KMS key, provisioned compute or application stack was created,
+and the bootstrap made no model calls. Asset storage, encryption requests and
+other API usage can incur charges as the bootstrap is used; empty storage is an
+inventory observation, not a measured $0 bill. The deliberate disposition is to
+**keep the bootstrap for the planned sandbox deployment**. See
+[bootstrap inventory and cleanup](docs/cdk-bootstrap.md) before future removal.
+
+Application deployment remains NOT TESTED. At the last preflight, the account's
+Lambda concurrent-execution quota was 10; a request for 1,001 with support-case
+creation disabled returned `NOT_APPROVED`. The Amplify GitHub secret/connection
+was unresolved. The Bedrock query returned 166 inference quota entries with value
+zero, including Nova Lite's on-demand request, token-per-minute and daily-token
+limits. Bootstrap does not resolve these capacity and hosting blockers. See
+[cloud validation](docs/cloud-validation.md) for current evidence and remaining
+setup. The following table describes the application template's potential cost
+drivers, not deployed application resources or measured charges.
 
 | Driver | Cost behavior / chosen control |
 | --- | --- |
