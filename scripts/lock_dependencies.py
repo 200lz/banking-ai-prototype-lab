@@ -50,7 +50,7 @@ def lock() -> None:
         for locked_name in sorted(names):
             marker = '; sys_platform == "win32"' if locked_name == "pywin32" else ""
             lines.append(f"{locked_name}=={metadata.version(locked_name)}{marker}")
-        (ROOT / filename).write_text("\n".join(lines) + "\n", encoding="utf-8")
+        (ROOT / filename).write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":

@@ -25,6 +25,7 @@ The [authoritative verification matrix](docs/verification-matrix.md) links every
 | Bandit runtime/infrastructure/native pipeline scan | Zero findings at all severities; zero skipped files |
 | Locked Python dependency vulnerability audit | No known vulnerabilities found |
 | Web and CDK npm audits | Zero vulnerabilities reported |
+| Gitleaks source and Git-history scans | PASS: no leaks detected; automated scans are not an absolute guarantee |
 | Dependency consistency | pip check passed |
 | CDK offline synthesis and security assertions | PASS; no resource created |
 | Native five-scenario demo | PASS |
@@ -35,6 +36,12 @@ The [authoritative verification matrix](docs/verification-matrix.md) links every
 | AWS-smoke contracts | 49 tests passed without AWS calls |
 
 [Machine-readable local evidence](docs/validation/local-final.json) records commands, coverage, evaluation and dependency-lock hashes. One upstream Starlette/AnyIO TestClient deprecation warning remains. Coverage excludes developer scripts, frontend and infrastructure; their tests/checks are reported separately.
+
+Git initially had no commits or remote. The verified implementation was committed
+as `ae07e2c` using the connected GitHub identity's public noreply address. A final
+portability change enforces LF checkouts and generated lock/fixture text, keeping
+byte-hashed inputs stable across Windows and Linux; 55 affected regressions and
+format/lint checks passed afterward. GitHub publication still requires CLI sign-in.
 
 ## Docker status: PASS
 

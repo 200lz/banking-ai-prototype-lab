@@ -70,6 +70,17 @@
   or model measurements were fabricated. Actual desktop/mobile screenshots and
   an interview sequence make the implemented local/container scope reviewable.
 
+- Created the requested implementation milestone commit (`ae07e2c`); the existing
+  repository had no commits or remote. Source and Git-history Gitleaks scans
+  detected no leaks. Used the connected GitHub account's public noreply address,
+  not its private email. CLI sign-in remains unavailable, so no push occurred.
+- Git's Windows autocrlf warnings exposed a future checkout/provenance risk.
+  Confirmed raw financial/evaluation source bytes currently match Git; normalized
+  remaining generated text and added an explicit LF policy so future Windows
+  checkouts cannot change raw-byte hashes. Lock/Gold writers now explicitly emit
+  LF. Updated recorded lock hashes to those canonical bytes; all 55 affected
+  financial/lock tests and formatting/lint checks passed.
+
 ## 2026-09-09 — acceptance and architecture baseline
 
 - Started from an empty Git repository. Defined acceptance criteria before large

@@ -88,12 +88,13 @@
     "npm --prefix apps/web audit"
   ],
   "dependency_locks": {
-    "requirements.lock": "d571070ead765caab65efabc5132120073420fc347a16ca72f99272372b448a0",
-    "requirements-runtime.lock": "44ea25ad6fabe32a4e0606daf4d7752d25f60c0c08bd99787cf1a4c72291ef64",
+    "requirements.lock": "2b63c9c8591d83884aefe2c211f0abb9438fdf49ea930283c0632e9a9924534c",
+    "requirements-runtime.lock": "55494617ea4cbe9583469c1e741a799c13bdb24b2c90f329fd676ba580bb6f8e",
     "apps/web/package-lock.json": "8029f9e5898d2252dc028c5841e16d93ec677084ac50260ccf828ef146ebd72d",
     "infra/cdk/package-lock.json": "9522d9627e080a863ea2c355e49581ad9dc5bc78f73288dc04ce1f9acff06afa"
   },
   "cloud_deployment": "NOT TESTED",
   "live_llm": "NOT TESTED",
-  "databricks_workspace": "NOT TESTED"
+  "databricks_workspace": "NOT TESTED",
+  "dependency_lock_hash_encoding": "LF canonical bytes; enforced by .gitattributes"
 }

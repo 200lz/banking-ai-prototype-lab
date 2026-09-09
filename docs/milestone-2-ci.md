@@ -14,6 +14,12 @@ and its release checksum verified. `gh auth status` reported no authenticated
 hosts. A connected GitHub account does not authenticate this CLI. The repository
 has no remote yet; no hosted run, URL or badge is fabricated.
 
+The implementation is committed locally (`ae07e2c`); the repository initially had
+no history. Gitleaks source and history scans detected no leaks. An explicit
+`.gitattributes` LF policy and LF-generating lock/fixture writers prevent Windows
+checkout conversion from changing byte-hashed source inputs. Affected financial
+and dependency regressions passed after this portability correction.
+
 Minimum external action in PowerShell at the repository root:
 
 ```powershell

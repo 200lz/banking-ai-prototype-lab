@@ -49,7 +49,7 @@ def main() -> None:
     (ROOT / "data/synthetic/financial_raw.json").write_bytes(payload)
     layers = build_layers(payload)
     (ROOT / "data/synthetic/financial_gold.json").write_text(
-        json.dumps(layers["gold"], indent=2) + "\n", encoding="utf-8"
+        json.dumps(layers["gold"], indent=2) + "\n", encoding="utf-8", newline="\n"
     )
     print(json.dumps(layers["quality"], indent=2))
 
