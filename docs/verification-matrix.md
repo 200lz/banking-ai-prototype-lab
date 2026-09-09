@@ -24,6 +24,19 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 ## Evidence supporting PASS
 
+- **GitHub Actions: PASS.** Independently queried with `gh`: workflow
+  `Quality and safety regression`, [run 34344534926](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34344534926),
+  commit `827888ab0d3c82f937d8106b51f8bf04f4a3fcc4` on `main`. Job `quality`
+  passed all 22 recorded steps on GitHub-hosted Linux (`ubuntu-latest`, runner
+  `GitHub Actions 1000000254`, group `GitHub Actions`). Gates covered dependency
+  installation, formatting/lint/types, Python/API/infrastructure/frontend tests,
+  evaluation smoke/full gates, security analysis/dependency audits, production
+  Next.js build, credential-free CDK synthesis, source/complete-history secret
+  scans, fresh Docker build, health, scenarios, telemetry, restart and cleanup.
+  Artifact preservation passed; actual artifact `evidence-and-infrastructure`
+  (ID `10101336517`, 119,231 bytes) was present and unexpired when checked.
+  [REPORT](../REPORT.md#github-hosted-ci-pass) records the artifact digest and
+  runner evidence. These checks do not establish AWS, live LLM or workspace execution.
 - **Local workflow, safety, arithmetic, adapters and CDK:** executed Python/API/
   infrastructure tests and scoped regressions, with final command/count record in
   [REPORT](../REPORT.md) and [local verification record](validation/local-final.json).
@@ -47,14 +60,20 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 ## External integrations
 
-| Integration | Status | Observed blocker |
+| Integration | Status | Evidence or blocker |
 | --- | --- | --- |
-| GitHub repository publication and hosted Actions | NOT TESTED | Official CLI installed; no authenticated host or remote. Browser sign-in requested. |
+| GitHub repository publication and hosted Actions | PASS | Public repository; hosted Linux run [34344534926](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34344534926), job `quality`, artifact `evidence-and-infrastructure`; exact commit and gates above. |
 | AWS sandbox | NOT TESTED | STS cannot locate credentials; no profile, region or sandbox identity. |
 | Live Bedrock | NOT TESTED | No AWS identity/model access; staged harness is ready but no live run exists. |
 | Databricks workspace pipeline and Gold read | NOT TESTED | No configured workspace, unified authentication, SQL warehouse/catalog/schema or CLI. |
 
-See [GitHub milestone](milestone-2-ci.md), [AWS preflight](cloud-validation.md),
+The verified Node.js 20 action-runtime warning is **NON-BLOCKING**: GitHub forced
+the pinned actions onto Node.js 24 and the job passed. Action pins were not
+changed, and no warning fix is claimed.
+
+See the [hosted CI evidence](../REPORT.md#github-hosted-ci-pass), [AWS preflight](cloud-validation.md),
 [Bedrock runbook](milestone-4-bedrock.md), and
 [Databricks validation](databricks-validation.md) for exact next actions.
 Authentication was not inferred from an installed connector or elapsed time.
+The earlier [GitHub milestone](milestone-2-ci.md) is a historical pre-publication
+record; its GitHub NOT TESTED status is superseded by the verified run above.

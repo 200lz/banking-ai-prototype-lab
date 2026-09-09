@@ -1,5 +1,49 @@
 # Development log
 
+## Hosted GitHub CI verification and status update (2026-09-09)
+
+- Acceptance criteria for this documentation milestone: independently verify
+  original run `34344534926` with `gh`, confirm hosted Linux execution, exact
+  commit, successful gates and artifact; update only the four requested status
+  documents and add a real workflow badge; preserve AWS, live Bedrock and
+  Databricks workspace as NOT TESTED; run local documentation checks; commit,
+  push and verify the newly triggered hosted workflow before handoff.
+- GitHub CLI run/jobs/artifacts/check-run annotation queries independently
+  confirmed [run 34344534926](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34344534926)
+  for commit `827888ab0d3c82f937d8106b51f8bf04f4a3fcc4` on `main` in the public
+  `200lz/banking-ai-prototype-lab` repository. Workflow `Quality and safety
+  regression` (`.github/workflows/ci.yml`), run number 1, job `quality`
+  (`102442885999`) completed successfully at 11:21:25 UTC. All 22 recorded steps
+  passed on GitHub-hosted Linux: label `ubuntu-latest`, runner
+  `GitHub Actions 1000000254`, group `GitHub Actions`.
+- Supplementary job logs, read through the connected GitHub app, confirmed Ubuntu
+  24.04.5 LTS / image `ubuntu-24.04` version `20260907.300.1`, 284 passing Python
+  tests in 8.94 seconds, 26 passing frontend tests and container validation PASS.
+- Actual gates: exact dependency installation; formatting/lint/types;
+  Python/API/infrastructure/frontend tests; smoke/full evaluation; security
+  analysis/dependency audits; Next.js production build; credential-free CDK
+  synthesis; checksum-verified scanner; source/complete-history secret scans;
+  fresh Docker build, health, scenarios, telemetry, restart, cleanup; artifact
+  preservation. Actual artifact `evidence-and-infrastructure`, ID `10101336517`,
+  119,231 bytes, was unexpired when checked. Its SHA-256 digest is recorded in
+  [REPORT](../REPORT.md#github-hosted-ci-pass).
+- Confirmed the non-failing Node.js 20 deprecation annotation for the pinned
+  checkout/setup-python/setup-node/upload-artifact actions. GitHub forced their
+  execution onto Node.js 24. Classified **NON-BLOCKING**, retained as maintenance,
+  and made no workflow/action changes or claim that the warning was fixed.
+- Replaced current GitHub NOT TESTED/publication-blocked statements with verified
+  PASS and a real `main` workflow badge. Earlier milestone records remain
+  historical. No product functionality, AWS work, live Bedrock inference or
+  Databricks workspace execution is part of this update.
+- Local documentation checks passed: `git diff --check`, Prettier Markdown
+  `--debug-check` for all four edited files, and checks of 50 local links/anchors,
+  LF endings, balanced code fences, original-run metadata, badge branch,
+  unchanged capability/cloud statuses and documentation-only scope.
+- The local CLI and Git Credential Manager had no saved GitHub login. Public
+  `gh api` queries still verified run metadata; the existing authenticated GitHub
+  app supplied job logs and write access for publication. No credential was
+  copied into repository files. The local source secret scan passed with no leaks.
+
 ## Continuation: container and data-platform validation (2026-09-09)
 
 - Read the continuation request and recorded milestone acceptance criteria in
@@ -24,10 +68,10 @@
   restart. The actual policy-workbench browser screenshot was saved; it is not
   a rendered mockup.
 - Installed checksum-verified official GitHub CLI 2.100.0 and Gitleaks 8.30.1 in
-  ignored local tooling. CLI authentication is absent and browser sign-in was
+  ignored local tooling. CLI authentication was absent and browser sign-in was
   requested. Source-candidate secret scan found no leaks. CI actions now use
-  immutable commit hashes and include source/history scans; hosted CI remains
-  unverified until a real push and successful hosted run.
+  immutable commit hashes and include source/history scans; hosted CI was still
+  unverified at that point, before a real push and successful hosted run.
 
 - Container acceptance subsequently passed all four fresh runtime image builds,
   three service health checks, six required/safety scenarios, exact controller
@@ -65,7 +109,7 @@
   Final 61-case local and 20-case smoke evaluations passed all gates; measured
   full-set median 13.835ms, p95 19.101ms, zero model tokens/cost. Bandit reported
   no findings at any severity and locked Python/web/CDK dependency audits passed.
-- The final report and one authoritative matrix retain external NOT TESTED
+- At that point, the final report and authoritative matrix retained NOT TESTED
   statuses for unauthenticated GitHub, AWS/Bedrock and Databricks. No cloud evidence
   or model measurements were fabricated. Actual desktop/mobile screenshots and
   an interview sequence make the implemented local/container scope reviewable.
@@ -73,7 +117,7 @@
 - Created the requested implementation milestone commit (`ae07e2c`); the existing
   repository had no commits or remote. Source and Git-history Gitleaks scans
   detected no leaks. Used the connected GitHub account's public noreply address,
-  not its private email. CLI sign-in remains unavailable, so no push occurred.
+  not its private email. CLI sign-in was unavailable then, so no push occurred.
 - Git's Windows autocrlf warnings exposed a future checkout/provenance risk.
   Confirmed raw financial/evaluation source bytes currently match Git; normalized
   remaining generated text and added an explicit LF policy so future Windows

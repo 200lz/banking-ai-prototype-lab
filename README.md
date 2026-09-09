@@ -39,15 +39,28 @@ as-of dates. Failures abstain and surface missing evidence or required review.
 
 ## Verification status
 
-**Local application and Docker: PASS. GitHub-hosted CI, AWS deployment, live
-Bedrock and real Databricks workspace execution: NOT TESTED.** Missing external
-authentication/setup is recorded explicitly; local tests do not replace it.
+[![Quality and safety regression](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml)
+
+**Local application, Docker and GitHub Actions: PASS. AWS deployment, live
+Bedrock and real Databricks workspace execution: NOT TESTED.** Hosted CI runs
+without cloud credentials and does not establish those external integrations.
+
+Independently verified with `gh`: [hosted run 34344534926](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34344534926),
+commit `827888ab0d3c82f937d8106b51f8bf04f4a3fcc4`, job `quality` on GitHub-hosted
+Linux (`ubuntu-latest`). All recorded steps passed: dependency installation,
+formatting/lint, types, Python/API/infrastructure and frontend tests, evaluation
+smoke/full gates, security audits, Next.js build, credential-free CDK synthesis,
+source/history secret scans, fresh Docker builds, health/scenario/telemetry/restart
+checks, cleanup and preservation of artifact `evidence-and-infrastructure`.
+
+The Node.js 20 action-runtime deprecation annotation is **NON-BLOCKING**. GitHub
+forced the pinned actions onto Node.js 24; updating those action pins remains a
+maintenance item. This documentation update does not fix or change the actions.
 
 The [authoritative verification matrix](docs/verification-matrix.md) separates
 local contracts, container runtime, real AWS, live LLM and Databricks workspace
 execution. [REPORT.md](REPORT.md) records actual commands, counts and blockers.
 The [development log](docs/development-log.md) preserves failures and decisions.
-No hosted CI badge is shown before an actual hosted workflow exists.
 
 ## Evaluation and live-model comparison
 
