@@ -42,10 +42,10 @@ as-of dates. Failures abstain and surface missing evidence or required review.
 [![Quality and safety regression](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml)
 
 **Databricks Volume-backed wheel smoke, native pipeline, exact live tables and
-real SDK/API and browser SME review: PASS. Local application, Docker, prior hosted
+real SDK/API and browser SME review: PASS. Local application, Docker, hosted
 CI, AWS bootstrap and Bedrock discovery: PASS. AWS application deployment: NOT
 TESTED / BLOCKED; AWS smoke and live Bedrock evaluation: NOT TESTED.** This
-revision's hosted CI is pending. Hosted CI runs without cloud credentials;
+wheel implementation passed hosted CI. Hosted CI runs without cloud credentials;
 real workspace results come from separate execution.
 
 On 2026-09-09, real non-root sandbox identity, Tokyo model discovery, model access
@@ -77,11 +77,12 @@ the default unconnected template has no missing-secret dependency. The three-cas
 smoke and twenty-case live suite were not run. [Capacity/support evidence](docs/deployment-capacity-review.md)
 and [cloud validation](docs/cloud-validation.md) preserve the exact boundaries.
 
-Verified prior hosted baseline: [run 34370908568](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34370908568)
-passed at commit `712fda9c5fd690fc8146009d7104e155b7290713` on 2026-09-09 UTC.
-The workflow covers formatting, types, tests, evaluation, security, web/CDK builds
-and Docker checks. This result precedes the wheel change; this revision requires
-its own completed hosted run. The badge links to the current `main` workflow state.
+Verified wheel implementation: [run 34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941)
+passed at commit `87e6417d268bf9671820039f5e9c5bb422d82779` on GitHub-hosted Linux.
+All 22 quality-job steps passed, including fresh Docker acceptance; the actual
+artifact is `evidence-and-infrastructure`. [Recorded CI evidence](docs/validation/github-databricks-wheel-2026-09-10.json)
+includes runner, gates and artifact digest. The badge links to current `main`;
+this paragraph records the tested implementation commit, not a future revision.
 The wheel continuation's local checks passed 314 Python/API/infrastructure tests,
 26 frontend tests, all 61 deterministic cases, formatting/lint/types and security audits.
 

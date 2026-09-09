@@ -1,6 +1,6 @@
 # Implementation and validation report
 
-2026-09-10 JST. **Local application, Docker, GitHub Actions, AWS bootstrap and Bedrock discovery: PASS. Lambda quota: PENDING. Nova Lite inquiry: SUBMITTED / PENDING. AWS application deployment: NOT TESTED / BLOCKED. AWS smoke and live Bedrock evaluation: NOT TESTED. Previous Bedrock qualification: FAIL. Databricks authentication, Volume-backed wheel smoke, native pipeline, live table verification and real SDK/API integration: PASS. Live browser SME review: PASS; this revision's hosted CI: PENDING.** No real-bank affiliation; all internal policies, companies and financial records are synthetic.
+2026-09-10 JST. **Local application, Docker, GitHub Actions, AWS bootstrap and Bedrock discovery: PASS. Lambda quota: PENDING. Nova Lite inquiry: SUBMITTED / PENDING. AWS application deployment: NOT TESTED / BLOCKED. AWS smoke and live Bedrock evaluation: NOT TESTED. Previous Bedrock qualification: FAIL. Databricks authentication, Volume-backed wheel smoke, native pipeline, live table verification and real SDK/API integration: PASS. Live browser SME review and wheel implementation hosted CI: PASS.** No real-bank affiliation; all internal policies, companies and financial records are synthetic.
 
 The [authoritative verification matrix](docs/verification-matrix.md) links every PASS to executed evidence. Hosted CI was independently verified using `gh`; deployed AWS, live Bedrock and Databricks workspace success is not inferred from local or hosted tests.
 
@@ -74,7 +74,7 @@ d5f2b811db9beb1d04aea256888c3831ddb8238fcffa4f72c2e0a56b466f3166
 | Malformed profile/columns, tampered hash and outage | PASS as injected contract tests only; no real warehouse permission denial or outage was induced |
 | Browser → API → live Databricks | PASS; complete/missing/stale profiles and prohibited approval refusal, with policy citations, provenance and human review |
 | Local regression | 314 Python/API/infrastructure tests, 26 frontend tests and all 61 deterministic cases PASS; Ruff, mypy, Bandit and dependency audits PASS |
-| This revision's hosted CI | PENDING; prior completed baseline is dated separately below |
+| Wheel implementation hosted CI | PASS: [run 34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941), commit `87e6417d268bf9671820039f5e9c5bb422d82779`; all 22 Linux quality steps |
 
 The four-table verification took 33.391 seconds; the four-read API scenario group
 and its local boundary checks took 10.399707 seconds. These are bounded observed
@@ -285,8 +285,21 @@ The subsequent documentation baseline [run 34365266090](https://github.com/200lz
 passed at commit `ff03313f33cb060491b6f50a91140d0e403c4a95`. The latest completed
 prior baseline is [run 34370908568](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34370908568),
 **PASS** at commit `712fda9c5fd690fc8146009d7104e155b7290713` on 2026-09-09 UTC.
-This predates the wheel implementation; the new revision's hosted run is PENDING.
-No new CI success or action-runtime warning fix is claimed here.
+The wheel implementation subsequently passed [run 34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941) at
+commit `87e6417d268bf9671820039f5e9c5bb422d82779`. All 22 steps of `quality`
+passed on GitHub-hosted Linux (`ubuntu-latest`, `GitHub Actions 1000000260`),
+including dependency installation, formatting/lint/types, Python/API/infrastructure/
+frontend tests, evaluation smoke/full gates, security analysis and dependency audits,
+Next.js production build, credential-free CDK synthesis, source and full-history
+secret scans, fresh Docker health/scenario/telemetry/restart/cleanup checks, and
+artifact preservation. Completion: `2026-09-09T16:40:30Z`.
+The actual artifact `evidence-and-infrastructure` is 125,163 bytes,
+ID `10114734601`, unexpired when verified, digest
+`sha256:852341ff02af233a9b2bb9ad5024d6d8c2fe7cb066eff7b2790850fb124bad45`. [Machine-readable hosted evidence](docs/validation/github-databricks-wheel-2026-09-10.json)
+records the actual gates. The Node.js 20 action-runtime annotation remains
+**NON-BLOCKING**; action pins were unchanged and no warning fix is claimed.
+This is a commit-specific implementation result; subsequent status-only commits
+must also be checked in hosted workflow history before handoff.
 
 ## Docker status: PASS
 
@@ -333,7 +346,7 @@ telemetry, not successful Bedrock planning, model usage or AWS deployment.
 
 | External milestone | Status | Actual blocker/evidence |
 | --- | --- | --- |
-| Public GitHub repository and prior hosted Actions | **PASS** | Verified prior hosted baseline [34370908568](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34370908568), commit `712fda9c5fd690fc8146009d7104e155b7290713`; wheel revision hosted CI PENDING. |
+| Public GitHub repository and hosted Actions | **PASS** | Verified wheel implementation [run 34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941), commit `87e6417d268bf9671820039f5e9c5bb422d82779`; actual `evidence-and-infrastructure` artifact. |
 | CDK bootstrap | **PASS / PERFORMED** | Tokyo `CDKToolkit` is CREATE_COMPLETE; all 11 resources and 25 control checks passed after explicit approval. No extra trusted accounts or runtime IAM change. |
 | Lambda quota increase | **PENDING** | Approved request for 1,001 submitted with Support enabled; provider `CASE_OPENED`, last-observed applied/unreserved capacity 10, application reservation unchanged at three. |
 | AWS application deployment | **NOT TESTED / BLOCKED** | Stack absent; Lambda capacity blocks completion. Default unconnected Amplify omits Git secrets; creation is unverified and a working hosted frontend still requires Git authorization/build. |
@@ -429,14 +442,14 @@ publication/CI. No additional AWS account, resource or model actions are authori
 while the two existing capacity dependencies are pending. The following are
 future milestones; any new paid resources require separate authorization.
 The authorized Databricks wheel continuation has passed native publication and
-real SDK/API and browser verification. The new hosted CI result is pending;
+real SDK/API, browser verification and hosted CI;
 no additional pipeline retry is needed. Preserve the earlier source-file and
 initial browser failures.
 
 1. Update the pinned GitHub actions for the Node.js 20 runtime deprecation in a separate maintenance change, then verify a new hosted run. Publication and the original hosted CI milestone are complete.
 2. Follow the existing Lambda Support case and verify applied quota before deployment; resolve the Amplify GitHub connection for a functioning frontend. Revalidate identity and diff, use the verified Tokyo bootstrap, deploy, publish corpus and configure the Cognito demo session within the approved scope. Execute make aws-smoke and preserve real resource/auth/audit evidence.
 3. Follow the submitted Nova Lite inquiry and verify usable Tokyo-only inference capacity before any new model request; then repeat one qualification, the three-case smoke and unchanged twenty-case suite. Preserve prior failures and compare actual usage, cost, latency and quality with the deterministic baseline.
-4. Complete hosted CI for the wheel change. In a separately authorized production-readiness milestone, verify a Gold-only identity, denied-access and real outage behavior, reconciliation and deadline handling. Preserve failed source-file runs and successful wheel evidence; investigate the original mount issue without calling it a confirmed platform bug.
+4. Hosted CI passed for the wheel change. In a separately authorized production-readiness milestone, verify a Gold-only identity, denied-access and real outage behavior, reconciliation and deadline handling. Preserve failed source-file runs and successful wheel evidence; investigate the original mount issue without calling it a confirmed platform bug.
 5. For institutional use, complete [production-readiness gaps](PRODUCTION_READINESS.md), including independent Japanese policy/privacy/model-risk review.
 
 Demo: **business problem → architecture → cited onboarding → malicious approval refusal → SME missing/stale review → deterministic DTI → evaluation/failures → honest cloud/data-platform status → production gaps**. The [timed interview script](docs/interview-demo.md) takes 3–5 minutes.

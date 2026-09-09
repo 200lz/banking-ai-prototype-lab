@@ -30,9 +30,12 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 ## Evidence supporting PASS
 
-- **Verified prior hosted baseline:** [34370908568](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34370908568)
-  passed at commit `712fda9c5fd690fc8146009d7104e155b7290713` on 2026-09-09 UTC.
-  The wheel revision's hosted run is PENDING; the badge links to current main.
+- **Verified wheel implementation hosted CI: PASS.** [run 34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941)
+  passed at commit `87e6417d268bf9671820039f5e9c5bb422d82779` on GitHub-hosted Linux.
+  All 22 `quality` steps succeeded; actual artifact `evidence-and-infrastructure`
+  was present and unexpired. [Runner/gates/artifact evidence](validation/github-databricks-wheel-2026-09-10.json)
+  is commit-specific; the badge links to current main. Node action deprecation is
+  NON-BLOCKING; action pins remain unchanged.
 - **Databricks wheel / pipeline / live SDK and API (2026-09-10 JST): PASS.**
   User-confirmed Free Edition, one managed artifact Volume, independent wheel
   upload/download SHA verification, smoke 33.733 seconds and first migrated job
@@ -99,7 +102,7 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 | Integration | Status | Evidence or blocker |
 | --- | --- | --- |
-| GitHub repository publication and hosted Actions | PASS | Verified prior baseline [34370908568](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34370908568), commit `712fda9c5fd690fc8146009d7104e155b7290713`; wheel revision hosted CI PENDING. |
+| GitHub repository publication and hosted Actions | PASS | Verified wheel implementation [34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941), commit `87e6417d268bf9671820039f5e9c5bb422d82779`; all 22 Linux quality steps and actual artifact verified. |
 | CDK sandbox bootstrap | PASS / PERFORMED | Approved standard stack CREATE_COMPLETE in Tokyo, 11 resources, 25 passing checks; no extra trusted accounts or application runtime IAM changes. Kept for planned sandbox deployment. |
 | Lambda quota request | PENDING | Approved request for 1001 submitted with Support enabled; provider CASE_OPENED. Last applied/unreserved limit 10; application reservation remains three. Prior no-Support NOT_APPROVED request is historical. |
 | AWS sandbox application deployment | NOT TESTED / BLOCKED | Application stack absent. Lambda reservation cannot be configured at last applied quota. Default unconnected Amplify has no missing-secret dependency; working SSR still needs GitHub connection. |

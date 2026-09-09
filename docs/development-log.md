@@ -2,6 +2,17 @@
 
 ## Volume-backed wheel and real Databricks integration (2026-09-10 JST)
 
+- Published implementation commit `87e6417d268bf9671820039f5e9c5bb422d82779` and verified
+  [run 34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941) using `gh`. All 22 hosted Linux quality steps passed;
+  actual artifact `evidence-and-infrastructure` was preserved. Node.js 20 action
+  runtime deprecation remained non-blocking; pins were not changed. Source scan
+  passed 188 candidate files and the complete eight-commit implementation history
+  passed Gitleaks. Documentation checks verified links, UTF-8/LF and privacy across
+  changed files and the complete public tree. The two local preview processes were
+  stopped after browser verification; no cloud cleanup or further AWS action ran.
+  This status record cites the verified implementation; its documentation-only
+  publication also requires a completed hosted result before final handoff.
+
 - Recorded [wheel acceptance](databricks-wheel-acceptance.md) before implementation.
   Phase 1 inspected all four failed traces and confirmed Workspace Files support
   already enabled, the exact deployed path, FILE types, run identity and inherited
@@ -64,8 +75,8 @@
   and [validation details](databricks-validation.md) preserve scope and limitations.
 - Updated the README, report and matrix from actual live evidence. Hosted baseline
   [34370908568](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34370908568)
-  passed at `712fda9c5fd690fc8146009d7104e155b7290713`; the wheel revision's
-  hosted CI is PENDING and must complete before publication is declared verified.
+  passed at `712fda9c5fd690fc8146009d7104e155b7290713`; the subsequent wheel
+  implementation passed hosted run 34377575941, recorded above.
 
 ## Historical failed Workspace Files attempt (2026-09-10 JST)
 
