@@ -1,5 +1,137 @@
 # Development log
 
+## Support-capacity milestone finalization (2026-09-09)
+
+- Acceptance criteria: review all pending documentation/evidence changes; remove
+  private account, principal, case and provider-request identifiers from public
+  files; reconcile authoritative status; pass documentation and complete source/
+  history secret scans; publish a documentation-only main commit and require its
+  real GitHub-hosted quality job to pass. No AWS calls, account/resource changes
+  or model invocations are permitted during this finalization.
+- Preserved the earlier preparation, failed no-Support request and signed-out
+  browser checkpoint as dated history. The current states are bootstrap PASS,
+  Lambda quota PENDING (provider CASE_OPENED; applied limit last observed 10),
+  application deployment NOT TESTED / BLOCKED, AWS smoke NOT TESTED, discovery
+  PASS, prior qualification FAIL, Nova Lite inquiry SUBMITTED / PENDING (provider
+  Unassigned), live evaluation NOT TESTED and Databricks workspace NOT TESTED.
+- Corrected stale assertions that no Support cases existed and that the default
+  unconnected Amplify template had a missing-secret dependency. Working hosted
+  SSR still requires Git authorization; no actual service deployment is claimed.
+  Reconciled README, REPORT, the verification matrix, cloud/cost/readiness notes
+  and [consolidated milestone evidence](validation/support-capacity-milestone-2026-09-09.json).
+- Reverified the prior hosted baseline with GitHub CLI: run 34357464386 passed
+  at source commit 4c3b1437b1f1caf41ef07b68811be8f8873bc02a. This new documentation
+  commit requires its own completed CI result. Node action-runtime deprecation
+  remains a non-blocking maintenance item; workflow action pins are unchanged.
+- Privacy review found an unnecessary CloudFormation stack UUID suffix in the
+  earlier bootstrap evidence, whose account segment was already redacted. Replaced
+  that suffix with a placeholder; no bootstrap verification facts changed. New
+  support evidence retains case/request/interaction identifiers only locally.
+- Pre-publication documentation checks and Markdown parsing passed, and Gitleaks
+  found no secrets in 180 candidate source paths or the complete five-commit Git
+  history. Publication uses the existing connected GitHub app because the local
+  GitHub CLI has no authenticated identity. The exact reviewed tree must match
+  the created commit, and main is advanced without force. Post-push CI is required
+  to pass before reporting this milestone complete.
+
+## Nova Lite inquiry accepted through Basic Support (2026-09-09)
+
+- User completed browser sign-in and reconfirmed the existing non-root Identity
+  Center session and Basic-only inquiry authorization. Acceptance criteria were
+  an available free channel, the reviewed Tokyo-only scope, no duplicate Lambda
+  case, and a verified final case rather than a draft/submission indicator.
+- Browser account and Basic Support plan matched. The menu did not expose the
+  role name independently. An attempted navigation to Security credentials for
+  identity verification was rejected by automatic approval review as outside
+  the Support inquiry; it was not executed or retried. Continued solely within
+  Support Center using the user's explicit session confirmation.
+- The console's Create case route opened Support interactions. Used the exposed
+  Service limit increase / Service Limit Increase / General options, General
+  question severity and English/Web, without additional contacts or attachments.
+  Submitted the approved model/quota evidence and explicit prohibitions on paid
+  Support plans/trials, provisioned capacity, new paid resources, region changes,
+  cross-region inference and runtime IAM expansion.
+- Verified the created case and correspondence: creation
+  2026-09-09T14:27:47.291Z; status Unassigned; stored type Account; category Service
+  Quotas, General. This proves inquiry receipt, not a quota grant, technical
+  assignment, inference success or deployment. The existing Lambda case stayed
+  Work in progress and was not changed. No application model or AWS deployment
+  operation was run during this continuation.
+- Preserved the earlier API/login checkpoint and added
+  [sanitized case confirmation](validation/nova-lite-support-case-2026-09-09.json).
+  Private case/interaction identifiers are excluded from public evidence. The
+  next external dependency is AWS's response; all workload milestone statuses
+  and prior qualification failures remain intact.
+- Local checks passed: Prettier Markdown debug-check on three documents, parsing
+  of four JSON evidence files, UTF-8/LF and code-fence checks, 32 local links and
+  anchors, `git diff --check`, case-evidence/scope/privacy assertions and Gitleaks
+  across 179 candidate paths with no findings. Documentation remains local and
+  uncommitted; no new hosted workflow result is claimed for this continuation.
+
+## Approved quota submission and Support access boundary (2026-09-09)
+
+- Received explicit approval for Lambda quota 1001, its Support escalation and a
+  separate Tokyo Nova Lite capacity inquiry. Rechecked the exact non-root sandbox
+  identity, applied/unreserved quota 10 and history before submitting; no active
+  duplicate existed. `SupportCaseAllowed=true` returned HTTP 200/PENDING at
+  14:12:54 UTC. The 14:15:45 UTC verification returned CASE_OPENED with a case
+  identifier; actual quota remained 10, with zero functions. Support escalation
+  succeeded, but the capacity increase is not yet approved or applied.
+- Fresh Nova Lite requests/minute, tokens/minute and daily limits remained zero
+  and non-adjustable, so no model was invoked. `DescribeServices` failed with
+  SubscriptionRequiredException/HTTP 400. No paid Support upgrade or CreateCase
+  request was attempted. The documented Support endpoint for Tokyo uses US East
+  signing; only that global administrative client used it. Workload/default region
+  remained Tokyo, and runtime IAM, reservation three and inference routing stayed
+  unchanged.
+- Checked the free Support Center fallback through the available in-app browser.
+  It returned AWS Sign In; no authenticated browser session was available. The
+  Nova Lite inquiry is approved but NOT SUBMITTED pending non-root browser login.
+  No further approval is required for the already reviewed inquiry. No paid
+  resources were created, and the bootstrap inventory/cleanup remain unchanged.
+- Preserved the original preparation and read-only snapshots as historical
+  evidence and added [actual submission and access results](validation/support-escalation-2026-09-09.json).
+  Public evidence excludes private request/case IDs, account/principal identifiers,
+  browser authorization URLs and credentials. Application deployment, AWS smoke
+  and live evaluation status have not been promoted.
+- Local checks passed: Prettier Markdown debug-check on three documents; JSON,
+  UTF-8/LF, code-fence and 30 local-link/anchor checks; submission/status evidence
+  invariants; `git diff --check`; and Gitleaks over 178 candidate paths with no
+  findings. This remains a local documentation checkpoint at the browser-login
+  gate; no commit, push or new hosted CI run is claimed for these changes.
+
+## CLI-first capacity reassessment and human gate (2026-09-09)
+
+- Applied the user's policy to perform safe AWS work through CLI/SDK/CDK and stop
+  only for genuine authorization or technical human requirements. Reverified
+  non-root identity, bootstrap CREATE_COMPLETE and missing application stack.
+  Fresh Lambda APIs show applied/unreserved concurrency 10, zero functions,
+  adjustable quota and default 1000; the prior no-Support request for 1001 remains
+  NOT_APPROVED with no case. No duplicate request was submitted.
+- Fresh Nova Lite on-demand requests/minute, tokens/minute and daily limits are
+  zero and non-adjustable. The APAC profile is ACTIVE across six listed regions,
+  but its request/token quotas are also zero. No profile/model/region switch or
+  inference attempt was made. Positive batch quotas are not runtime capacity.
+- Actual target synthesis and `diff --no-change-set` passed with reviewed Tokyo
+  rates and existing default unconnected Amplify mode: 33 resources plus metadata,
+  reservation three, JWT/custom scope on all four routes, mandatory MFA, private
+  S3 and no Lambda URL. No change set or application resource was created.
+- Dependency review refined the earlier broad Amplify blocker: the default
+  configuration omits repository/token settings and disables builds, so missing
+  GitHub authorization is not a synthesized missing-secret dependency for backend
+  provisioning. There is still one coupled stack and no backend-only switch;
+  no-token WEB_COMPUTE service acceptance remains NOT TESTED. Working SSR hosting
+  needs real Git authorization; manual upload is not a supported SSR workaround.
+- Prepared exact Lambda request variants and justification. The API has no
+  justification parameter and defaults to allowing Support cases. The user must
+  authorize account-level submission and separately authorize any Support-backed
+  request or Bedrock capacity inquiry. No Support-reviewed denial is inferred
+  from NOT_APPROVED when Support-case creation was disabled. All runtime controls
+  and earlier failure artifacts remain intact; Databricks is out of scope.
+- [Fresh evidence and A/B/C/D classification](deployment-capacity-review.md)
+  preserve the read-only results and concrete human-action gate. This checkpoint
+  makes no deployment, smoke or live-evaluation PASS claim.
+
 ## Explicitly approved Tokyo CDK bootstrap (2026-09-09)
 
 - The user explicitly approved the reviewed standard bootstrap, acknowledging

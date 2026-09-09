@@ -1,0 +1,77 @@
+{
+  "date": "2026-09-09",
+  "scope": "Documentation and GitHub finalization only; no additional AWS account/resource/model actions",
+  "source_revision_before_finalization": "4c3b1437b1f1caf41ef07b68811be8f8873bc02a",
+  "workload_region": "ap-northeast-1",
+  "statuses": {
+    "aws_bootstrap": "PASS",
+    "lambda_quota": "PENDING",
+    "aws_application_deployment": "NOT_TESTED / BLOCKED",
+    "aws_smoke": "NOT_TESTED",
+    "bedrock_discovery": "PASS",
+    "bedrock_qualification": "FAIL (previous attempts)",
+    "nova_lite_capacity_inquiry": "SUBMITTED / PENDING",
+    "live_bedrock_evaluation": "NOT_TESTED",
+    "databricks_workspace": "NOT_TESTED"
+  },
+  "lambda": {
+    "desired_quota": 1001,
+    "provider_status": "CASE_OPENED",
+    "last_observed_applied_quota": 10,
+    "last_observed_unreserved_quota": 10,
+    "application_reserved_concurrency": 3,
+    "observation_at": "2026-09-09T14:15:45.550163+00:00",
+    "evidence": "support-escalation-2026-09-09.json"
+  },
+  "nova_lite": {
+    "model_id": "amazon.nova-lite-v1:0",
+    "provider_case_status": "Unassigned",
+    "case_type": "Account",
+    "category": "Service Quotas, General",
+    "severity": "General question",
+    "support_plan": "Basic Support",
+    "case_created_at": "2026-09-09T14:27:47.291Z",
+    "last_observed_regional_quotas": {
+      "requests_per_minute": 0,
+      "tokens_per_minute": 0,
+      "daily_tokens": 0
+    },
+    "capacity_approved": false,
+    "evidence": "nova-lite-support-case-2026-09-09.json"
+  },
+  "preserved_failures": {
+    "provider_diagnostic": "ModelThrottledException",
+    "qualification_attempts": 2,
+    "reported_usage_complete": false,
+    "three_case_smoke_run": false,
+    "twenty_case_evaluation_run": false
+  },
+  "boundaries": {
+    "paid_support_plan_purchased": false,
+    "application_resources_created": false,
+    "application_model_invocations_after_zero_capacity_finding": 0,
+    "workload_region_changed": false,
+    "cross_region_inference_enabled": false,
+    "runtime_iam_changed": false,
+    "reserved_concurrency_changed": false,
+    "further_aws_actions_while_dependencies_pending": false
+  },
+  "evidence_files": [
+    "cdk-bootstrap-2026-09-09.json",
+    "aws-tokyo-preflight-2026-09-09.json",
+    "capacity-reassessment-2026-09-09.json",
+    "lambda-quota-request-prepared.json",
+    "support-escalation-2026-09-09.json",
+    "nova-lite-support-case-2026-09-09.json"
+  ],
+  "privacy": "Account, principal, support case/request/interaction and provider request identifiers omitted; raw tracking remains ignored locally.",
+  "next_external_dependencies": [
+    "Existing Lambda quota request decision and applied capacity",
+    "Existing Tokyo Nova Lite capacity inquiry response and usable regional quota"
+  ],
+  "future_milestones": [
+    "Separately authorized AWS application resources, Amplify GitHub connection and Cognito demo authentication",
+    "One successful regional Bedrock qualification before smoke/live evaluation",
+    "Databricks workspace setup and execution"
+  ]
+}

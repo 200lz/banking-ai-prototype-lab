@@ -1,0 +1,61 @@
+{
+  "recorded_at": "2026-09-09T14:29:49Z",
+  "source": "Rendered AWS Support Center case details and stored correspondence",
+  "operation": "Approved Tokyo Nova Lite capacity inquiry",
+  "submission": "CONFIRMED",
+  "case_created_at": "2026-09-09T14:27:47.291Z",
+  "correspondence_displayed_at": "2026-09-09T23:27:48+09:00",
+  "subject": "Tokyo Nova Lite zero regional quotas — capacity and account eligibility inquiry",
+  "case_status": "Unassigned",
+  "support_plan": "Basic Support",
+  "form_routing": {
+    "case_type": "Service limit increase",
+    "service": "Service Limit Increase",
+    "category": "General",
+    "severity": "General question",
+    "language": "English",
+    "contact_method": "Web",
+    "additional_contacts_supplied": false,
+    "attachments_supplied": false,
+    "separate_region_field_present": false
+  },
+  "stored_case_details": {
+    "case_type": "Account",
+    "category": "Service Quotas, General",
+    "severity": "General question",
+    "language": "English",
+    "additional_contacts": "-"
+  },
+  "model_id": "amazon.nova-lite-v1:0",
+  "workload_region": "ap-northeast-1",
+  "region_specified_in_correspondence": true,
+  "submitted_correspondence": "Tokyo Amazon Nova Lite regional capacity inquiry — Basic Support\n\nPlease investigate in-region Amazon Nova Lite capacity in ap-northeast-1 for this isolated personal sandbox using synthetic portfolio data. On 2026-09-09, model amazon.nova-lite-v1:0 had AUTHORIZED/AVAILABLE access metadata, but applied Service Quotas L-E386A278 (on-demand requests/minute), L-70423BF8 (on-demand tokens/minute), and L-45E0AD92 (daily tokens) were all zero and reported Adjustable=false. Earlier single-case qualification attempts failed with ModelThrottledException. No further model calls are being made while capacity is zero.\n\nPlease determine whether an account-eligibility restriction or regional capacity restriction causes this, and explain the supported steps to enable modest Tokyo-only on-demand use for one qualification request, followed by three and twenty evaluation cases. No production outage is claimed.\n\nPlease use the current Basic Support service-quota/account-eligibility channel. No paid Support plan, trial or upgrade, provisioned capacity, new paid resources, region change, cross-region inference, or runtime IAM expansion is authorized. Please advise before any action requiring those changes. This inquiry is separate from the existing Lambda quota case; do not duplicate or modify that case.",
+  "identity_evidence": {
+    "browser_account_matches_approved_sandbox": true,
+    "non_root_identity_center_session": "explicitly confirmed by user",
+    "browser_role_name_independently_verified": false,
+    "security_credentials_navigation": "rejected by automatic approval review; not executed or retried",
+    "subsequent_actions": "restricted to already approved Support inquiry"
+  },
+  "existing_lambda_case": {
+    "observed_status": "Work in progress",
+    "modified": false,
+    "duplicated": false
+  },
+  "paid_support_plan_changed": false,
+  "paid_trial_started": false,
+  "new_paid_resources_created": false,
+  "runtime_iam_changed": false,
+  "cross_region_inference_enabled": false,
+  "application_model_invocations": 0,
+  "application_deployments": 0,
+  "quota_increase_approved_or_applied_by_this_case": false,
+  "capacity_rechecked_in_this_console_continuation": false,
+  "prior_zero_quota_evidence": "capacity-reassessment-2026-09-09.json",
+  "application_deployment": "NOT_TESTED",
+  "aws_smoke": "NOT_TESTED",
+  "twenty_case_live_evaluation": "NOT_TESTED",
+  "previous_qualification_failures_preserved": true,
+  "next_external_dependency": "AWS response to the existing case",
+  "private_identifiers_omitted": true
+}

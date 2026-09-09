@@ -41,10 +41,10 @@ as-of dates. Failures abstain and surface missing evidence or required review.
 
 [![Quality and safety regression](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml)
 
-**Local application, Docker, GitHub Actions and CDK bootstrap: PASS. Application
-AWS deployment, twenty-case live Bedrock evaluation and real Databricks workspace
-execution: NOT TESTED.** Hosted CI runs without cloud credentials and does not
-establish those external integrations.
+**Local application, Docker, GitHub Actions, AWS bootstrap and Bedrock discovery:
+PASS. AWS application deployment: NOT TESTED / BLOCKED. AWS smoke, live Bedrock
+evaluation and Databricks workspace: NOT TESTED.** Hosted CI runs without cloud
+credentials and does not establish those external integrations.
 
 On 2026-09-09, real non-root sandbox identity, Tokyo model discovery, model access
 checks and a target-environment CDK diff passed. The explicitly approved Tokyo
@@ -59,22 +59,31 @@ stack was created by this bootstrap. The resources are kept for the planned
 sandbox deployment. [Bootstrap evidence](docs/validation/cdk-bootstrap-2026-09-09.json)
 and [inventory, cost and cleanup](docs/cdk-bootstrap.md) record the actual scope.
 
-The last preflight still leaves Lambda concurrency at 10, the queried Bedrock
-inference quotas at zero, and the Amplify GitHub connection unresolved. The two
-Nova Lite qualification attempts failed with provider throttling; the three-case
-smoke and twenty-case live suite were not run. Bootstrap made no further model
-calls. [Cloud evidence and blockers](docs/cloud-validation.md) distinguish the
-completed bootstrap from application deployment and model qualification.
+**Lambda quota: PENDING. Nova Lite capacity inquiry: SUBMITTED / PENDING.**
+The approved Lambda request for 1001 reached provider status `CASE_OPENED`; the
+last applied and unreserved limits remain 10, while application reservation stays
+three. The Tokyo Nova Lite inquiry was accepted through Basic Support and is
+Unassigned, category Service Quotas, General, severity General question. Requested
+capacity and an accepted case do not establish applied capacity.
 
-Latest independently verified with `gh`: [hosted run 34354616969](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34354616969),
-commit `8e8c65f227cc9c876792ca835452d2a032d80fb2`, job `quality` on GitHub-hosted
+The previous Nova Lite qualification and diagnostic retry remain **FAIL** with
+provider throttling; the last observed regional request, token and daily quotas
+were zero. No further application model invocation occurred after that finding.
+No application resources, paid Support plan, region change or runtime IAM change
+were made. The Amplify GitHub connection is still required for working hosted SSR;
+the default unconnected template has no missing-secret dependency. The three-case
+smoke and twenty-case live suite were not run. [Capacity/support evidence](docs/deployment-capacity-review.md)
+and [cloud validation](docs/cloud-validation.md) preserve the exact boundaries.
+
+Verified hosted baseline with `gh`: [hosted run 34357464386](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34357464386),
+commit `4c3b1437b1f1caf41ef07b68811be8f8873bc02a`, job `quality` on GitHub-hosted
 Linux (`ubuntu-latest`). All 22 recorded steps passed: dependency installation,
 formatting/lint, types, Python/API/infrastructure and frontend tests, evaluation
 smoke/full gates, security audits, Next.js build, credential-free CDK synthesis,
 source/history secret scans, fresh Docker builds, health/scenario/telemetry/restart
 checks, cleanup and preservation of artifact `evidence-and-infrastructure`.
-This evidence applies to the named commit; the bootstrap documentation update
-requires its own completed run. The badge reflects the current `main` workflow state.
+This evidence applies to the named commit. Each subsequent documentation commit
+requires its own completed run; the badge links to the current `main` workflow state.
 
 The Node.js 20 action-runtime deprecation annotation is **NON-BLOCKING**. GitHub
 forced the pinned actions onto Node.js 24; updating those action pins remains a

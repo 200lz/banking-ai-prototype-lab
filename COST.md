@@ -93,15 +93,32 @@ inventory observation, not a measured $0 bill. The deliberate disposition is to
 **keep the bootstrap for the planned sandbox deployment**. See
 [bootstrap inventory and cleanup](docs/cdk-bootstrap.md) before future removal.
 
-Application deployment remains NOT TESTED. At the last preflight, the account's
-Lambda concurrent-execution quota was 10; a request for 1,001 with support-case
-creation disabled returned `NOT_APPROVED`. The Amplify GitHub secret/connection
-was unresolved. The Bedrock query returned 166 inference quota entries with value
-zero, including Nova Lite's on-demand request, token-per-minute and daily-token
-limits. Bootstrap does not resolve these capacity and hosting blockers. See
-[cloud validation](docs/cloud-validation.md) for current evidence and remaining
-setup. The following table describes the application template's potential cost
-drivers, not deployed application resources or measured charges.
+Application deployment remains **NOT TESTED / BLOCKED**. The earlier Lambda
+request for 1,001 without Support returned `NOT_APPROVED`. The subsequently
+authorized request with Support enabled is **PENDING**, with provider status
+`CASE_OPENED`; last-observed applied and unreserved concurrency remain **10**.
+The application reservation stays **three**. Requesting a larger limit does not
+provision running environments or change that reservation.
+[Submission and applied-capacity evidence](docs/validation/support-escalation-2026-09-09.json)
+
+Nova Lite's on-demand request, token-per-minute and daily-token limits were still
+zero in the last check. The separately approved capacity inquiry is
+**SUBMITTED / PENDING**, provider **Unassigned**, under Basic Support's stored
+**Account / Service Quotas, General** routing. No paid Support plan/trial,
+provisioned capacity or new paid resource was purchased, and no further model
+calls followed the zero-capacity finding. No runtime IAM, workload region or
+reservation changed. The inquiry has not established restored capacity or a
+measured AWS bill. [Confirmed case evidence](docs/validation/nova-lite-support-case-2026-09-09.json)
+
+The default unconnected Amplify template contains no repository/token reference
+and therefore no missing-secret dependency. Its actual creation remains
+unverified; Git authorization and a successful build are still required for a
+functioning hosted frontend. Bootstrap does not resolve Lambda capacity or these
+hosting requirements. See the [capacity/dependency review](docs/deployment-capacity-review.md)
+and [cloud validation](docs/cloud-validation.md). AWS smoke, twenty-case live
+evaluation and Databricks workspace validation remain **NOT TESTED**. The table
+below describes potential application costs, not deployed application resources
+or measured charges.
 
 | Driver | Cost behavior / chosen control |
 | --- | --- |

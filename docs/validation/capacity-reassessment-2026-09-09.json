@@ -1,0 +1,248 @@
+{
+  "captured_at": "2026-09-09T13:52:14.045468+00:00",
+  "region": "ap-northeast-1",
+  "identity": {
+    "authorized_sandbox_matches": true,
+    "non_root_identity_center_role_matches": true
+  },
+  "scope": "Real read-only quota, profile and deployment-prerequisite reassessment; no quota submissions, model invocation or resource mutation",
+  "lambda": {
+    "account_limit": {
+      "TotalCodeSize": 322122547200,
+      "CodeSizeUnzipped": 262144000,
+      "CodeSizeZipped": 52428800,
+      "ConcurrentExecutions": 10,
+      "UnreservedConcurrentExecutions": 10
+    },
+    "function_count": 0,
+    "quota": {
+      "QuotaName": "Concurrent executions",
+      "QuotaCode": "L-B99A9384",
+      "Value": 10.0,
+      "Adjustable": true,
+      "GlobalQuota": false
+    },
+    "default_quota": 1000.0,
+    "requests": [
+      {
+        "DesiredValue": 1001.0,
+        "Status": "NOT_APPROVED",
+        "Created": "2026-09-09 21:32:02.694000+09:00",
+        "LastUpdated": "2026-09-09 21:32:19.586000+09:00",
+        "support_case_present": false
+      }
+    ]
+  },
+  "bedrock": {
+    "quotas": [
+      {
+        "QuotaName": "Cross-region model inference requests per minute for Amazon Nova Lite",
+        "QuotaCode": "L-89F8391A",
+        "Value": 0.0,
+        "Adjustable": false,
+        "GlobalQuota": false
+      },
+      {
+        "QuotaName": "Model units per provisioned model for the 300k context length variant for Amazon Nova Lite",
+        "QuotaCode": "L-127FC9D0",
+        "Value": 0.0,
+        "Adjustable": true,
+        "GlobalQuota": false
+      },
+      {
+        "QuotaName": "Records per batch inference job for Nova Lite V1",
+        "QuotaCode": "L-916C9264",
+        "Value": 100000.0,
+        "Adjustable": true,
+        "GlobalQuota": false
+      },
+      {
+        "QuotaName": "Sum of in-progress and submitted batch inference jobs using a base model for Nova Lite V1",
+        "QuotaCode": "L-E2ED42E6",
+        "Value": 100.0,
+        "Adjustable": true,
+        "GlobalQuota": false
+      },
+      {
+        "QuotaName": "Minimum number of records per batch inference job for Nova Lite V1",
+        "QuotaCode": "L-39FA8DCA",
+        "Value": 100.0,
+        "Adjustable": false,
+        "GlobalQuota": false
+      },
+      {
+        "QuotaName": "On-demand model inference tokens per minute for Amazon Nova Lite",
+        "QuotaCode": "L-70423BF8",
+        "Value": 0.0,
+        "Adjustable": false,
+        "GlobalQuota": false
+      },
+      {
+        "QuotaName": "Records per input file per batch inference job for Nova Lite V1",
+        "QuotaCode": "L-B8626674",
+        "Value": 100000.0,
+        "Adjustable": true,
+        "GlobalQuota": false
+      },
+      {
+        "QuotaName": "Batch inference job size (in GB) for Nova Lite V1",
+        "QuotaCode": "L-19E52681",
+        "Value": 100.0,
+        "Adjustable": false,
+        "GlobalQuota": false
+      },
+      {
+        "QuotaName": "Model invocation max tokens per day for Amazon Nova Lite (doubled for cross-region calls)",
+        "QuotaCode": "L-45E0AD92",
+        "Value": 0.0,
+        "Adjustable": false,
+        "GlobalQuota": false
+      },
+      {
+        "QuotaName": "Model units per provisioned model for the 24k context length variant for Amazon Nova Lite ",
+        "QuotaCode": "L-4532261E",
+        "Value": 0.0,
+        "Adjustable": true,
+        "GlobalQuota": false
+      },
+      {
+        "QuotaName": "Cross-region model inference tokens per minute for Amazon Nova Lite",
+        "QuotaCode": "L-7C42E72A",
+        "Value": 0.0,
+        "Adjustable": true,
+        "GlobalQuota": false
+      },
+      {
+        "QuotaName": "Batch inference input file size (in GB) for Nova Lite V1",
+        "QuotaCode": "L-F60B56CC",
+        "Value": 1.0,
+        "Adjustable": false,
+        "GlobalQuota": false
+      },
+      {
+        "QuotaName": "On-demand model inference requests per minute for Amazon Nova Lite",
+        "QuotaCode": "L-E386A278",
+        "Value": 0.0,
+        "Adjustable": false,
+        "GlobalQuota": false
+      }
+    ],
+    "profiles": [
+      {
+        "id": "apac.amazon.nova-lite-v1:0",
+        "name": "APAC Nova Lite",
+        "status": "ACTIVE",
+        "type": "SYSTEM_DEFINED",
+        "model_regions": [
+          "ap-northeast-1",
+          "ap-northeast-2",
+          "ap-northeast-3",
+          "ap-south-1",
+          "ap-southeast-1",
+          "ap-southeast-2"
+        ],
+        "model_ids": [
+          "amazon.nova-lite-v1:0"
+        ]
+      }
+    ],
+    "access_metadata": {
+      "modelId": "amazon.nova-lite-v1",
+      "authorizationStatus": "AUTHORIZED",
+      "agreementAvailability": {
+        "status": "AVAILABLE"
+      },
+      "entitlementAvailability": "AVAILABLE",
+      "regionAvailability": "AVAILABLE"
+    },
+    "model_invocations": 0
+  },
+  "deployment": {
+    "CDKToolkit": {
+      "status": "CREATE_COMPLETE"
+    },
+    "BankingAiPrototypeLab": {
+      "status": "MISSING"
+    },
+    "expected_amplify_connection_secret": "MISSING"
+  },
+  "completed_at": "2026-09-09T13:52:24.136570+00:00",
+  "source_commit": "4c3b1437b1f1caf41ef07b68811be8f8873bc02a",
+  "actual_target_diff": {
+    "captured_at": "2026-09-09T13:56:33.684791+00:00",
+    "region": "ap-northeast-1",
+    "authorized_non_root_identity_verified": true,
+    "source_commit": "4c3b1437b1f1caf41ef07b68811be8f8873bc02a",
+    "mode": "Existing default unconnected Amplify mode; exact regional model and reviewed Tokyo rates",
+    "mutation_requested": false,
+    "steps": [
+      {
+        "name": "synth",
+        "exit_code": 0,
+        "elapsed_seconds": 47.188
+      },
+      {
+        "name": "diff",
+        "exit_code": 0,
+        "elapsed_seconds": 2.75
+      }
+    ],
+    "resources": {
+      "AWS::S3::Bucket": 1,
+      "AWS::S3::BucketPolicy": 1,
+      "AWS::DynamoDB::Table": 1,
+      "AWS::Logs::LogGroup": 3,
+      "AWS::IAM::Role": 2,
+      "AWS::IAM::Policy": 2,
+      "AWS::Lambda::Function": 1,
+      "AWS::Cognito::UserPool": 1,
+      "AWS::Cognito::UserPoolResourceServer": 1,
+      "AWS::Cognito::UserPoolDomain": 1,
+      "AWS::Cognito::UserPoolClient": 1,
+      "AWS::Amplify::App": 1,
+      "AWS::ApiGatewayV2::Api": 1,
+      "AWS::ApiGatewayV2::Integration": 1,
+      "AWS::Lambda::Permission": 4,
+      "AWS::ApiGatewayV2::Route": 4,
+      "AWS::ApiGatewayV2::Authorizer": 1,
+      "AWS::ApiGatewayV2::Stage": 1,
+      "AWS::Amplify::Branch": 1,
+      "AWS::CloudWatch::Alarm": 3,
+      "AWS::CloudWatch::Dashboard": 1,
+      "AWS::CDK::Metadata": 1
+    },
+    "resource_count": 34,
+    "template_sha256": "dca1fe1b68b19858e34a8ea349c278edb01a27efcf53a3db9e76ba2e117e1a6d",
+    "controls": {
+      "reserved_concurrency": 3,
+      "repository_omitted": true,
+      "access_token_omitted": true,
+      "amplify_auto_build": false
+    },
+    "status": "PASS",
+    "completed_at": "2026-09-09T13:57:23.661263+00:00",
+    "security_review_checks": {
+      "all_four_routes_jwt": true,
+      "reserved_concurrency_three": true,
+      "no_lambda_function_url": true,
+      "cognito_mfa_on": true,
+      "s3_public_access_blocked": true,
+      "no_repository_or_token_reference": true,
+      "no_model_profile_switch": true
+    }
+  },
+  "outcome": {
+    "lambda_deployability": "BLOCKED",
+    "bedrock_runtime_capacity": "BLOCKED",
+    "bootstrap": "PASS",
+    "application_deployment": "NOT TESTED",
+    "aws_smoke": "NOT TESTED",
+    "live_bedrock_evaluation": "NOT TESTED",
+    "model_invocations_this_reassessment": 0,
+    "quota_submissions_this_reassessment": 0,
+    "support_cases_created_this_reassessment": 0,
+    "new_resources_created": 0,
+    "databricks": "OUT OF SCOPE; status unchanged"
+  },
+  "operator_decision": "Await explicit authorization before any account-level quota submission or AWS Support interaction. Do not repeat identical no-support request without changed evidence."
+}

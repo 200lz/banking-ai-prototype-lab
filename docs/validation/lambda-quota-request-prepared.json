@@ -1,0 +1,29 @@
+{
+  "status": "PREPARED_NOT_SUBMITTED",
+  "region": "ap-northeast-1",
+  "profile": "jdd-sandbox",
+  "current_applied_quota": 10,
+  "requested_quota": 1001,
+  "application_reserved_concurrency": 3,
+  "previous_no_support_request_status": "NOT_APPROVED",
+  "justification": "The existing synthetic portfolio Lambda reserves three concurrent executions. AWS preserves 100 unreserved executions, so the applied account limit of ten cannot satisfy the configuration. At least 103 are required mathematically; the observed API requires a request above its default 1000. Request 1001 without increasing the application reservation or provisioning capacity.",
+  "expected_impact": "Raises the account ceiling; does not create running functions, change runtime IAM, remove reservation three or deploy workloads. Other authorized workloads could use the higher account ceiling.",
+  "cost_impact": "No additional charge for Service Quotas or reserved concurrency itself; no provisioned concurrency requested. Actual future service use is billed. No paid support-plan purchase authorized.",
+  "normal_request": {
+    "ServiceCode": "lambda",
+    "QuotaCode": "L-B99A9384",
+    "DesiredValue": 1001,
+    "SupportCaseAllowed": false
+  },
+  "support_backed_request_requires_separate_explicit_approval": {
+    "ServiceCode": "lambda",
+    "QuotaCode": "L-B99A9384",
+    "DesiredValue": 1001,
+    "SupportCaseAllowed": true
+  },
+  "justification_is_not_an_api_parameter": true,
+  "sources": [
+    "https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_RequestServiceQuotaIncrease.html",
+    "https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html"
+  ]
+}

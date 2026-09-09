@@ -118,7 +118,7 @@
     "non_root_sso": true
   },
   "stack_status": "CREATE_COMPLETE",
-  "stack_id": "arn:aws:cloudformation:ap-northeast-1:[ACCOUNT]:stack/CDKToolkit/d9f1f530-ac50-11f1-b7b0-0e4668633a81",
+  "stack_id": "arn:aws:cloudformation:ap-northeast-1:[ACCOUNT]:stack/CDKToolkit/[STACK_ID]",
   "stack_created_at": "2026-09-09T13:17:48.067000+00:00",
   "parameters": {
     "FileAssetsBucketKmsKeyId": "AWS_MANAGED_KEY",

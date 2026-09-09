@@ -1,6 +1,6 @@
 # Implementation and validation report
 
-2026-09-09. **Local application, Docker and GitHub Actions: PASS. AWS deployment, twenty-case live Bedrock evaluation and Databricks workspace: NOT TESTED.** No real-bank affiliation; all internal policies, companies and financial records are synthetic.
+2026-09-09. **Local application, Docker, GitHub Actions, AWS bootstrap and Bedrock discovery: PASS. Lambda quota: PENDING. Nova Lite inquiry: SUBMITTED / PENDING. AWS application deployment: NOT TESTED / BLOCKED. AWS smoke, live Bedrock evaluation and Databricks workspace: NOT TESTED. Previous Bedrock qualification: FAIL.** No real-bank affiliation; all internal policies, companies and financial records are synthetic.
 
 The [authoritative verification matrix](docs/verification-matrix.md) links every PASS to executed evidence. Hosted CI was independently verified using `gh`; deployed AWS, live Bedrock and Databricks workspace success is not inferred from local or hosted tests.
 
@@ -8,11 +8,22 @@ The real Tokyo attempt verified the expected non-root sandbox identity, discover
 62 text-output models and completed a target CDK synth/diff. The subsequently
 approved Tokyo bootstrap is now **PERFORMED / PASS**: `CDKToolkit` reached
 `CREATE_COMPLETE` and all 11 reviewed resources passed actual verification.
-Application deployment remains blocked by Lambda quota and the Amplify GitHub connection.
+Application deployment remains **NOT TESTED / BLOCKED** by Lambda capacity.
+The request for 1,001 is **PENDING** (provider status `CASE_OPENED`); last-observed
+applied concurrency is 10 and the application reservation remains three.
+The default unconnected Amplify configuration has no secret dependency, but a
+GitHub connection is still needed for a functioning hosted frontend; actual
+creation of that unconnected configuration is unverified.
 Nova Lite qualification failed with provider throttling, and all 166 queried
 on-demand/daily-token account quotas were zero. No three-case smoke or twenty-case
 live suite ran. Actual failed artifacts and redacted preflight evidence are
 linked in [cloud validation](docs/cloud-validation.md).
+
+The separate Tokyo Nova Lite capacity inquiry is **SUBMITTED / PENDING** under
+Basic Support, with provider status **Unassigned** and stored routing
+**Account / Service Quotas, General**. Submission establishes neither restored
+capacity nor successful inference. [Confirmed case evidence](docs/validation/nova-lite-support-case-2026-09-09.json)
+supersedes the earlier browser-login checkpoint in the escalation record.
 
 The [bootstrap execution and cleanup record](docs/cdk-bootstrap.md) documents
 same-account trust, the approved administrator execution role, 25 passing checks,
@@ -158,6 +169,16 @@ validation. Artifact `evidence-and-infrastructure`, ID `10105375539`, was
 `b487fb985de0735ee96ac63c4400fe8c975dacb7adc5815eb301c6bba03ab95f`.
 This is the verified hosted baseline preceding the bootstrap documentation update.
 
+The latest independently verified prior hosted baseline is
+[run 34357464386](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34357464386)
+at commit `4c3b1437b1f1caf41ef07b68811be8f8873bc02a`: job `quality` completed
+successfully at 13:36:53 UTC, with all 22 steps successful. Its preserved artifact
+was `evidence-and-infrastructure`, 124,946 bytes, SHA-256
+`1a1f21c8916c35f31eaed497e5361bb9d7f97596dd90d132d2b92cfd77565c92`.
+The same Node action warning remained non-blocking. This is commit-specific
+historical evidence; each subsequent documentation commit requires its own
+completed result in the [hosted workflow history](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml).
+
 ## Docker status: PASS
 
 The installed Docker Desktop was started safely. Actual Linux/AMD64 Engine 20.10.17 built all four runtime images with --pull --no-cache. The canonical run took 151.5 seconds and verified three healthy services, web-to-API container DNS, policy citations, 30.00% DTI, prohibited approval refusal, human review, PII canary and retrieved-document injection quarantine. Exported traces contained all nine stages and no tested payload canaries; runtime logs had zero errors/warnings. Restart retained the original audit event and produced the same policy answer. The isolated stack shut down cleanly.
@@ -203,10 +224,15 @@ telemetry, not successful Bedrock planning, model usage or AWS deployment.
 
 | External milestone | Status | Actual blocker/evidence |
 | --- | --- | --- |
-| Public GitHub repository and hosted Actions | **PASS** | Independently verified hosted Linux run [34344534926](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34344534926), `quality`, commit `827888ab0d3c82f937d8106b51f8bf04f4a3fcc4`; artifact `evidence-and-infrastructure`. |
+| Public GitHub repository and prior hosted Actions | **PASS** | Verified hosted baseline [34357464386](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34357464386), commit `4c3b1437b1f1caf41ef07b68811be8f8873bc02a`; later commits require their own completed hosted verification. |
 | CDK bootstrap | **PASS / PERFORMED** | Tokyo `CDKToolkit` is CREATE_COMPLETE; all 11 resources and 25 control checks passed after explicit approval. No extra trusted accounts or runtime IAM change. |
-| AWS deployment | **NOT TESTED** | Application stack still missing; Lambda quota and Amplify GitHub connection block deployment. AWS smoke not run. Bootstrap alone does not establish application behavior. |
-| Live Bedrock evaluation | **NOT TESTED** | Model discovery/access preflight PASS; qualification and diagnostic retry FAIL with provider throttling. Nova Lite regional quotas are zero. No successful completion, three-case smoke or twenty-case suite. |
+| Lambda quota increase | **PENDING** | Approved request for 1,001 submitted with Support enabled; provider `CASE_OPENED`, last-observed applied/unreserved capacity 10, application reservation unchanged at three. |
+| AWS application deployment | **NOT TESTED / BLOCKED** | Stack absent; Lambda capacity blocks completion. Default unconnected Amplify omits Git secrets; creation is unverified and a working hosted frontend still requires Git authorization/build. |
+| AWS smoke | **NOT TESTED** | No deployed application to exercise; bootstrap and template checks do not establish runtime/auth/audit behavior. |
+| Bedrock discovery/access preflight | **PASS** | Tokyo text-model discovery and exact Nova Lite access metadata verified; this does not establish inference capacity. |
+| Previous Bedrock qualification | **FAIL** | Both single-case attempts failed with provider throttling; last-observed regional Nova Lite runtime quotas remain zero. Failed artifacts and incomplete usage are preserved. |
+| Nova Lite capacity inquiry | **SUBMITTED / PENDING** | Basic Support case confirmed; provider `Unassigned`, stored type Account, category Service Quotas, General. No quota approval or capacity restoration verified. |
+| Live Bedrock evaluation | **NOT TESTED** | No successful qualification, three-case smoke or twenty-case suite. No model calls followed the zero-capacity finding. |
 | Databricks workspace | **NOT TESTED** | No configured workspace/auth/warehouse/catalog/schema or CLI; no real job, Delta table or Statement Execution query was run. |
 
 The authorized personal sandbox was verified in `ap-northeast-1`; public evidence
@@ -217,10 +243,17 @@ the deployed template and actual resources passed verification at 13:21:27 UTC.
 The five bootstrap IAM roles are account-global; regional resources and the stack
 are in Tokyo. No additional account was trusted. The application stack is absent.
 
-The last Lambda quota request made without an AWS Support case was NOT_APPROVED;
-the last observed applied quota is ten. The runtime reservation remains three.
-No application IAM source was changed, and no model or Databricks workspace call
-was made during bootstrap. Earlier failed qualification evidence is unchanged.
+The earlier Lambda request without Support remains historical **NOT_APPROVED**
+evidence. The newly authorized request reached `CASE_OPENED` at the 14:15:45 UTC
+check, while applied concurrency remained ten. The separate Nova Lite inquiry
+was confirmed at 14:27:47 UTC; its Basic Support submission did not change quotas.
+The [escalation evidence](docs/validation/support-escalation-2026-09-09.json) and
+[capacity/dependency review](docs/deployment-capacity-review.md) distinguish these
+states. No paid plan or trial, new paid resources, region/profile switch, runtime
+IAM change or reservation change occurred during these capacity/Support steps.
+No further model calls were made after zero capacity was established. Bootstrap
+and earlier failed qualification evidence remain unchanged; no Databricks
+workspace operation was run.
 
 The [AWS record](docs/cloud-validation.md), [deployment security review](docs/aws-deployment-review.md),
 [Bedrock runbook](docs/milestone-4-bedrock.md) and [Databricks validation](docs/databricks-validation.md)
@@ -250,9 +283,14 @@ measured. Asset storage, versions and requests can incur costs when used. The
 deletion and separately handles the retained versioned bucket. Application
 resources and an interview demo have not been deployed.
 
+The pending Lambda quota request and Basic Support inquiry provision no running
+capacity. No paid Support plan, trial, provisioned throughput or new paid resource
+was purchased during this milestone. Any later application/model usage remains
+billable; pending cases are not evidence of available capacity or a $0 AWS bill.
+
 ## Unresolved issues and security limitations
 
-- AWS identity and bootstrap are verified; the Lambda quota, Amplify GitHub setup and zero last-observed Bedrock inference quotas prevent deployed/live validation. Databricks workspace setup is still outstanding. Offline contracts and hosted CI do not prove those integrations.
+- AWS identity and bootstrap are verified; Lambda approval and the Nova Lite capacity response are pending. Applied Lambda capacity and last-observed zero Bedrock quotas still block deployment/live validation. Amplify Git authorization blocks a functioning hosted frontend, not secret resolution in the default unconnected template. Databricks workspace setup is outstanding. Offline contracts and hosted CI do not prove those integrations.
 - Pinned GitHub actions emit a non-blocking Node.js 20 runtime deprecation warning; the warning remains unresolved.
 - Keyword routing and heuristic injection/PII checks can miss new/multilingual attacks. Quote/hash correspondence does not establish truth or applicability.
 - S3's 60-second cache can delay revocation. Source/Gold hashes do not authenticate a publisher that can replace both content and hash.
@@ -263,9 +301,14 @@ resources and an interview demo have not been deployed.
 
 ## Next steps and recommended interview sequence
 
+Finalization performs only documentation review, privacy/secret scans and GitHub
+publication/CI. No additional AWS account, resource or model actions are authorized
+while the two existing capacity dependencies are pending. The following are
+future milestones; any new paid resources require separate authorization.
+
 1. Update the pinned GitHub actions for the Node.js 20 runtime deprecation in a separate maintenance change, then verify a new hosted run. Publication and the original hosted CI milestone are complete.
-2. Resolve Lambda quota and Amplify GitHub connection. Revalidate identity and diff, use the verified Tokyo bootstrap, deploy, publish corpus and configure the Cognito demo session. Execute make aws-smoke and preserve real resource/auth/audit evidence.
-3. Obtain usable regional Bedrock inference quota; repeat one qualification, then the three-case smoke and unchanged twenty-case suite. Preserve prior failures and compare actual usage, cost, latency and quality with the deterministic baseline.
+2. Follow the existing Lambda Support case and verify applied quota before deployment; resolve the Amplify GitHub connection for a functioning frontend. Revalidate identity and diff, use the verified Tokyo bootstrap, deploy, publish corpus and configure the Cognito demo session within the approved scope. Execute make aws-smoke and preserve real resource/auth/audit evidence.
+3. Follow the submitted Nova Lite inquiry and verify usable Tokyo-only inference capacity before any new model request; then repeat one qualification, the three-case smoke and unchanged twenty-case suite. Preserve prior failures and compare actual usage, cost, latency and quality with the deterministic baseline.
 4. Configure a Databricks development workspace and native bundle, run it, query Gold and exercise the governed adapter with a separate read-only principal. Record real workspace evidence and cost separately.
 5. For institutional use, complete [production-readiness gaps](PRODUCTION_READINESS.md), including independent Japanese policy/privacy/model-risk review.
 

@@ -1,0 +1,137 @@
+{
+  "started_at": "2026-09-09T14:12:52.608612+00:00",
+  "region": "ap-northeast-1",
+  "identity_verified": true,
+  "authorization": {
+    "lambda_desired_value": 1001,
+    "support_case_allowed": true,
+    "bedrock_capacity_inquiry": true,
+    "paid_support_upgrade": false,
+    "cross_region_inference": false,
+    "new_paid_resources": false
+  },
+  "lambda_before": {
+    "observed_at": "2026-09-09T14:12:53.702815+00:00",
+    "applied": 10,
+    "unreserved": 10,
+    "function_count": 0,
+    "service_quota_value": 10.0,
+    "requests": [
+      {
+        "DesiredValue": 1001.0,
+        "Status": "NOT_APPROVED",
+        "Created": "2026-09-09 21:32:02.694000+09:00",
+        "LastUpdated": "2026-09-09 21:32:19.586000+09:00",
+        "support_case_present": false
+      }
+    ]
+  },
+  "bedrock_quotas": [
+    {
+      "QuotaName": "On-demand model inference requests per minute for Amazon Nova Lite",
+      "QuotaCode": "L-E386A278",
+      "Value": 0.0,
+      "Adjustable": false,
+      "GlobalQuota": false
+    },
+    {
+      "QuotaName": "On-demand model inference tokens per minute for Amazon Nova Lite",
+      "QuotaCode": "L-70423BF8",
+      "Value": 0.0,
+      "Adjustable": false,
+      "GlobalQuota": false
+    },
+    {
+      "QuotaName": "Model invocation max tokens per day for Amazon Nova Lite (doubled for cross-region calls)",
+      "QuotaCode": "L-45E0AD92",
+      "Value": 0.0,
+      "Adjustable": false,
+      "GlobalQuota": false
+    }
+  ],
+  "submission_attempted_at": "2026-09-09T14:12:54.020736+00:00",
+  "submission": {
+    "action": "submitted_support_enabled",
+    "http_status": 200,
+    "request": {
+      "DesiredValue": 1001.0,
+      "Status": "PENDING",
+      "Created": "2026-09-09 23:12:54.749000+09:00",
+      "support_case_present": false
+    }
+  },
+  "lambda_after": {
+    "observed_at": "2026-09-09T14:12:54.288648+00:00",
+    "applied": 10,
+    "unreserved": 10,
+    "function_count": 0,
+    "service_quota_value": 10.0,
+    "requests": [
+      {
+        "DesiredValue": 1001.0,
+        "Status": "PENDING",
+        "Created": "2026-09-09 23:12:54.749000+09:00",
+        "support_case_present": false
+      },
+      {
+        "DesiredValue": 1001.0,
+        "Status": "NOT_APPROVED",
+        "Created": "2026-09-09 21:32:02.694000+09:00",
+        "LastUpdated": "2026-09-09 21:32:19.586000+09:00",
+        "support_case_present": false
+      }
+    ]
+  },
+  "completed_at": "2026-09-09T14:12:54.288648+00:00",
+  "model_invocations": 0,
+  "resource_deployments": 0,
+  "latest_lambda_verification": {
+    "observed_at": "2026-09-09T14:15:45.550163+00:00",
+    "region": "ap-northeast-1",
+    "identity_verified": true,
+    "request": {
+      "DesiredValue": 1001.0,
+      "Status": "CASE_OPENED",
+      "Created": "2026-09-09 23:12:54.749000+09:00",
+      "LastUpdated": "2026-09-09 23:13:12.233000+09:00",
+      "support_case_present": true
+    },
+    "applied": 10,
+    "unreserved": 10,
+    "function_count": 0
+  },
+  "support_api_discovery": {
+    "observed_at": "2026-09-09T14:14:15.917953+00:00",
+    "workload_region": "ap-northeast-1",
+    "support_endpoint": "https://support.us-east-1.amazonaws.com",
+    "support_signing_region": "us-east-1",
+    "identity_verified": true,
+    "paid_plan_change_attempted": false,
+    "create_case_attempted": false,
+    "operations": {
+      "describe_services": {
+        "error_code": "SubscriptionRequiredException",
+        "http_status": 400
+      }
+    }
+  },
+  "bedrock_inquiry": {
+    "authorization": "APPROVED",
+    "status": "NOT_SUBMITTED",
+    "api_blocker": "SubscriptionRequiredException",
+    "browser_observation": "AWS Sign In page; available in-app browser had no pre-existing tabs",
+    "browser_authentication_required": true,
+    "login_attempted": false,
+    "case_created": false,
+    "next_step": "Human authenticates Support Center through existing non-root IAM Identity Center; agent then inspects the free quota/account channel and submits the approved inquiry if available."
+  },
+  "application_reserved_concurrency": 3,
+  "paid_support_plan_changed": false,
+  "runtime_iam_changed": false,
+  "cross_region_inference_enabled": false,
+  "application_deployment": "NOT_TESTED",
+  "aws_smoke": "NOT_TESTED",
+  "twenty_case_live_evaluation": "NOT_TESTED",
+  "previous_qualification_failures_preserved": true,
+  "private_identifiers_omitted": true
+}

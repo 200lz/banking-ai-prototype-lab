@@ -1,7 +1,9 @@
 # AWS sandbox validation
 
 Date: 2026-09-09. Region: **ap-northeast-1 (Tokyo)**.
-**AWS deployment and twenty-case live Bedrock evaluation: NOT TESTED.**
+**AWS application deployment: NOT TESTED / BLOCKED. AWS smoke and twenty-case
+live Bedrock evaluation: NOT TESTED. Lambda quota: PENDING. Nova Lite capacity
+inquiry: SUBMITTED / PENDING. Bedrock discovery and AWS bootstrap: PASS.**
 The single-case live qualification and diagnostic retry **FAILED**. Databricks
 workspace execution remains **NOT TESTED**.
 
@@ -10,6 +12,26 @@ standard Tokyo `CDKToolkit` stack reached `CREATE_COMPLETE`; all 11 resources an
 25 verification checks passed. [Execution, inventory and cleanup](cdk-bootstrap.md)
 and [machine-readable evidence](validation/cdk-bootstrap-2026-09-09.json) record
 this later milestone separately from the preserved preflight failures.
+
+The [13:52 UTC capacity reassessment and deployment review](deployment-capacity-review.md)
+reconfirmed Lambda concurrency 10 and zero Nova Lite runtime quotas. The actual
+Tokyo synth/diff passed using the existing unconnected Amplify configuration.
+Missing GitHub authorization is a hosted-frontend readiness issue, not a proven
+missing-secret failure in that default configuration; live shell creation remains
+unverified. The Lambda reservation still blocks the one-stack deployment. No
+quota request, Support interaction, model call or resource mutation occurred
+during that read-only reassessment.
+
+Following explicit approval, a new Lambda 1001 request with Support enabled
+reached **CASE_OPENED** at the 14:15 UTC check; applied concurrency remained 10.
+The separately approved Nova Lite inquiry was subsequently **SUBMITTED** through
+Basic Support after user-completed browser sign-in. The case was created at
+14:27:47 UTC and is **Unassigned**, stored as Account / Service Quotas, General.
+The earlier 14:14 UTC direct Support API check returned
+`SubscriptionRequiredException` (HTTP 400) under the existing plan; console
+submission did not require an upgrade. No paid
+plan was purchased, application model invoked or application deployed.
+[Authorized escalation evidence and next step](deployment-capacity-review.md#authorized-escalation-outcome)
 
 Authenticated preflight now supersedes the earlier missing-credentials blocker.
 The [historical preflight](validation/aws-preflight-2026-09-09.json) is preserved
@@ -29,9 +51,11 @@ excluded from published evidence.
 | Actual target CDK synthesis and diff | PASS: reviewed target configuration with regional Nova Lite pricing; these checks created no infrastructure |
 | `CDKToolkit` and application stack | Bootstrap CREATE_COMPLETE after approval; application stack still MISSING |
 | Bootstrap | PERFORMED / PASS: 11 resources, exact reviewed template, empty external-trust parameters, five verified role trust policies and 25 passing checks |
-| Application deployment and AWS smoke | NOT TESTED: no application stack was created |
+| Application deployment | NOT TESTED / BLOCKED: no application stack was created; Lambda reservation cannot be satisfied at the last applied quota |
+| AWS smoke | NOT TESTED: no deployed application workflow was exercised |
 | Lambda concurrency | Applied limit 10, unreserved 10; required application reservation remains three |
-| Lambda quota requests | 103 rejected because the API requires more than default 1000; 1001 request NOT_APPROVED, support-case creation disabled |
+| Lambda quota requests | PENDING: new authorized Support-enabled 1001 request CASE_OPENED; last applied quota 10. Historical 103 rejected; earlier no-Support 1001 NOT_APPROVED |
+| Nova Lite Support inquiry | SUBMITTED / PENDING through Basic Support General quota channel; Account / Service Quotas, General; Unassigned. Capacity remains unverified |
 | Bedrock quota checks | All 166 queried on-demand/daily entries returned zero; this is not a claim about every Bedrock quota type |
 | Amplify repository connection secret | MISSING; user connection remains required |
 | Single-case live qualification and diagnostic retry | FAIL: provider diagnostic `ModelThrottledException`; usage/cost reporting incomplete |
@@ -101,23 +125,27 @@ or twenty-case evaluation results are claimed.
 
 ## Remaining external actions
 
-1. Resolve Lambda applied concurrency and Bedrock on-demand capacity through
-   separately authorized operator/support actions. Keep reservation three and
-   the exact regional model IAM scope. No Support case has been created.
-2. Connect the repository to Tokyo Amplify using the required user-controlled
-   GitHub App/secret, and prepare an authorized Cognito demo session.
-3. Once prerequisites pass, follow the [deployment runbook](cloud-deployment.md),
+1. Await the existing Lambda quota and Nova Lite General quota inquiries. Both
+   are submitted and pending. No additional AWS account/resource/model actions
+   are part of this finalization or authorized while these dependencies remain
+   pending. Keep reservation three and the exact regional model IAM scope.
+2. In a later authorized milestone, connect the repository to Tokyo Amplify using
+   the required user-controlled GitHub App/secret, and prepare an authorized
+   Cognito demo session. The default unconnected template has no secret dependency;
+   working hosted SSR still requires a real connection and build.
+3. Once prerequisites and any new paid-resource authorization are satisfied,
+   follow the [deployment runbook](cloud-deployment.md),
    review the current diff, deploy, publish the synthetic corpus manifest last,
    and execute [AWS smoke checks](cloud-smoke.md), actual IAM inspection and
    Amplify build/site verification.
 4. Run one successful qualification, then three-case smoke, then the twenty-case
    suite. Preserve failures, real token usage and regional cost estimates.
 
-The previously verified GitHub Actions
-[run 34354616969](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34354616969)
-passed at commit `8e8c65f227cc9c876792ca835452d2a032d80fb2`, including all 22
-steps and artifact `evidence-and-infrastructure`. This is the tested source used
-for bootstrap. A new hosted run for this later documentation is verified separately.
+The verified GitHub Actions baseline
+[run 34357464386](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34357464386)
+passed at commit `4c3b1437b1f1caf41ef07b68811be8f8873bc02a`, including all 22
+steps and artifact `evidence-and-infrastructure`. Each later documentation commit
+requires its own completed hosted result; no AWS status is inferred from CI.
 
 ## Resource inventory and cleanup
 

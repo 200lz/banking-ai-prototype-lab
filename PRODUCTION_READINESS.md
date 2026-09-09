@@ -1,7 +1,10 @@
 # Production readiness
 
 **Status: functional local portfolio prototype; not approved for real financial
-operations.** No cloud deployment or live model qualification has been performed.
+operations.** AWS bootstrap passed; application deployment is NOT TESTED / BLOCKED.
+Previous live qualification attempts failed with provider throttling and the
+last regional quotas were zero. Lambda quota and Nova Lite capacity cases are
+pending; live evaluation and Databricks workspace execution remain NOT TESTED.
 
 | Area | Implemented and locally checked | Required before real use |
 | --- | --- | --- |
@@ -16,8 +19,8 @@ operations.** No cloud deployment or live model qualification has been performed
 | Resilience | Error abstention, concurrency bounds, timeouts, audit failure blocks output | Load/failure/chaos tests, dependency budgets, backups/restore drills, RTO/RPO |
 | Observability | OTel parent/step/tool spans, latency/tokens/cost, dedicated Lambda audit log mirror, bounded span flush and CloudWatch definition | Live exporter verification, actionable on-call alerts, dashboards/SLO ownership |
 | Audit | JSONL local; conditional DynamoDB events in cloud design | Tamper evidence, regulated retention, independent audit access, replay/reconciliation design |
-| Delivery | Locked dependencies, Docker/Compose, CI gates, synthesized CDK | Actual GitHub CI run, image build/scan/signing, staged deployment and rollback exercise |
-| Cost | Model estimate and incomplete-cost flag, optional AWS budget | Regional rate validation, measured usage envelope and recurring cost ownership |
+| Delivery | Locked dependencies, verified Docker/Compose and hosted CI, synthesized CDK and verified sandbox bootstrap | Image signing, staged application deployment and rollback exercise |
+| Cost | Model estimate and incomplete-cost flag, verified Tokyo model rates, optional AWS budget definition | Measured usage envelope and recurring cost ownership |
 
 Current container, hosted CI, cloud and data-platform verification is recorded in
 the [authoritative matrix](docs/verification-matrix.md). A local Docker or SDK

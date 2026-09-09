@@ -26,12 +26,12 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 ## Evidence supporting PASS
 
-- **Latest previously verified hosted run:** [34354616969](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34354616969)
-  passed all 22 steps at commit `8e8c65f227cc9c876792ca835452d2a032d80fb2`,
+- **Verified hosted baseline:** [34357464386](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34357464386)
+  passed all 22 steps at commit `4c3b1437b1f1caf41ef07b68811be8f8873bc02a`,
   including fresh Docker validation and artifact `evidence-and-infrastructure`.
-  The following original-run details remain historical evidence. This is the
-  source revision used for the subsequently approved bootstrap; the documentation
-  update's new hosted run is verified separately.
+  The following original-run details remain historical evidence. This baseline
+  includes the bootstrap documentation; each later documentation commit requires
+  its own hosted result. The README badge links to current main-branch execution.
 - **Actual CDK bootstrap: PASS / PERFORMED.** Explicit user approval cleared the
   prior administrator-role approval blocker. Tokyo `CDKToolkit` is CREATE_COMPLETE;
   all 11 resources and 25 control checks passed. The deployed template matches
@@ -82,11 +82,23 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 | Integration | Status | Evidence or blocker |
 | --- | --- | --- |
-| GitHub repository publication and hosted Actions | PASS | Latest previously verified run [34354616969](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34354616969), commit `8e8c65f227cc9c876792ca835452d2a032d80fb2`; all 22 steps and artifact preservation passed. Later documentation requires its own hosted result. |
+| GitHub repository publication and hosted Actions | PASS | Verified baseline [34357464386](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34357464386), commit `4c3b1437b1f1caf41ef07b68811be8f8873bc02a`; all 22 steps and artifact preservation passed. Later documentation requires its own hosted result. |
 | CDK sandbox bootstrap | PASS / PERFORMED | Approved standard stack CREATE_COMPLETE in Tokyo, 11 resources, 25 passing checks; no extra trusted accounts or application runtime IAM changes. Kept for planned sandbox deployment. |
-| AWS sandbox application deployment and smoke | NOT TESTED | Application stack absent. Last observed Lambda concurrency 10; quota request 1001 NOT_APPROVED. Amplify connection missing. Bootstrap completion does not establish application behavior. |
-| Live Bedrock twenty-case evaluation | NOT TESTED | Single-case qualification and diagnostic retry FAIL with `ModelThrottledException`; relevant Nova Lite quotas zero. Three-case and twenty-case phases did not run; token/cost reporting incomplete. |
+| Lambda quota request | PENDING | Approved request for 1001 submitted with Support enabled; provider CASE_OPENED. Last applied/unreserved limit 10; application reservation remains three. Prior no-Support NOT_APPROVED request is historical. |
+| AWS sandbox application deployment | NOT TESTED / BLOCKED | Application stack absent. Lambda reservation cannot be configured at last applied quota. Default unconnected Amplify has no missing-secret dependency; working SSR still needs GitHub connection. |
+| AWS smoke | NOT TESTED | No deployed application stack or authenticated cloud workflow was exercised. |
+| Bedrock discovery | PASS | Authenticated Tokyo discovery returned 62 models; selected Nova Lite access metadata AUTHORIZED/AVAILABLE. Metadata does not establish inference success. |
+| Bedrock qualification | FAIL (previous attempts) | Single-case qualification and diagnostic retry failed with ModelThrottledException; last relevant regional quotas zero. No further invocation after the zero-capacity finding; failed token/cost reporting incomplete. |
+| Nova Lite capacity inquiry | SUBMITTED / PENDING | Basic Support accepted the Tokyo inquiry; Unassigned, stored Account / Service Quotas, General, severity General question. No paid plan or capacity approval. |
+| Live Bedrock twenty-case evaluation | NOT TESTED | Three-case smoke and twenty-case phases did not run after failed qualification. |
 | Databricks workspace pipeline and Gold read | NOT TESTED | No configured workspace, unified authentication, SQL warehouse/catalog/schema or CLI. |
+
+The [support-capacity milestone record](validation/support-capacity-milestone-2026-09-09.json)
+consolidates these states and links the preserved submission evidence. Finalization
+is documentation, privacy checks and GitHub CI only: no further AWS account,
+resource, model or quota operations are authorized while both dependencies are
+pending. No application resources, paid Support plan, region change, runtime IAM
+change or reserved-concurrency change occurred in the support milestone.
 
 The verified Node.js 20 action-runtime warning is **NON-BLOCKING**: GitHub forced
 the pinned actions onto Node.js 24 and the job passed. Action pins were not
