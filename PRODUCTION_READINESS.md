@@ -4,7 +4,10 @@
 operations.** AWS bootstrap passed; application deployment is NOT TESTED / BLOCKED.
 Previous live qualification attempts failed with provider throttling and the
 last regional quotas were zero. Lambda quota and Nova Lite capacity cases are
-pending; live evaluation and Databricks workspace execution remain NOT TESTED.
+pending; live evaluation remains NOT TESTED. Databricks authentication and bundle
+deployment passed in Free Edition, but native execution is FAIL / BLOCKED by
+workspace-file read errors. Gold/application integration remains NOT TESTED;
+see [actual workspace evidence](docs/databricks-validation.md).
 
 | Area | Implemented and locally checked | Required before real use |
 | --- | --- | --- |

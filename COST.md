@@ -115,8 +115,9 @@ and therefore no missing-secret dependency. Its actual creation remains
 unverified; Git authorization and a successful build are still required for a
 functioning hosted frontend. Bootstrap does not resolve Lambda capacity or these
 hosting requirements. See the [capacity/dependency review](docs/deployment-capacity-review.md)
-and [cloud validation](docs/cloud-validation.md). AWS smoke, twenty-case live
-evaluation and Databricks workspace validation remain **NOT TESTED**. The table
+and [cloud validation](docs/cloud-validation.md). AWS smoke and twenty-case live
+evaluation remain **NOT TESTED**. Databricks deployment passed, but its native
+pipeline is **FAIL / BLOCKED** and Gold integration remains **NOT TESTED**. The table
 below describes potential application costs, not deployed application resources
 or measured charges.
 
@@ -156,8 +157,16 @@ Retained storage and Amplify builds may continue costing money after demo use.
 
 Local Bronze/Silver/Gold computation uses synthetic files and ordinary Python;
 it consumes no Databricks compute and is not a Databricks performance benchmark.
-No workspace bill, job duration or SQL warehouse latency has been measured in
-this environment. Choose warehouse size, serverless availability, auto-stop and
-regional rates with the workspace owner before a live run. The model-cost field
-excludes Databricks charges; combining it with a SQL query does not make the query
-free. A successful workspace validation must report those measurements separately.
+On 2026-09-10 JST, two real job runs in user-confirmed Free Edition failed on
+workspace file reads after 71.903 and 104.309 seconds. Those measured durations
+are failed-run wall times, not successful pipeline latency or billable DBUs.
+Free Edition is a [no-cost offering](https://docs.databricks.com/aws/en/getting-started/free-edition-limitations),
+so no charge is expected; an actual metered dollar amount was not exposed or
+measured. No paid trial, payment method, paid resource or edition change occurred.
+The existing 2X-Small serverless SQL warehouse remained STOPPED; no SQL query or
+warehouse latency was measured. The unscheduled job and bundle files are retained;
+see [evidence and cleanup](docs/databricks-validation.md).
+
+Any future paid environment needs a separate cost review and approval. The
+model-cost field excludes Databricks charges; successful future validation must
+report job and query measurements separately. AWS remains frozen.

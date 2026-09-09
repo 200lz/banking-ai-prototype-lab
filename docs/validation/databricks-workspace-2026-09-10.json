@@ -1,0 +1,182 @@
+{
+  "recorded_at": "2026-09-09T15:24:42.424044+00:00",
+  "milestone_date_jst": "2026-09-10",
+  "source_commit": "ff03313f33cb060491b6f50a91140d0e403c4a95",
+  "workspace_validation": "FAIL / BLOCKED",
+  "workspace_edition": "Free Edition",
+  "edition_evidence": "Explicit user confirmation",
+  "databricks_cli": {
+    "version": "1.16.0",
+    "source": "https://github.com/databricks/cli/releases/tag/v1.16.0",
+    "windows_amd64_archive_sha256": "dd0de7a0d8fd70448c887e3d5ca2091a3ce8da1a402158b3a0ded6f616392d85"
+  },
+  "sdk_version": "0.136.0",
+  "authentication": {
+    "status": "PASS",
+    "method": "OAuth U2M / databricks-cli profile",
+    "active_user_verified": true,
+    "user_matches_supplied_login_hint": true,
+    "host_matches_supplied_workspace": true,
+    "credentials_committed": false
+  },
+  "bundle_validation": "PASS",
+  "bundle_deployment": "PASS",
+  "deployed_resources": {
+    "job_count": 1,
+    "task_count": 1,
+    "schedule": null,
+    "compute": "serverless",
+    "environment_version": "2",
+    "dependencies": [
+      "pydantic==2.13.5"
+    ],
+    "max_concurrent_runs": 1,
+    "timeout_seconds": 900,
+    "bundle_files": "Synthetic financial module, fixtures and publisher under personal dev bundle path",
+    "catalog": "existing managed catalog",
+    "schema": "banking_ai_synthetic",
+    "new_catalogs": 0,
+    "new_sql_warehouses": 0,
+    "classic_clusters": 0,
+    "paid_resources": 0
+  },
+  "existing_warehouse": {
+    "size": "2X-Small",
+    "serverless": true,
+    "auto_stop_minutes": 10,
+    "final_state": "STOPPED"
+  },
+  "runs": [
+    {
+      "label": "initial",
+      "private_run_reference_sha256": "d2e472a62ab4ca84a8196a4a6f44d3f19f9cb445b0d397bf0fb099c4c9141d02",
+      "status": "FAILED",
+      "provider_lifecycle_state": "INTERNAL_ERROR",
+      "started_at": "2026-09-09T15:17:23.869000+00:00",
+      "ended_at": "2026-09-09T15:18:35.772000+00:00",
+      "runtime_ms": 71903,
+      "task_attempts": [
+        {
+          "attempt": 1,
+          "status": "FAILED",
+          "setup_ms": 5000,
+          "execution_ms": 29000,
+          "error_class": "OSError",
+          "errno": 5,
+          "message": "Input/output error",
+          "bundle_relative_file": "packages/financial/models.py"
+        },
+        {
+          "attempt": 2,
+          "status": "FAILED",
+          "setup_ms": 4000,
+          "execution_ms": 29000,
+          "error_class": "OSError",
+          "errno": 5,
+          "message": "Input/output error",
+          "bundle_relative_file": "databricks/run_pipeline.py"
+        }
+      ]
+    },
+    {
+      "label": "bounded_retry",
+      "private_run_reference_sha256": "78fceebe7060b08ebfe936fe9e7413fc6ca9c9f1485455d9530759e369a2fc9b",
+      "status": "FAILED",
+      "provider_lifecycle_state": "INTERNAL_ERROR",
+      "started_at": "2026-09-09T15:20:38.489000+00:00",
+      "ended_at": "2026-09-09T15:22:22.798000+00:00",
+      "runtime_ms": 104309,
+      "task_attempts": [
+        {
+          "attempt": 1,
+          "status": "FAILED",
+          "setup_ms": 35000,
+          "execution_ms": 28000,
+          "error_class": "OSError",
+          "errno": 5,
+          "message": "Input/output error",
+          "bundle_relative_file": "packages/financial/pipeline.py"
+        },
+        {
+          "attempt": 2,
+          "status": "FAILED",
+          "setup_ms": 5000,
+          "execution_ms": 30000,
+          "error_class": "OSError",
+          "errno": 5,
+          "message": "Input/output error",
+          "bundle_relative_file": "databricks/run_pipeline.py"
+        }
+      ]
+    }
+  ],
+  "diagnostics": {
+    "python_objects_type": "FILE",
+    "models_export_matches_local_bytes": true,
+    "target_schema_exists_after_runs": false,
+    "failure_before_raw_read_and_schema_creation": true,
+    "unsupported_free_edition_capability_confirmed": false,
+    "root_cause": "Unresolved workspace filesystem read failure; no edition restriction established",
+    "additional_job_retries_after_bounded_retry": 0
+  },
+  "expected_fixture_only": {
+    "raw_rows": 20,
+    "bronze_rows": 20,
+    "silver_rows": 18,
+    "rejected_rows": 1,
+    "collapsed_duplicates": 1,
+    "gold_profiles": 3,
+    "dataset_sha256": "3514bdb316c518976a13b06d5820885db73f76bb0b250c3e20c9b516c41fbe2a"
+  },
+  "real_output": {
+    "raw_ingestion": "NOT TESTED",
+    "bronze_rows": null,
+    "silver_rows": null,
+    "rejected_rows": null,
+    "gold_profiles": null,
+    "gold_query": "NOT TESTED",
+    "financial_profile_tool_real_adapter": "NOT TESTED",
+    "end_to_end_sme_review": "NOT TESTED",
+    "missing_stale_invalid_live_cases": "NOT TESTED",
+    "sql_statement_calls": 0
+  },
+  "local_regression": {
+    "financial_unit_api_tests": 53,
+    "complete_python_api_infrastructure_tests": 294,
+    "status": "PASS",
+    "warning": "Non-failing Starlette/AnyIO deprecation",
+    "frontend_tests": 26,
+    "deterministic_evaluation_cases": 61,
+    "evaluation_all_gates_passed": true,
+    "ruff_format_and_lint": "PASS",
+    "mypy_source_modules": 40,
+    "frontend_lint_typecheck_format": "PASS"
+  },
+  "cost": {
+    "compute_used": "Free Edition serverless job attempts",
+    "charge_expected": false,
+    "basis": "Confirmed no-cost Free Edition; no billing or edition changes",
+    "actual_metered_cost_usd": null,
+    "actual_metered_cost_status": "NOT EXPOSED / NOT MEASURED",
+    "llm_calls": 0
+  },
+  "security": {
+    "aws_actions": 0,
+    "bedrock_invocations": 0,
+    "paid_trial_started": false,
+    "payment_method_added": false,
+    "edition_changed": false,
+    "separate_gold_only_application_identity_verified": false,
+    "private_identifiers": "Actual job/run/task IDs, host, principal and raw responses retained only in ignored local evidence"
+  },
+  "aws_status_unchanged": {
+    "bootstrap": "PASS",
+    "lambda_quota": "PENDING",
+    "application_deployment": "NOT TESTED / BLOCKED",
+    "smoke": "NOT TESTED",
+    "bedrock_discovery": "PASS",
+    "previous_bedrock_qualification": "FAIL: zero-capacity/provider throttling",
+    "nova_lite_inquiry": "SUBMITTED / PENDING",
+    "live_bedrock_evaluation": "NOT TESTED"
+  }
+}

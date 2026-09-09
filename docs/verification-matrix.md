@@ -1,6 +1,6 @@
 # Authoritative verification matrix
 
-Recorded 2026-09-09. PASS means the stated scope was actually executed. SDK mocks,
+Updated 2026-09-10 JST; AWS observations remain dated 2026-09-09. PASS means the stated scope was actually executed. SDK mocks,
 offline synthesis, container images and local file adapters never establish a real
 cloud/data-platform integration. NOT APPLICABLE means the column does not apply to
 that capability; NOT TESTED means an applicable integration was not executed.
@@ -13,8 +13,10 @@ that capability; NOT TESTED means an applicable integration was not executed.
 | Retrieved-document injection quarantine | PASS | PASS | NOT TESTED | NOT TESTED | NOT APPLICABLE |
 | Content-free stage/tool telemetry | PASS | PASS | NOT TESTED | NOT TESTED | NOT TESTED |
 | Published SME Gold profile → policy-backed review | PASS | PASS | NOT TESTED | NOT TESTED | NOT TESTED |
-| RAW → Bronze → Silver → Gold computation | PASS | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | NOT TESTED |
+| RAW → Bronze → Silver → Gold computation | PASS | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | FAIL / BLOCKED |
 | Databricks fixed-SQL adapter contract/failure handling | PASS | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | NOT TESTED |
+| Databricks expected-user authentication and dev bundle validation | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | PASS |
+| Databricks unscheduled native job deployment | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | PASS |
 | Production web build and API routing | PASS | PASS | NOT TESTED | NOT APPLICABLE | NOT APPLICABLE |
 | Stack health, restart, audit persistence and clean shutdown | NOT APPLICABLE | PASS | NOT TESTED | NOT APPLICABLE | NOT APPLICABLE |
 | Lambda handler import and direct workflow smoke | NOT APPLICABLE | PASS | NOT TESTED | NOT APPLICABLE | NOT APPLICABLE |
@@ -26,12 +28,17 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 ## Evidence supporting PASS
 
-- **Verified hosted baseline:** [34357464386](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34357464386)
-  passed all 22 steps at commit `4c3b1437b1f1caf41ef07b68811be8f8873bc02a`,
-  including fresh Docker validation and artifact `evidence-and-infrastructure`.
-  The following original-run details remain historical evidence. This baseline
-  includes the bootstrap documentation; each later documentation commit requires
-  its own hosted result. The README badge links to current main-branch execution.
+- **Verified prior hosted baseline:** [34365266090](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34365266090)
+  passed at commit `ff03313f33cb060491b6f50a91140d0e403c4a95`. The following
+  original-run details remain historical evidence. The Databricks documentation
+  update requires its own completed hosted result; the README badge links to
+  current main-branch execution.
+- **Databricks preflight and deployment (2026-09-10 JST): PASS.** User-confirmed
+  Free Edition; checksum-verified CLI 1.16.0 authenticated the expected active user
+  through OAuth U2M. The SDK remains pinned to 0.136.0 and was not used live.
+  Unchanged dev bundle validation and one unscheduled serverless job deployment
+  passed; existing catalog selected and 2X-Small warehouse left STOPPED. This establishes neither
+  successful data processing nor Gold access. See [workspace evidence](validation/databricks-workspace-2026-09-10.json).
 - **Actual CDK bootstrap: PASS / PERFORMED.** Explicit user approval cleared the
   prior administrator-role approval blocker. Tokyo `CDKToolkit` is CREATE_COMPLETE;
   all 11 resources and 25 control checks passed. The deployed template matches
@@ -82,7 +89,7 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 | Integration | Status | Evidence or blocker |
 | --- | --- | --- |
-| GitHub repository publication and hosted Actions | PASS | Verified baseline [34357464386](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34357464386), commit `4c3b1437b1f1caf41ef07b68811be8f8873bc02a`; all 22 steps and artifact preservation passed. Later documentation requires its own hosted result. |
+| GitHub repository publication and hosted Actions | PASS | Verified baseline [34365266090](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34365266090), commit `ff03313f33cb060491b6f50a91140d0e403c4a95`; later documentation requires its own completed hosted result. |
 | CDK sandbox bootstrap | PASS / PERFORMED | Approved standard stack CREATE_COMPLETE in Tokyo, 11 resources, 25 passing checks; no extra trusted accounts or application runtime IAM changes. Kept for planned sandbox deployment. |
 | Lambda quota request | PENDING | Approved request for 1001 submitted with Support enabled; provider CASE_OPENED. Last applied/unreserved limit 10; application reservation remains three. Prior no-Support NOT_APPROVED request is historical. |
 | AWS sandbox application deployment | NOT TESTED / BLOCKED | Application stack absent. Lambda reservation cannot be configured at last applied quota. Default unconnected Amplify has no missing-secret dependency; working SSR still needs GitHub connection. |
@@ -91,7 +98,9 @@ that capability; NOT TESTED means an applicable integration was not executed.
 | Bedrock qualification | FAIL (previous attempts) | Single-case qualification and diagnostic retry failed with ModelThrottledException; last relevant regional quotas zero. No further invocation after the zero-capacity finding; failed token/cost reporting incomplete. |
 | Nova Lite capacity inquiry | SUBMITTED / PENDING | Basic Support accepted the Tokyo inquiry; Unassigned, stored Account / Service Quotas, General, severity General question. No paid plan or capacity approval. |
 | Live Bedrock twenty-case evaluation | NOT TESTED | Three-case smoke and twenty-case phases did not run after failed qualification. |
-| Databricks workspace pipeline and Gold read | NOT TESTED | No configured workspace, unified authentication, SQL warehouse/catalog/schema or CLI. |
+| Databricks authentication, bundle validation and deployment | PASS | Expected-user OAuth U2M and unchanged dev bundle; one unscheduled serverless job in user-confirmed Free Edition. |
+| Databricks native pipeline | FAIL / BLOCKED | Two submitted runs, each with two automatic task attempts, failed with OSError Errno 5 reading workspace Python files before RAW/schema writes. Durations 71.903 s and 104.309 s; root cause unresolved. |
+| Databricks Gold read, real adapter and end-to-end scenarios | NOT TESTED | Final schema absent, existing warehouse STOPPED; no SQL calls. Live missing/stale/invalid-data, refusal, telemetry and permission/outage checks remain unverified. |
 
 The [support-capacity milestone record](validation/support-capacity-milestone-2026-09-09.json)
 consolidates these states and links the preserved submission evidence. Finalization
@@ -99,6 +108,17 @@ is documentation, privacy checks and GitHub CI only: no further AWS account,
 resource, model or quota operations are authorized while both dependencies are
 pending. No application resources, paid Support plan, region change, runtime IAM
 change or reserved-concurrency change occurred in the support milestone.
+
+The [Databricks record](validation/databricks-workspace-2026-09-10.json) preserves
+both failed runs separately. FILE metadata and a matching models-file export do
+not identify the read-error cause or establish an unsupported Free Edition
+feature. No AWS, LLM or SQL call, trial/payment, edition change or new paid
+resource occurred during this workspace milestone. The 53 local financial and
+294 complete Python/API/infrastructure regressions passed; they do not promote
+workspace checks. All 61 deterministic evaluation cases, Ruff format/lint and
+mypy across 40 modules passed; that evaluation does not measure financial-profile
+or live-model scenarios. Further Databricks actions are stopped. A separate
+production Gold-only identity and its effective permissions remain unverified.
 
 The verified Node.js 20 action-runtime warning is **NON-BLOCKING**: GitHub forced
 the pinned actions onto Node.js 24 and the job passed. Action pins were not

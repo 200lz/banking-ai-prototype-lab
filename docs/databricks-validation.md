@@ -1,16 +1,82 @@
 # Databricks integration validation
 
-Recorded 2026-09-09. **Local adapter and contract tests: PASS. Real Databricks
-workspace execution: NOT TESTED.** All financial entities and records are synthetic.
+Updated 2026-09-10 JST. **Authentication, bundle validation and deployment: PASS.
+Real pipeline: FAIL / BLOCKED. Gold query, real application adapter and end-to-end
+workspace integration: NOT TESTED.** All financial entities and records are synthetic.
 
-Environment preflight found no Databricks CLI installation, no `DATABRICKS_*`
-environment configuration and no `~/.databrickscfg` profile. No authenticated
-workspace is available. No real job/run identifier, Delta table creation,
-Statement Execution API call, workspace Gold query or cloud end-to-end scenario
-has been verified. The Databricks SDK is installed and pinned to 0.136.0 in the
-runtime and development locks; package presence is not an integration result.
+## Actual Free Edition workspace attempt
 
-## Executed evidence
+Acceptance criteria were recorded before execution: use the existing dev bundle
+and synthetic data; verify exact layer counts, indicators and provenance; require
+real Gold reads and governed SME review; preserve safe missing/stale/invalid and
+failure behavior; make no AWS, billing, trial or edition changes. Workspace PASS
+requires every real integration gate below, not merely deployment.
+
+The user confirmed **Free Edition**. Installed the official standalone Databricks
+CLI **1.16.0** from its checksum-verified Windows release, then authenticated using
+OAuth U2M. `current-user me` verified the active expected user and `auth describe`
+verified the supplied workspace mapping. Credentials remain outside the repository.
+The existing SDK remains pinned to **0.136.0**. The earlier missing-CLI/profile
+preflight is historical; authentication is now proven.
+
+| Real check | Actual result |
+| --- | --- |
+| Workspace discovery | PASS: Unity Catalog, an existing managed catalog and one stopped serverless 2X-Small SQL warehouse. No target schema or matching project job existed before deployment. |
+| `bundle validate -t dev` | PASS without bundle or product changes. Two non-failing exclusions matched no files. |
+| `bundle deploy -t dev` | PASS: one unscheduled serverless job, one task, environment version 2, `pydantic==2.13.5`, one concurrent run and 900-second timeout; bundle source/data files uploaded. No catalog, warehouse or classic cluster created. |
+| Initial pipeline run | FAIL: 71.903 seconds, including two automatic task attempts. Workspace file reads failed on the financial models module and then the entry script. |
+| One bounded retry of the unchanged job | FAIL: 104.309 seconds, including two automatic task attempts. Reads failed on the pipeline module and then the entry script. No further run submitted. |
+| Read-only diagnosis | Uploaded objects are regular `FILE` objects; exported `models.py` exactly matches the local bytes. All errors occurred before RAW loading and schema/table writes. |
+| Final resource state | Target schema absent; SQL warehouse still STOPPED. Both job runs terminal. One unscheduled job and its bundle files retained. |
+| Actual Bronze/Silver/Gold counts | NOT TESTED; no output tables were produced. Expected fixture counts below are not live results. |
+| Gold query / real SDK adapter / SME review | NOT TESTED; no SQL statement was submitted after the publisher failed. |
+
+The exact blocker is **`OSError: [Errno 5] Input/output error` while reading
+workspace Python files**. The root cause remains unresolved. This error does not
+establish that the required capability is unsupported by Free Edition: official
+[workspace-file documentation](https://docs.databricks.com/aws/en/files/workspace)
+supports Python modules, and [serverless documentation](https://docs.databricks.com/aws/en/compute/serverless/limitations)
+recommends workspace files. No compute, networking, permission or edition workaround
+was attempted. If a required capability is confirmed unsupported, stop and report
+it; do not upgrade automatically.
+
+[Sanitized machine-readable evidence](validation/databricks-workspace-2026-09-10.json)
+records UTC start/end times, durations, attempt errors and public run-reference
+hashes. Actual job/run/task IDs, workspace host, principal, user-specific paths and
+raw provider responses are retained only in ignored local evidence. No credentials
+or provider identifiers are published.
+
+Free Edition is a [no-cost offering with fair-use limits and no SLA](https://docs.databricks.com/aws/en/getting-started/free-edition-limitations).
+No charge is expected for this confirmed Free Edition execution; an actual metered
+dollar amount was not exposed or measured. The two job runtimes total 176.212
+seconds, which is not a DBU or billing measurement. No LLM was invoked. No trial,
+payment method, paid resource or edition change occurred. AWS remains frozen.
+This test used the developer identity; a separate application identity restricted
+to Gold-only access has **not** been verified. Free Edition results do not establish
+production security, reliability or capacity.
+
+## Retained resources and cleanup
+
+The retained dev job has no schedule and both runs have ended. Its uploaded files
+contain only the existing publisher, financial package and synthetic fixtures.
+The existing catalog and warehouse were not created by this milestone. The
+proposed `banking_ai_synthetic` schema does not exist, so there are no project
+tables to drop.
+
+To remove this milestone's bundle-managed resources, first confirm the same
+workspace/profile and exact dev bundle, then run from `databricks/`:
+
+```sh
+databricks bundle summary -t dev --var catalog=workspace -p banking-ai-dev
+databricks bundle destroy -t dev --var catalog=workspace -p banking-ai-dev
+```
+
+Review the destroy plan and verify removal. Inspect any remaining personal bundle
+files before deleting only that deployment directory. Preserve private run evidence
+first. Do not delete the pre-existing catalog/warehouse, use a recursive schema
+drop, or change billing. Cleanup has not been executed.
+
+## Historical local evidence (2026-09-09)
 
 | Check | Actual result |
 | --- | --- |
@@ -56,11 +122,12 @@ To reproduce the complete fixture itself, run
 financial source/Gold artifacts. A regression compares committed Gold exactly
 against a rebuild of the committed raw file.
 
-## Remaining external setup and real verification
+## Remaining real verification after the runtime blocker is resolved
 
-1. Obtain an AWS Databricks development workspace with Unity Catalog, a catalog
-   authorized for this synthetic exercise, serverless job capability, and a SQL
-   warehouse. Install a supported Databricks CLI. Authenticate the deployment user
+1. Resolve the workspace-file read failure in the existing Free Edition workspace.
+   Authentication, CLI installation and bundle deployment are already verified.
+   Preserve the failed evidence and check the same workspace/profile before a
+   subsequent bounded run. If OAuth expires, authenticate the deployment user
    with `databricks auth login --host <workspace-url>`; keep profiles and tokens
    outside this repository. See the official
    [OAuth login instructions](https://docs.databricks.com/aws/en/dev-tools/auth/oauth-u2m).
@@ -80,7 +147,8 @@ against a rebuild of the committed raw file.
    Record the real run status and an appropriately sanitized run reference.
    Inspect all four tables: expected fixture counts are Bronze 20, Silver 18,
    rejected 1 and Gold 3. Check the exact raw dataset hash and profile hash against
-   the committed local snapshot. This step has not been executed here.
+   the committed local snapshot. The two actual runs above failed before this
+   output-verification step; successful native publication remains unverified.
 4. Configure the application process with `FINANCIAL_BACKEND=databricks`,
    `DATABRICKS_HOST`, `DATABRICKS_WAREHOUSE_ID`, `DATABRICKS_CATALOG` and
    `DATABRICKS_SCHEMA`. The adapter accepts AWS workspace HTTPS hosts and scoped
@@ -91,6 +159,11 @@ against a rebuild of the committed raw file.
    provider; use workload federation where the actual deployment supports it.
    No credential value belongs in a command example, `.env` commit, log or report.
    The current CDK stack does not provision these credentials or workspace grants.
+   For this AWS-frozen milestone, explicitly use `AGENT_MODE=local`,
+   `RETRIEVAL_BACKEND=local`, `API_AUTH_MODE=local`, a local audit path, and unset
+   `AUDIT_TABLE` and remote `OTEL_EXPORTER_OTLP_ENDPOINT` before running the helper
+   or application. Use the authenticated `DATABRICKS_CONFIG_PROFILE`; no Bedrock
+   or DynamoDB action is authorized.
 5. From the repository root, perform an actual governed Gold read and local
    controller end-to-end check:
 

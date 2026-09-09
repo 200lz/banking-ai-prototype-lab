@@ -5,8 +5,10 @@ indicators. The application reads a governed Gold profile through a strict tool;
 it does not give the LLM SQL, raw financial rows, credentials, or lending authority.
 Every company and financial record is fictional. No real bank is represented.
 
-The local pipeline and adapters are verified. Real workspace execution is
-**NOT TESTED**; see [validation evidence](databricks-validation.md).
+The local pipeline and adapter contracts are verified. Real authentication and
+bundle deployment passed in Free Edition; native execution is **FAIL / BLOCKED**
+by workspace-file reads. Gold integration remains **NOT TESTED**; see
+[validation evidence](databricks-validation.md).
 
 ```mermaid
 flowchart LR
@@ -156,4 +158,6 @@ planning and SQL request can exceed it even though individual model/SQL calls ar
 bounded. End-to-end deadline propagation, timeout/audit recovery and cold-warehouse
 latency are unverified production gaps. A process hard timeout cannot guarantee a
 final audit record. Databricks compute and warehouse charges are additional to
-Bedrock/AWS costs; no live Databricks cost or latency measurement exists.
+Bedrock/AWS costs in paid deployments. Two failed Free Edition job wall times are
+recorded in [validation evidence](databricks-validation.md); successful pipeline/
+query latency and an actual metered cost remain unmeasured.

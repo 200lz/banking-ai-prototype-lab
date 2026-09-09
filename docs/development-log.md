@@ -1,5 +1,57 @@
 # Development log
 
+## Real Databricks workspace attempt (2026-09-10 JST)
+
+- Acceptance criteria: verify the expected active workspace user and Free Edition
+  before execution; validate and deploy the existing dev bundle; require an actual
+  successful native job, expected table counts/hashes, real Gold adapter read and
+  governed end-to-end scenario before claiming workspace integration PASS. Keep
+  AWS frozen, make no LLM calls and preserve private identifiers outside public
+  evidence. No product feature or bundle code change was part of this milestone.
+- The user confirmed Free Edition. Installed official CLI 1.16.0 with checksum
+  verification. CLI OAuth U2M authenticated the expected active user; the SDK
+  remains pinned to 0.136.0 and was not used live. Dev bundle validation and
+  deployment passed. Deployment created one unscheduled
+  serverless job with environment version 2, `pydantic==2.13.5`, timeout 900 seconds
+  and maximum concurrency one. Selected the existing catalog; the existing
+  2X-Small warehouse was discovered and left STOPPED. No edition change,
+  trial/payment or new paid resources occurred.
+- The initial run and one bounded manual retry used the unchanged bundle. Each
+  submitted run performed two automatic task attempts and failed with
+  `OSError: [Errno 5]` while reading workspace Python files before raw-data
+  processing or schema writes. Actual run durations were 71.903 and 104.309 seconds.
+  Workspace metadata reported FILE and an exported models file matched local
+  source exactly. The root cause remains unresolved; an unsupported Free Edition
+  feature was not established. No further runs were submitted after the bounded
+  retry.
+- Final schema was absent and the existing warehouse was STOPPED. Native pipeline
+  status is FAIL / BLOCKED. Gold queries, the real adapter, end-to-end workflow and
+  live missing/stale/invalid-data, refusal, telemetry and permission/outage checks
+  remain NOT TESTED. A separate production Gold-only identity and effective access
+  isolation remain unverified. No SQL, AWS or LLM call was made.
+- Local financial regression passed 53 tests; the complete local Python/API/
+  infrastructure suite passed 294 tests. All 61 deterministic cases passed their
+  gates; Ruff format/lint and mypy across 40 modules passed. Frontend verification
+  passed 26 tests plus formatting, lint and types. These validate existing local
+  behavior, not successful workspace execution or financial/live evaluation.
+  [Sanitized workspace evidence](validation/databricks-workspace-2026-09-10.json)
+  and [validation details](databricks-validation.md) preserve the actual failures;
+  private workspace/user/job/run identifiers remain only in ignored local files.
+- Updated README, REPORT and the verification matrix with these separate states.
+  AWS/Bedrock authoritative statuses and prior evidence remain unchanged. Hosted
+  baseline [34365266090](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34365266090)
+  passed at `ff03313f33cb060491b6f50a91140d0e403c4a95`; the new documentation
+  commit requires its own completed hosted result. The Node action-runtime
+  deprecation remains non-blocking and unchanged.
+- Final pre-publication documentation checks passed: Markdown parsing, 100 local
+  links/anchors, UTF-8/LF, JSON parsing, scoped private-identifier exclusion and
+  whitespace. Normalized the new evidence JSON to LF after the first check found
+  Windows line endings. Source secret scanning passed for 181 candidate paths;
+  complete pre-publication history scanning passed across six commits. Cost,
+  readiness and Databricks architecture notes also distinguish failed-job wall
+  time from unmeasured successful execution and metered cost. These are local
+  checks, not hosted CI.
+
 ## Support-capacity milestone finalization (2026-09-09)
 
 - Acceptance criteria: review all pending documentation/evidence changes; remove

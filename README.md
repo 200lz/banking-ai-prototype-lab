@@ -43,8 +43,9 @@ as-of dates. Failures abstain and surface missing evidence or required review.
 
 **Local application, Docker, GitHub Actions, AWS bootstrap and Bedrock discovery:
 PASS. AWS application deployment: NOT TESTED / BLOCKED. AWS smoke, live Bedrock
-evaluation and Databricks workspace: NOT TESTED.** Hosted CI runs without cloud
-credentials and does not establish those external integrations.
+evaluation and Databricks Gold integration: NOT TESTED. Databricks authentication,
+bundle validation and deployment: PASS; native pipeline: FAIL / BLOCKED.** Hosted
+CI runs without cloud credentials and does not establish those integrations.
 
 On 2026-09-09, real non-root sandbox identity, Tokyo model discovery, model access
 checks and a target-environment CDK diff passed. The explicitly approved Tokyo
@@ -75,15 +76,11 @@ the default unconnected template has no missing-secret dependency. The three-cas
 smoke and twenty-case live suite were not run. [Capacity/support evidence](docs/deployment-capacity-review.md)
 and [cloud validation](docs/cloud-validation.md) preserve the exact boundaries.
 
-Verified hosted baseline with `gh`: [hosted run 34357464386](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34357464386),
-commit `4c3b1437b1f1caf41ef07b68811be8f8873bc02a`, job `quality` on GitHub-hosted
-Linux (`ubuntu-latest`). All 22 recorded steps passed: dependency installation,
-formatting/lint, types, Python/API/infrastructure and frontend tests, evaluation
-smoke/full gates, security audits, Next.js build, credential-free CDK synthesis,
-source/history secret scans, fresh Docker builds, health/scenario/telemetry/restart
-checks, cleanup and preservation of artifact `evidence-and-infrastructure`.
-This evidence applies to the named commit. Each subsequent documentation commit
-requires its own completed run; the badge links to the current `main` workflow state.
+Verified prior hosted baseline: [run 34365266090](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34365266090)
+passed at commit `ff03313f33cb060491b6f50a91140d0e403c4a95`. The workflow covers
+formatting, types, tests, evaluation, security, web/CDK builds and Docker checks.
+This result applies to the named commit; the Databricks documentation update
+requires its own completed run. The badge links to the current `main` workflow state.
 
 The Node.js 20 action-runtime deprecation annotation is **NON-BLOCKING**. GitHub
 forced the pinned actions onto Node.js 24; updating those action pins remains a
@@ -158,10 +155,19 @@ values. Missing, invalid, conflicting and stale data are visible and require rev
 
 The local adapter works without credentials. A separate Databricks SDK adapter
 uses fixed parameterized SQL, bounded inline results and strict provenance/schema
-checks. A version-controlled native bundle publishes Delta tables when executed
-in a configured workspace. Local contracts do not prove a workspace run. See
-[architecture](docs/databricks-architecture.md) and
-[validation/setup](docs/databricks-validation.md).
+checks. The native bundle is intended to publish Delta tables in a configured
+workspace. On 2026-09-10 JST, authentication, bundle validation and deployment
+passed in a user-confirmed Free Edition workspace. Both submitted pipeline runs
+failed with `OSError: [Errno 5]` while reading workspace Python files, before raw
+data processing or schema writes. The root cause is unresolved; no unsupported
+Free Edition feature has been established. The final schema was absent and the
+existing warehouse was STOPPED.
+
+Gold reads, the real adapter and end-to-end workspace scenarios remain NOT TESTED.
+No AWS, LLM or SQL calls, trial/payment or paid-resource changes occurred during
+this milestone. See [actual workspace evidence](docs/validation/databricks-workspace-2026-09-10.json),
+[validation and remaining checks](docs/databricks-validation.md), and
+[architecture](docs/databricks-architecture.md).
 
 ## Local quick start
 
