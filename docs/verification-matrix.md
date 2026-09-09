@@ -20,9 +20,21 @@ that capability; NOT TESTED means an applicable integration was not executed.
 | Lambda handler import and direct workflow smoke | NOT APPLICABLE | PASS | NOT TESTED | NOT APPLICABLE | NOT APPLICABLE |
 | CDK synthesis and infrastructure security assertions | PASS | NOT APPLICABLE | NOT TESTED | NOT APPLICABLE | NOT APPLICABLE |
 | 61-case deterministic regression | PASS | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE |
+| Single-case live-model qualification and retry | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | FAIL | NOT APPLICABLE |
 | Twenty-case live-model qualification | NOT APPLICABLE | NOT APPLICABLE | NOT TESTED | NOT TESTED | NOT APPLICABLE |
 
 ## Evidence supporting PASS
+
+- **Latest previously verified hosted run:** [34346854721](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34346854721)
+  passed at commit `6f24ef61fcf5dcbb7d3906fc38aa3c124b436b19`. The following original-run details remain historical
+  evidence. A hosted run covering the subsequent AWS evidence and harness change
+  has not yet been recorded here.
+- **Current local AWS-harness correction:** 294 Python/API/infrastructure tests,
+  26 frontend tests, formatting/lint/types and security checks passed; a focused
+  70-test harness regression also passed. See [local regression evidence](validation/aws-local-regressions-2026-09-09.json).
+- **Authenticated Tokyo preflight:** authorized non-root identity, 62-entry model
+  discovery, actual target synthesis and diff passed. This establishes preflight
+  only. See [sanitized Tokyo evidence](validation/aws-tokyo-preflight-2026-09-09.json).
 
 - **GitHub Actions: PASS.** Independently queried with `gh`: workflow
   `Quality and safety regression`, [run 34344534926](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34344534926),
@@ -62,9 +74,9 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 | Integration | Status | Evidence or blocker |
 | --- | --- | --- |
-| GitHub repository publication and hosted Actions | PASS | Public repository; hosted Linux run [34344534926](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34344534926), job `quality`, artifact `evidence-and-infrastructure`; exact commit and gates above. |
-| AWS sandbox | NOT TESTED | STS cannot locate credentials; no profile, region or sandbox identity. |
-| Live Bedrock | NOT TESTED | No AWS identity/model access; staged harness is ready but no live run exists. |
+| GitHub repository publication and hosted Actions | PASS | Latest previously verified run [34346854721](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34346854721), commit `6f24ef61fcf5dcbb7d3906fc38aa3c124b436b19`; earlier detailed hosted evidence above. Subsequent changes await a new hosted result. |
+| AWS sandbox deployment and smoke | NOT TESTED | Tokyo identity/discovery/target synth/diff PASS. Bootstrap was not executed after automatic approval review rejected persistent administrator-capable roles. Lambda applied concurrency remains 10; quota request 1001 NOT_APPROVED. Amplify connection missing. |
+| Live Bedrock twenty-case evaluation | NOT TESTED | Single-case qualification and diagnostic retry FAIL with `ModelThrottledException`; relevant Nova Lite quotas zero. Three-case and twenty-case phases did not run; token/cost reporting incomplete. |
 | Databricks workspace pipeline and Gold read | NOT TESTED | No configured workspace, unified authentication, SQL warehouse/catalog/schema or CLI. |
 
 The verified Node.js 20 action-runtime warning is **NON-BLOCKING**: GitHub forced

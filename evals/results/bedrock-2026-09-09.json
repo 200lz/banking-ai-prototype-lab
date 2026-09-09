@@ -1,0 +1,73 @@
+{
+  "generated_at": "2026-09-09T12:39:06.904382+00:00",
+  "mode": "bedrock",
+  "scope": "Actual bounded Strands/Bedrock inference; local synthetic retrieval and audit",
+  "configuration": {
+    "AWS_REGION": "ap-northeast-1",
+    "BEDROCK_MODEL_ID": "amazon.nova-lite-v1:0",
+    "BEDROCK_INPUT_USD_PER_MILLION": "0.072",
+    "BEDROCK_OUTPUT_USD_PER_MILLION": "0.288",
+    "BEDROCK_RATE_VERIFIED_ON": "2026-09-09"
+  },
+  "configured_endpoint_overrides_ignored": true,
+  "preflight": {
+    "identity_verified": true,
+    "model_access_verified": true
+  },
+  "strands_version": "1.55.0",
+  "boto3_version": "1.43.90",
+  "pricing_source": "https://aws.amazon.com/bedrock/pricing/",
+  "status": "FAIL",
+  "phases": {
+    "single": {
+      "passed": false,
+      "case_count": 1,
+      "passed_case_count": 0,
+      "cases_with_reported_model_usage": 0,
+      "total_input_tokens": 0,
+      "total_output_tokens": 0,
+      "cost_measurement_complete": false,
+      "aggregate": {
+        "answer_correctness": 0.0,
+        "retrieval_recall": 1.0,
+        "citation_correctness": null,
+        "groundedness": null,
+        "policy_compliance": 1.0,
+        "hallucination_rate": null,
+        "correct_tool_selection": 1.0,
+        "correct_escalation": 0.0,
+        "latency_ms": 2849.472,
+        "model_latency_ms": 2837.741,
+        "retrieval_latency_ms": 2.751,
+        "estimated_llm_cost_usd": 0.0,
+        "cost_measurement_complete": 0.0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "latency_p50_ms": 2849.472,
+        "latency_p95_ms": 2849.472,
+        "total_estimated_llm_cost_usd": 0.0
+      },
+      "telemetry_probe": {
+        "status": "PASS",
+        "exported_span_count": 13,
+        "unexpected_attribute_count": 0,
+        "unsafe_value_count": 0,
+        "event_count": 0,
+        "nine_stages_present": true,
+        "workflow_span_present": true
+      }
+    }
+  },
+  "stopped_after": "single",
+  "total_reported_cost_usd_including_probe_and_smoke": 0.0,
+  "cost_measurement_complete": false,
+  "telemetry_probe": {
+    "status": "PASS",
+    "exported_span_count": 13,
+    "unexpected_attribute_count": 0,
+    "unsafe_value_count": 0,
+    "event_count": 0,
+    "nine_stages_present": true,
+    "workflow_span_present": true
+  }
+}

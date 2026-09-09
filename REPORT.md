@@ -1,8 +1,16 @@
 # Implementation and validation report
 
-2026-09-09. **Local application, Docker and GitHub Actions: PASS. AWS deployment, live Bedrock and Databricks workspace: NOT TESTED.** No real-bank affiliation; all internal policies, companies and financial records are synthetic.
+2026-09-09. **Local application, Docker and GitHub Actions: PASS. AWS deployment, twenty-case live Bedrock evaluation and Databricks workspace: NOT TESTED.** No real-bank affiliation; all internal policies, companies and financial records are synthetic.
 
 The [authoritative verification matrix](docs/verification-matrix.md) links every PASS to executed evidence. Hosted CI was independently verified using `gh`; deployed AWS, live Bedrock and Databricks workspace success is not inferred from local or hosted tests.
+
+The real Tokyo attempt verified the expected non-root sandbox identity, discovered
+62 text-output models and completed a target CDK synth/diff. Deployment remains
+blocked by bootstrap approval, Lambda quota and the Amplify GitHub connection.
+Nova Lite qualification failed with provider throttling, and all 166 queried
+on-demand/daily-token account quotas were zero. No three-case smoke or twenty-case
+live suite ran. Actual failed artifacts and redacted preflight evidence are
+linked in [cloud validation](docs/cloud-validation.md).
 
 ## What was built and extended
 
@@ -13,7 +21,41 @@ The [authoritative verification matrix](docs/verification-matrix.md) links every
 - Added make aws-smoke with nine bounded resource/auth/audit checks and make live-eval with access preflight, one-case qualification, three-case smoke and twenty-case live suite. Mocked contract tests do not establish real integration.
 - Added actual browser screenshots, milestone reports, architecture decisions, Japanese institution considerations, threat/readiness documentation and a [3–5 minute interview demo](docs/interview-demo.md).
 
-## Final local test results
+## Tokyo continuation regression results
+
+Before AWS resource changes, all existing lint/type/test/evaluation/security/synth
+gates passed: 284 Python/API/infrastructure tests, 26 frontend tests and all
+61 deterministic cases. The fresh local baseline measured median 12.696 ms and
+p95 16.525 ms, with zero model tokens and $0 inference cost.
+
+Actual model access exposed one preflight defect: Bedrock's availability API may
+return a canonical versionless model ID. The smallest fix accepts that observed
+response shape while retaining exact versioned model-detail verification. Ten new
+regressions reject unrelated models and mismatched versions; the focused harness
+suite now passes 70 tests. No runtime tools, IAM boundaries or evaluation cases
+were changed.
+
+After that fix, the existing local task gates passed again:
+
+| Gate | Actual result | Elapsed seconds |
+| --- | --- | ---: |
+| Formatting/lint | 53 Python files, Ruff, ESLint, web Prettier PASS | 6.928 |
+| Type checking | 40 Python modules and TypeScript PASS | 4.764 |
+| Tests | **294 Python/API/infrastructure + 26 frontend passed** | 49.451 |
+| Security | Bandit zero findings; Python/web/CDK audits zero known vulnerabilities | 11.005 |
+
+[Machine-readable continuation checks](docs/validation/aws-local-regressions-2026-09-09.json)
+preserve commands, counts and the pre-deploy synthesis/evaluation record. The
+existing Starlette/AnyIO deprecation warning remains non-failing. The following
+table is historical evidence for the previously published product; browser,
+coverage and container measurements were not silently rerun or relabeled.
+
+Continuation documentation checks passed: Prettier Markdown parsing for eleven
+files, seven JSON parses, 94 local links/anchors, LF and private-identifier
+checks, `git diff --check`, and source/complete-history secret scans. Original
+failed artifact bytes were preserved locally before LF normalization for Git.
+
+## Previously published local test results
 
 | Executed verification | Actual result |
 | --- | --- |
@@ -93,6 +135,13 @@ Markdown `--debug-check` for the four edited files, and checks of 50 local
 links/anchors, LF endings, code fences, verified run metadata, the `main` badge,
 unchanged cloud statuses and documentation-only scope.
 
+The follow-up documentation commit `6f24ef61fcf5dcbb7d3906fc38aa3c124b436b19`
+also passed [hosted run 34346854721](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34346854721)
+on GitHub-hosted Linux, with all 22 steps successful and artifact
+`evidence-and-infrastructure` (ID `10102261921`). That is the independently
+reverified hosted baseline for the Tokyo continuation; the current `main` badge
+links to subsequent workflow runs.
+
 ## Docker status: PASS
 
 The installed Docker Desktop was started safely. Actual Linux/AMD64 Engine 20.10.17 built all four runtime images with --pull --no-cache. The canonical run took 151.5 seconds and verified three healthy services, web-to-API container DNS, policy citations, 30.00% DTI, prohibited approval refusal, human review, PII canary and retrieved-document injection quarantine. Exported traces contained all nine stages and no tested payload canaries; runtime logs had zero errors/warnings. Restart retained the original audit event and produced the same policy answer. The isolated stack shut down cleanly.
@@ -114,37 +163,74 @@ The unchanged **61-case deterministic baseline** and **20-case smoke set** passe
 
 | Measurement | Deterministic local | Live Bedrock |
 | --- | --- | --- |
-| Full cases | 61 | NOT TESTED |
-| Mean / median workflow latency | 14.065 / 13.835 ms | NOT TESTED |
-| Nearest-rank p95 workflow latency | 19.101 ms | NOT TESTED |
-| Mean retrieval latency | 1.966 ms | NOT TESTED |
-| Input / output model tokens | 0 / 0 | NOT TESTED |
-| Estimated inference cost | $0 | NOT TESTED |
+| Full cases | 61 | 20-case suite NOT RUN; qualification failed |
+| Mean / median workflow latency | 12.999 / 12.696 ms | Unavailable for unrun suite |
+| Nearest-rank p95 workflow latency | 16.525 ms | Unavailable for unrun suite |
+| Mean retrieval latency | 1.856 ms | Unavailable for unrun suite |
+| Input / output model tokens | 0 / 0 | Unavailable; qualification usage incomplete |
+| Estimated inference cost | $0 | Unavailable; reported lower bound is not a bill |
 
 [latest.json](evals/results/latest.json) contains actual per-case responses, denominators and dataset hash. Measurements are in-process on Windows/Python 3.11.5 and exclude HTTP, cold starts and inference. This correlated authored development set is not a held-out benchmark or LLM accuracy result. Financial profiles are covered separately; the original 61 cases do not score them.
 
 The initial failed baseline and two failed container runs remain available. They exposed missed escalation/injection, dropped calculation provenance and restart-port assumptions. New financial tests caught ingestion-time freshness and late unsafe-source profile clearing. Fixes and regressions are recorded in [the development log](docs/development-log.md).
+
+The [first live qualification](evals/results/bedrock-2026-09-09.json) and
+[diagnostic retry](evals/results/bedrock-2026-09-09-retry-1.json) each executed one
+case and failed before smoke/suite phases. Both returned safe abstention and
+human review, but the normal-workflow case did not pass its answer/escalation
+expectations. Citation correctness, groundedness and unsupported-claim rate are
+not applicable without an answer. Each probe exported 13 controlled spans with
+all nine stages, no unexpected attributes and no events. This verifies failure
+telemetry, not successful Bedrock planning, model usage or AWS deployment.
 
 ## GitHub, AWS, Bedrock and Databricks status
 
 | External milestone | Status | Actual blocker/evidence |
 | --- | --- | --- |
 | Public GitHub repository and hosted Actions | **PASS** | Independently verified hosted Linux run [34344534926](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34344534926), `quality`, commit `827888ab0d3c82f937d8106b51f8bf04f4a3fcc4`; artifact `evidence-and-infrastructure`. |
-| AWS deployment | **NOT TESTED** | Signed AWS CLI 2.36.41 installed; actual STS returned “Unable to locate credentials”; no profiles, configured region or sandbox identity. |
-| Live Bedrock evaluation | **NOT TESTED** | No model-access API or inference request made. Actual harness exits 2 at missing setup; no fabricated live-results artifact. |
+| AWS deployment | **NOT TESTED** | Actual non-root SSO identity and Tokyo synth/diff verified. CDKToolkit and application stack missing; bootstrap approval, Lambda quota and Amplify GitHub connection block deployment. AWS smoke not run. |
+| Live Bedrock evaluation | **NOT TESTED** | Model discovery/access preflight PASS; qualification and diagnostic retry FAIL with provider throttling. Nova Lite regional quotas are zero. No successful completion, three-case smoke or twenty-case suite. |
 | Databricks workspace | **NOT TESTED** | No configured workspace/auth/warehouse/catalog/schema or CLI; no real job, Delta table or Statement Execution query was run. |
 
-No cloud account was selected, bootstrapped or deployed. No AWS resource or live model/Databricks compute was created. The [AWS record](docs/cloud-validation.md), [Bedrock runbook](docs/milestone-4-bedrock.md) and [Databricks validation](docs/databricks-validation.md) give exact remaining setup. The earlier [GitHub milestone](docs/milestone-2-ci.md) preserves the pre-publication state; the hosted evidence above supersedes its NOT TESTED status. Cloud integration tests remain separate from ordinary credential-free PR CI. No AWS work was performed in this documentation session.
+The authorized personal sandbox was verified in `ap-northeast-1`; public evidence
+omits account and principal identifiers. No bootstrap/application resources were
+created. A Lambda quota request made without an AWS Support case was NOT_APPROVED;
+the applied quota remains ten. Automatic approval review rejected bootstrap's
+persistent administrator deployment roles pending specific user approval. The
+existing runtime reservation of three executions and all security boundaries
+remain intact. No Databricks workspace calls were made.
+
+The [AWS record](docs/cloud-validation.md), [deployment security review](docs/aws-deployment-review.md),
+[Bedrock runbook](docs/milestone-4-bedrock.md) and [Databricks validation](docs/databricks-validation.md)
+give the remaining setup. Earlier milestone records describe historical states.
+Cloud integration tests remain separate from credential-free PR CI.
 
 ## Estimated cost
 
-Observed project inference cost is $0 because local/container workflows use no model. No regional AWS/Databricks bill or live latency was measured. At the explicitly illustrative Nova Lite rates of $0.06/million input and $0.24/million output tokens, 1,500 input + 150 output would cost $0.000126/question or $1.26 per 10,000, excluding all platform costs. The live harness requires recently verified regional rates and reported usage; unknown billed usage stays incomplete.
+Local/container inference cost is $0 because those workflows use no model.
+Failed Tokyo qualification usage and cost are **unavailable/incomplete**; their
+reported zero is not a billing measurement. The two failed request latencies were
+2,849.472 ms and 3,145.194 ms, not a successful-model latency distribution.
+
+Actual Tokyo standard regional Nova Lite rates were verified in the
+[versioned AWS price catalog](https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/20260901205051/ap-northeast-1/index.json):
+$0.072/million input and $0.288/million output tokens. An illustrative 1,500 input
++ 150 output request would cost $0.0001512, or $1.512 per 10,000 requests,
+excluding platform costs. This is an estimate, not a measured bill.
 
 Infrastructure costs depend on Lambda duration, API traffic, S3/DynamoDB storage, CloudWatch, Amplify/Cognito and Databricks compute/warehouse usage. The optional $25 account-wide budget is an alert, not a spend cap. Retained resources can cost money after stack deletion. [COST.md](COST.md) explains assumptions and drivers.
 
+No application or bootstrap resources were created in this attempt, so there is
+no deployed interview demo to retain or destroy and no new infrastructure idle
+cost from this session. Before a future successful deployment, make an explicit
+keep-for-demo or destroy-after-validation decision. The
+[cleanup runbook](docs/cloud-deployment.md) covers the stack and retained
+resources; do not run destruction against a nonexistent deployment or assume it
+would remove retained data, identity, logs or bootstrap assets.
+
 ## Unresolved issues and security limitations
 
-- External authentication/setup still prevents verified AWS deployment and live-model/data-platform measurements. Offline SDK contracts and hosted credential-free CI cannot prove them.
+- AWS authentication is verified; bootstrap approval, the Lambda quota, Amplify GitHub setup and zero Bedrock inference quotas prevent deployed/live validation. Databricks workspace setup is still outstanding. Offline contracts and hosted CI do not prove those integrations.
 - Pinned GitHub actions emit a non-blocking Node.js 20 runtime deprecation warning; the warning remains unresolved.
 - Keyword routing and heuristic injection/PII checks can miss new/multilingual attacks. Quote/hash correspondence does not establish truth or applicability.
 - S3's 60-second cache can delay revocation. Source/Gold hashes do not authenticate a publisher that can replace both content and hash.
@@ -156,8 +242,8 @@ Infrastructure costs depend on Lambda duration, API traffic, S3/DynamoDB storage
 ## Next steps and recommended interview sequence
 
 1. Update the pinned GitHub actions for the Node.js 20 runtime deprecation in a separate maintenance change, then verify a new hosted run. Publication and the original hosted CI milestone are complete.
-2. Configure and identify an isolated AWS sandbox/region; run all gates, inspect bootstrap and CDK diff/IAM, deploy, publish corpus and configure demo identity. Execute make aws-smoke and preserve real resource/auth/audit evidence.
-3. Verify a low-cost regional model and rates; run make live-eval, retain failures and compare actual token/cost/latency/quality with the baseline.
+2. Resolve the reviewed bootstrap approval, Lambda quota and Amplify GitHub connection. Revalidate identity and diff, deploy in Tokyo, publish corpus and configure the Cognito demo session. Execute make aws-smoke and preserve real resource/auth/audit evidence.
+3. Obtain usable regional Bedrock inference quota; repeat one qualification, then the three-case smoke and unchanged twenty-case suite. Preserve prior failures and compare actual usage, cost, latency and quality with the deterministic baseline.
 4. Configure a Databricks development workspace and native bundle, run it, query Gold and exercise the governed adapter with a separate read-only principal. Record real workspace evidence and cost separately.
 5. For institutional use, complete [production-readiness gaps](PRODUCTION_READINESS.md), including independent Japanese policy/privacy/model-risk review.
 

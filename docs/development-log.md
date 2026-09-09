@@ -1,5 +1,84 @@
 # Development log
 
+## Tokyo AWS and live Bedrock continuation (2026-09-09)
+
+- Recorded [acceptance criteria](aws-live-acceptance.md) before deployment changes.
+  Actual STS verified the authorized personal sandbox and non-root Identity Center
+  role in `ap-northeast-1`; public evidence redacts account/principal identifiers.
+  An initial local parser assumed the older `aws configure list` spacing; handling
+  the installed CLI's colon separators correctly confirmed the region.
+- Current hosted CI passed. All six existing local pre-deploy gates passed:
+  lint, types, 284 Python/API/infrastructure and 26 frontend tests, 61-case
+  deterministic evaluation, dependency/security audits and offline synthesis.
+  Windows jsii cache permissions and sandbox registry access caused environment
+  failures; a workspace cache and authorized public audit access resolved them
+  without application changes. Original evaluation output was preserved locally.
+- Actual Tokyo discovery returned 62 text-output models. The configured
+  `amazon.nova-lite-v1:0` supports regional on-demand text inference and its
+  agreement, authorization, entitlement and region checks are available. The
+  availability API returned the canonical ID `amazon.nova-lite-v1`, while the
+  model-detail API retained the exact versioned ID. This exposed a strict-ID
+  comparison defect in the live preflight before any inference; any correction
+  must retain exact model-detail verification and reject unrelated model IDs.
+- Deployment review identified the missing CDKToolkit/application stacks, absent
+  expected Amplify GitHub secret, and a regional Lambda concurrency quota of ten.
+  The existing three-execution runtime reservation must remain intact; resolve
+  quota/setup prerequisites instead of removing it. The Amplify SSR path requires
+  GitHub authorization and a real Cognito scoped session for end-to-end smoke.
+- Security review before changes: data permissions are scoped to corpus reads,
+  audit PutItem and one regional Bedrock model; all API routes require Cognito
+  scopes. Existing wildcard permissions cover Lambda's managed basic logging,
+  X-Ray submission and Amplify log discovery. Bootstrap introduces administrator
+  deployment permissions scoped by trust to the target sandbox. Retained corpus,
+  audit, identity, logs and bootstrap assets require deliberate cost/cleanup work.
+- Corrected the availability preflight to accept the API's canonical versionless
+  ID while keeping exact versioned model-detail checks. Ten new regression cases
+  cover the real response and reject mismatched IDs/versions. The 70 focused
+  harness tests passed; final existing gates passed with 294 Python/API/infra
+  and 26 frontend tests, formatting/lint/types and zero security/audit findings.
+- Reviewed the pinned CDK v32 bootstrap template, five deployment roles, default
+  administrator execution policy, private encrypted assets, same-account trust
+  and retention. Automatic approval review rejected creating these persistent
+  administrator roles without specific user approval. The bootstrap command did
+  not execute; the concrete review and approval question were provided. No
+  workaround or relaxed runtime/IAM boundary was used.
+- Real target synthesis and read-only CloudFormation diff passed. The first diff
+  referenced an incorrect local assembly path because the CLI overrides the
+  CDK_OUTDIR environment default; the corrected absolute assembly path worked.
+  No change set, bootstrap or application resource was created.
+- The applied Lambda concurrency quota is ten. A no-Support-case request for 103
+  was rejected because the API requires a value above its service default of
+  1,000. The subsequent request for 1,001 with SupportCaseAllowed=false became
+  NOT_APPROVED. The quota remains ten; support-backed escalation requires the
+  separately requested authorization. The application still reserves only three.
+- Verified Nova Lite's Tokyo standard on-demand rates from the versioned public
+  AWS price catalog: $0.072/million input and $0.288/million output tokens. These
+  replace illustrative global assumptions only for the recorded Tokyo attempts.
+- While deployment prerequisites remained blocked, the independent local-audit/
+  retrieval Bedrock harness attempted its single synthetic qualification. It
+  failed and stopped before smoke/full evaluation. Strands initialization passed;
+  one separately preserved diagnostic retry isolated ModelThrottledException.
+  The installed SDK raises that exception for provider throttling. Raw SDK error
+  messages and request identifiers were suppressed; their exact HTTP status and
+  message were not captured and are not claimed.
+- Actual Service Quotas then showed all 166 queried regional on-demand/daily-token
+  entries at zero, including Nova Lite's request, token and daily limits. No
+  further invocation retry, model switch, three-case smoke or twenty-case suite
+  was attempted. Availability/entitlement alone does not establish usable capacity.
+  Both failure artifacts retain incomplete usage/cost, safe abstention and a
+  passing content-free telemetry probe; reported zeros are not zero-cost success.
+- Updated public cloud, cost, evaluation and status evidence from these actual
+  results. AWS deployment and live evaluation remain NOT TESTED; qualification
+  failure is explicit. Databricks workspace remains NOT TESTED. No application
+  or bootstrap resources were left running, and the deployment/cost decision
+  remains pending a successful authorized deployment.
+- Preserved the earlier missing-credentials preflight unchanged and wrote a
+  separate redacted Tokyo record. Independent review found no further code or
+  security defect. Public evidence checks passed for eleven Markdown files,
+  seven JSON files, 94 local links/anchors, LF endings and excluded private
+  identifiers. Source and complete-history secret scans passed. Original failed
+  artifact bytes remain locally preserved; public copies only normalize LF.
+
 ## Hosted GitHub CI verification and status update (2026-09-09)
 
 - Acceptance criteria for this documentation milestone: independently verify

@@ -42,8 +42,16 @@ as-of dates. Failures abstain and surface missing evidence or required review.
 [![Quality and safety regression](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml)
 
 **Local application, Docker and GitHub Actions: PASS. AWS deployment, live
-Bedrock and real Databricks workspace execution: NOT TESTED.** Hosted CI runs
+Bedrock evaluation and real Databricks workspace execution: NOT TESTED.** Hosted CI runs
 without cloud credentials and does not establish those external integrations.
+
+On 2026-09-09, real non-root sandbox identity, Tokyo model discovery, model access
+checks and a target-environment CDK diff passed. Deployment is blocked by missing
+bootstrap approval, insufficient Lambda concurrency and the Amplify GitHub
+connection. Nova Lite qualification failed with provider throttling; actual
+queried regional inference quotas are zero. The three-case smoke and twenty-case live
+suite were not run. [Cloud evidence and blockers](docs/cloud-validation.md)
+distinguish these attempts from a successful deployment or model evaluation.
 
 Independently verified with `gh`: [hosted run 34344534926](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34344534926),
 commit `827888ab0d3c82f937d8106b51f8bf04f4a3fcc4`, job `quality` on GitHub-hosted
@@ -53,9 +61,13 @@ smoke/full gates, security audits, Next.js build, credential-free CDK synthesis,
 source/history secret scans, fresh Docker builds, health/scenario/telemetry/restart
 checks, cleanup and preservation of artifact `evidence-and-infrastructure`.
 
+The subsequent documentation push also passed [hosted run 34346854721](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34346854721)
+at commit `6f24ef61fcf5dcbb7d3906fc38aa3c124b436b19`, with the same gates and
+artifact name. The badge reflects the current `main` workflow state.
+
 The Node.js 20 action-runtime deprecation annotation is **NON-BLOCKING**. GitHub
 forced the pinned actions onto Node.js 24; updating those action pins remains a
-maintenance item. This documentation update does not fix or change the actions.
+maintenance item. The actions have not been changed to fix the warning.
 
 The [authoritative verification matrix](docs/verification-matrix.md) separates
 local contracts, container runtime, real AWS, live LLM and Databricks workspace
@@ -66,13 +78,13 @@ The [development log](docs/development-log.md) preserves failures and decisions.
 
 | Metric | Deterministic local | Live Bedrock |
 | --- | --- | --- |
-| Cases | 61 synthetic development cases | NOT TESTED |
+| Cases | 61 synthetic development cases | 20-case suite NOT RUN; qualification failed |
 | Answer correctness / retrieval recall | 100% under authored/mechanical checks | NOT TESTED |
 | Citation correctness / groundedness | 100% of applicable cases | NOT TESTED |
 | Policy compliance / tool selection / escalation | 100% | NOT TESTED |
 | Unsupported-claim rate | 0% under the scorer | NOT TESTED |
-| Model tokens / inference cost | 0 / $0 | NOT TESTED |
-| Median / p95 latency | 13.835 / 19.101 ms (in-process) | NOT TESTED |
+| Model tokens / inference cost | 0 / $0 | Unavailable; failed qualification usage incomplete |
+| Median / p95 latency | 12.696 / 16.525 ms (in-process) | Unavailable for unrun suite |
 
 The deterministic baseline is **not an LLM benchmark**. These correlated cases
 are not held out; perfect mechanical checks do not establish semantic correctness
@@ -81,6 +93,11 @@ or production safety. [Per-case results](evals/results/latest.json), the
 [EVALUATION.md](EVALUATION.md) explain the scorer and denominators. Model cost uses
 reported tokens and configured rates; failed usage is marked incomplete. Local
 timings exclude cloud cold starts and inference. See [COST.md](COST.md).
+
+The [first failed live qualification](evals/results/bedrock-2026-09-09.json) and
+[diagnostic retry](evals/results/bedrock-2026-09-09-retry-1.json) are preserved
+separately. Their zero reported tokens/cost are incomplete lower bounds, not
+successful zero-cost inference. No evaluation cases or expected answers changed.
 
 ## Safety model
 

@@ -1,5 +1,10 @@
 # Evaluation
 
+As of 2026-09-09, the **61-case local deterministic baseline passes every gate**.
+**Live Bedrock qualification: FAIL; twenty-case evaluation: NOT TESTED.** Two
+actual Tokyo single-case attempts failed before the three-case smoke or suite could run.
+These failed attempts are preserved as failure evidence, not successful LLM results.
+
 Evaluation is a release control. `make eval` runs 61 versioned synthetic cases
 through the actual `Workflow` and writes every response, score, denominator,
 dataset hash, runtime version, timestamp, and gate outcome to
@@ -47,9 +52,52 @@ The cost-completeness gate prevents failed model calls appearing as free inferen
 
 ## Results and failures
 
-The final local development run passes all gates with 100% on the quality checks
-above and a 0% unsupported-claim rate. Tokens and LLM cost are zero because local
-mode invokes no model. See `REPORT.md` for the final measured timings and test count.
+The [local run recorded at 12:24 UTC on 2026-09-09](evals/results/latest.json)
+evaluated all 61 cases and passed every gate. Its p50 workflow latency was
+**12.696 ms** and p95 was **16.525 ms**. This measures deterministic local execution,
+including local retrieval and audit writes; it is not an LLM or deployed API benchmark.
+
+| Measure | Local deterministic baseline | Twenty-case live Bedrock evaluation |
+| --- | --- | --- |
+| Overall result | PASS; 61 cases | NOT TESTED; qualification failed, so suite not run |
+| Answer correctness | 100% | Representative-suite result unavailable |
+| Retrieval recall | 100% | Representative-suite result unavailable |
+| Citation correctness | 100% | Unavailable; failed attempts returned no evidence |
+| Groundedness | 100% | Unavailable; failed attempts returned no evidence |
+| Policy compliance | 100% | Representative-suite result unavailable |
+| Hallucination rate | 0% | Unavailable; no successful model result |
+| Correct tool selection | 100% | Representative-suite result unavailable |
+| Correct escalation | 100% | Representative-suite result unavailable |
+| Workflow p50 / p95 | 12.696 / 16.525 ms | Unavailable; smoke and suite did not run |
+| Model tokens | 0 input / 0 output; no model invoked | Unknown; neither failed attempt returned usage |
+| LLM cost | $0; no model invoked | Unknown; numeric zero is an incomplete lower bound |
+
+The two Tokyo attempts used `amazon.nova-lite-v1:0` in `ap-northeast-1` after the
+identity and model-availability preflight succeeded:
+
+| Preserved attempt | Single-case outcome | Observed workflow duration | Usage and cost |
+| --- | --- | --- | --- |
+| [First attempt](evals/results/bedrock-2026-09-09.json), [case artifact](evals/results/bedrock-2026-09-09-single.json) | FAIL; 0 of 1 case passed | 2849.472 ms | Incomplete |
+| [Retry](evals/results/bedrock-2026-09-09-retry-1.json), [case artifact](evals/results/bedrock-2026-09-09-retry-1-single.json) | FAIL; 0 of 1 case passed | 3145.194 ms | Incomplete |
+
+These are individual failed-request durations, not suite latency percentiles.
+Both attempts emitted `planner_failure` and `model_cost_unavailable`, withheld
+evidence, and required human review. They failed the benign case's expected answer
+and escalation checks and the complete-cost gate. Neither attempt reported usable
+model tokens; `cost_estimate_complete=false` means its numeric zero must not be
+read as measured free inference. The content-free trace probe passed, but that
+does not establish model success. **No three-case smoke or twenty-case suite ran.**
+
+The subsequent account-level quota inspection returned 166 Bedrock inference
+quota entries, all with value zero. Nova Lite's on-demand requests per minute,
+tokens per minute, and daily token quota were each zero. Model availability and
+entitlement therefore did not establish usable inference capacity. See
+[cloud validation](docs/cloud-validation.md) and the
+[live qualification runbook](docs/milestone-4-bedrock.md) for the recorded blockers.
+
+Historical [Docker acceptance](docs/milestones/01-containers.md) and native browser
+checks remain evidence that the local prototype works. They do not establish an
+AWS deployment, a Cognito session, or successful Bedrock inference.
 
 The preserved first run had 90.16% answer correctness, 97.56% recall, 88.52% policy
 compliance and 86.89% correct escalation. It caught missing-information and DTI
@@ -68,21 +116,24 @@ matching proves correspondence, not source truth. The known control-message
 catalog is separately checked, but the scorer is not a legal reasoning judge.
 Confidence is a fixed evidence-completeness heuristic and is not calibrated.
 
-The report makes no live LLM claim. To qualify Bedrock explicitly, configure
-credentials, regional model access, verified rates and the verification date,
-then run the staged harness:
+The report makes no successful live LLM quality or cost claim. Resume qualification
+only after the account has usable regional inference quota and the required
+deployment setup. Configure credentials, model access, verified rates and the
+verification date, then run the staged harness:
 
 ```bash
 make live-eval
 # Windows: .venv\Scripts\python scripts/tasks.py live-eval
 ```
 
-This makes billable requests for eligible nonblocked cases only after explicit
+This can make billable requests for eligible nonblocked cases only after explicit
 preflight. One harmless request precedes a three-case smoke and a twenty-case
 suite. It records model/region/rates/SDKs, per-case scores, measured latency,
 reported tokens/cost and controlled trace checks. Failure artifacts stay separate
 from local results; missing credentials produce NOT TESTED without fabricated
-live responses. See [the live runbook](docs/milestone-4-bedrock.md).
+live responses. Tokyo's verified rates are $0.072 per million input tokens and
+$0.288 per million output tokens; see [cost provenance and limits](COST.md).
+See [the live runbook](docs/milestone-4-bedrock.md).
 For a real institution: reserve held-out
 cases, obtain independent domain/expert labels and disagreement review, test
 multilingual and obfuscated attacks, measure precision as well as recall, measure

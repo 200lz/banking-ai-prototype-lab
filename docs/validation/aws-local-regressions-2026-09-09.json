@@ -1,0 +1,109 @@
+{
+  "recorded_on": "2026-09-09",
+  "scope": "Local existing task commands; credential-free gates do not establish AWS deployment or successful live inference",
+  "pre_deploy": {
+    "recorded_at": "2026-09-09T12:27:02.3059298Z",
+    "status": "PASS",
+    "scope": "Existing local pre-deployment gates only; no AWS API or live inference calls",
+    "git_initial_status": "clean",
+    "gates": [
+      {
+        "gate": "lint",
+        "exit_code": 0,
+        "elapsed_seconds": 7.813,
+        "command": "python scripts/tasks.py lint"
+      },
+      {
+        "gate": "typecheck",
+        "exit_code": 0,
+        "elapsed_seconds": 5.841,
+        "command": "python scripts/tasks.py typecheck"
+      },
+      {
+        "gate": "test",
+        "exit_code": 0,
+        "elapsed_seconds": 66.67,
+        "command": "python scripts/tasks.py test"
+      },
+      {
+        "gate": "eval",
+        "exit_code": 0,
+        "elapsed_seconds": 1.424,
+        "command": "python scripts/tasks.py eval"
+      },
+      {
+        "gate": "security",
+        "exit_code": 0,
+        "elapsed_seconds": 11.402,
+        "command": "python scripts/tasks.py security"
+      },
+      {
+        "gate": "synth",
+        "exit_code": 0,
+        "elapsed_seconds": 42.278,
+        "command": "python scripts/tasks.py synth"
+      }
+    ],
+    "python_api_infra_tests": 284,
+    "frontend_tests": 26,
+    "deterministic_cases": 61,
+    "evaluation_quality_gates": "PASS",
+    "evaluation_p50_ms": 12.696,
+    "evaluation_p95_ms": 16.525,
+    "model_tokens": 0,
+    "estimated_llm_cost_usd": 0,
+    "security_findings": 0,
+    "synth_directory": ".runtime/predeploy-gates/cdk.out",
+    "environment_fixes": [
+      "Workspace jsii cache after shared-cache EPERM",
+      "Public registry network access after sandbox WinError 10013"
+    ],
+    "known_warning": "Starlette deprecated AnyIO BlockingPortal alias",
+    "tracked_generated_artifact": "evals/results/latest.json",
+    "preserved_previous_artifact": ".runtime/predeploy-gates/latest-before-eval.json",
+    "product_changes": "none"
+  },
+  "after_canonical_model_id_fix": {
+    "recorded_at": "2026-09-09T12:49:33.4085301Z",
+    "status": "PASS",
+    "node_version": "v24.19.0",
+    "scope": "Final existing local gates after Bedrock canonical availability ID correction",
+    "gates": [
+      {
+        "gate": "lint",
+        "exit_code": 0,
+        "elapsed_seconds": 6.928,
+        "command": "python scripts/tasks.py lint"
+      },
+      {
+        "gate": "typecheck",
+        "exit_code": 0,
+        "elapsed_seconds": 4.764,
+        "command": "python scripts/tasks.py typecheck"
+      },
+      {
+        "gate": "test",
+        "exit_code": 0,
+        "elapsed_seconds": 49.451,
+        "command": "python scripts/tasks.py test"
+      },
+      {
+        "gate": "security",
+        "exit_code": 0,
+        "elapsed_seconds": 11.005,
+        "command": "python scripts/tasks.py security"
+      }
+    ],
+    "python_api_infra_tests": 294,
+    "frontend_tests": 26,
+    "bandit_findings": 0,
+    "pip_known_vulnerabilities": 0,
+    "web_npm_vulnerabilities": 0,
+    "cdk_npm_vulnerabilities": 0,
+    "known_warning": "Starlette AnyIO BlockingPortal deprecation",
+    "evaluation_rerun": false,
+    "aws_calls": false,
+    "inference_calls": false,
+    "code_edits_during_run": false
+  }
+}

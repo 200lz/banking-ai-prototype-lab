@@ -190,6 +190,50 @@ def test_access_denials_prevent_qualification(field, value):
         live.check_model_access(session, configured())
 
 
+def test_observed_nova_availability_id_may_omit_version_without_changing_requested_model():
+    session = Session()
+    session.detail["inputModalities"] = ["TEXT", "IMAGE", "VIDEO"]
+    session.detail["inferenceTypesSupported"] = ["INFERENCE_PROFILE", "ON_DEMAND"]
+    session.availability["modelId"] = "amazon.nova-lite-v1"
+    configuration = configured()
+    assert live.check_model_access(session, configuration) == {
+        "identity_verified": True,
+        "model_access_verified": True,
+    }
+    assert configuration["BEDROCK_MODEL_ID"] == "amazon.nova-lite-v1:0"
+    assert session.calls[-1] == ("availability", {"modelId": "amazon.nova-lite-v1:0"})
+    assert session.calls[-2] == ("model", {"modelIdentifier": "amazon.nova-lite-v1:0"})
+
+
+@pytest.mark.parametrize(
+    "availability_id",
+    [
+        "amazon.nova-lite-v1:1",
+        "amazon.nova-lite-v2",
+        "amazon.nova-pro-v1",
+        "other.nova-lite-v1",
+        "amazon.nova-lite-v1:0:1",
+        "amazon.nova-lite-v1\n",
+        None,
+    ],
+)
+def test_versionless_availability_exception_never_accepts_other_versions_or_models(availability_id):
+    session = Session()
+    session.availability["modelId"] = availability_id
+    with pytest.raises(ValueError):
+        live.check_model_access(session, configured())
+
+
+@pytest.mark.parametrize("detail_id", ["amazon.nova-lite-v1", "amazon.nova-lite-v1:1"])
+def test_availability_canonicalization_does_not_relax_exact_model_details(detail_id):
+    session = Session()
+    session.detail["modelId"] = detail_id
+    session.availability["modelId"] = "amazon.nova-lite-v1"
+    with pytest.raises(ValueError):
+        live.check_model_access(session, configured())
+    assert "availability" not in [name for name, _ in session.calls]
+
+
 def test_main_preflight_failure_is_not_tested_without_any_live_artifact(
     tmp_path, monkeypatch, capsys
 ):

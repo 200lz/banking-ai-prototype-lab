@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-09",
+  "region": "ap-northeast-1",
+  "scope": "Real AWS preflight and failed direct Bedrock qualification; no infrastructure deployment",
+  "overall": {
+    "aws_deployment": "NOT TESTED",
+    "aws_smoke": "NOT TESTED",
+    "live_bedrock_evaluation": "NOT TESTED",
+    "bedrock_qualification": "FAIL",
+    "databricks_workspace": "NOT TESTED"
+  },
+  "identity": {
+    "status": "PASS",
+    "non_root": true,
+    "authorized_sandbox_matches": true,
+    "authorized_identity_center_role_matches": true,
+    "region_confirmed": true,
+    "checked_at": "2026-09-09T12:24:59.300316+00:00"
+  },
+  "discovery": {
+    "status": "PASS",
+    "model_count": 62,
+    "inference_type_counts": {
+      "INFERENCE_PROFILE": 22,
+      "ON_DEMAND": 41
+    },
+    "counts_can_overlap": true,
+    "representative_models": [
+      {
+        "provider": "Amazon",
+        "name": "Nova Lite",
+        "id": "amazon.nova-lite-v1:0",
+        "inference_types": [
+          "INFERENCE_PROFILE",
+          "ON_DEMAND"
+        ],
+        "streaming": true,
+        "lifecycle": "ACTIVE"
+      },
+      {
+        "provider": "Amazon",
+        "name": "Nova Micro",
+        "id": "amazon.nova-micro-v1:0",
+        "inference_types": [
+          "INFERENCE_PROFILE"
+        ],
+        "streaming": true,
+        "lifecycle": "ACTIVE"
+      },
+      {
+        "provider": "Amazon",
+        "name": "Nova Pro",
+        "id": "amazon.nova-pro-v1:0",
+        "inference_types": [
+          "INFERENCE_PROFILE"
+        ],
+        "streaming": true,
+        "lifecycle": "ACTIVE"
+      },
+      {
+        "provider": "Anthropic",
+        "name": "Claude 3 Haiku",
+        "id": "anthropic.claude-3-haiku-20240307-v1:0",
+        "inference_types": [
+          "ON_DEMAND"
+        ],
+        "streaming": true,
+        "lifecycle": "LEGACY"
+      },
+      {
+        "provider": "Mistral AI",
+        "name": "Mistral Large 3",
+        "id": "mistral.mistral-large-3-675b-instruct",
+        "inference_types": [
+          "ON_DEMAND"
+        ],
+        "streaming": true,
+        "lifecycle": "ACTIVE"
+      },
+      {
+        "provider": "Qwen",
+        "name": "Qwen3 32B (dense)",
+        "id": "qwen.qwen3-32b-v1:0",
+        "inference_types": [
+          "ON_DEMAND"
+        ],
+        "streaming": true,
+        "lifecycle": "ACTIVE"
+      },
+      {
+        "provider": "Google",
+        "name": "Gemma 3 12B IT",
+        "id": "google.gemma-3-12b-it",
+        "inference_types": [
+          "ON_DEMAND"
+        ],
+        "streaming": true,
+        "lifecycle": "ACTIVE"
+      }
+    ]
+  },
+  "model": {
+    "id": "amazon.nova-lite-v1:0",
+    "provider": "Amazon",
+    "name": "Nova Lite",
+    "discovery_inference_types": [
+      "INFERENCE_PROFILE",
+      "ON_DEMAND"
+    ],
+    "authorization_status": "AUTHORIZED",
+    "entitlement_status": "AVAILABLE",
+    "region_availability": "AVAILABLE",
+    "agreement_status": "AVAILABLE",
+    "successful_inference_verified": false
+  },
+  "bedrock_quota_checks": {
+    "queried_on_demand_or_daily_entries": 166,
+    "positive_entries": 0,
+    "zero_entries": 166,
+    "selected_model_entries": [
+      {
+        "QuotaName": "On-demand model inference tokens per minute for Amazon Nova Lite",
+        "QuotaCode": "L-70423BF8",
+        "Value": 0.0,
+        "Adjustable": false
+      },
+      {
+        "QuotaName": "Model invocation max tokens per day for Amazon Nova Lite (doubled for cross-region calls)",
+        "QuotaCode": "L-45E0AD92",
+        "Value": 0.0,
+        "Adjustable": false
+      },
+      {
+        "QuotaName": "On-demand model inference requests per minute for Amazon Nova Lite",
+        "QuotaCode": "L-E386A278",
+        "Value": 0.0,
+        "Adjustable": false
+      }
+    ]
+  },
+  "lambda_quota": {
+    "applied_concurrent_executions": 10,
+    "applied_unreserved_concurrent_executions": 10,
+    "configured_application_reservation": 3,
+    "request_103": "REJECTED_BELOW_SERVICE_DEFAULT_1000",
+    "request_1001": "NOT_APPROVED",
+    "support_case_created": false
+  },
+  "infrastructure": {
+    "target_synth": "PASS",
+    "target_diff": "PASS",
+    "bootstrap_stack": "MISSING",
+    "application_stack": "MISSING",
+    "bootstrap": "NOT TESTED",
+    "bootstrap_approval": {
+      "status": "REJECTED_BY_AUTOMATIC_APPROVAL_REVIEW",
+      "action": "standard CDK bootstrap",
+      "reason": "Persistent administrator-capable deployment roles require explicit user approval"
+    },
+    "application_deployment": "NOT TESTED",
+    "amplify_connection_secret": "MISSING",
+    "resources_created": [],
+    "cleanup_required": false
+  },
+  "qualification": {
+    "status": "FAIL",
+    "provider_diagnostic": "ModelThrottledException",
+    "attempts": [
+      {
+        "status": "FAIL",
+        "artifact": "evals/results/bedrock-2026-09-09.json",
+        "generated_at": "2026-09-09T12:39:06.904382+00:00",
+        "qualification_cases_executed": 1,
+        "passed_cases": 0,
+        "workflow_elapsed_ms": 2849.472,
+        "model_attempt_elapsed_ms": 2837.741,
+        "reported_input_tokens": null,
+        "reported_output_tokens": null,
+        "estimated_inference_cost_usd": null,
+        "cost_measurement_complete": false,
+        "telemetry_metadata_probe": "PASS"
+      },
+      {
+        "status": "FAIL",
+        "artifact": "evals/results/bedrock-2026-09-09-retry-1.json",
+        "generated_at": "2026-09-09T12:41:17.382523+00:00",
+        "qualification_cases_executed": 1,
+        "passed_cases": 0,
+        "workflow_elapsed_ms": 3145.194,
+        "model_attempt_elapsed_ms": 3133.456,
+        "reported_input_tokens": null,
+        "reported_output_tokens": null,
+        "estimated_inference_cost_usd": null,
+        "cost_measurement_complete": false,
+        "telemetry_metadata_probe": "PASS"
+      }
+    ],
+    "three_case_smoke_executed": false,
+    "twenty_case_suite_executed": false,
+    "total_usage_available": false,
+    "estimated_total_inference_cost_usd": null,
+    "quality_benchmark_available": false
+  },
+  "pricing_configuration": {
+    "verified_on": "2026-09-09",
+    "source": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/20260901205051/ap-northeast-1/index.json",
+    "input_usd_per_million_tokens": "0.072",
+    "output_usd_per_million_tokens": "0.288",
+    "scope": "in-region standard on-demand; uncached input and output tokens",
+    "billed_cost_verified": false
+  },
+  "github_prior_verified_run": {
+    "status": "PASS",
+    "run_id": 34346854721,
+    "commit": "6f24ef61fcf5dcbb7d3906fc38aa3c124b436b19",
+    "url": "https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34346854721",
+    "current_changes_hosted_run_pending_at_capture": true
+  },
+  "evidence_privacy": {
+    "account_ids_included": false,
+    "principals_included": false,
+    "provider_request_ids_included": false,
+    "credentials_included": false,
+    "raw_logs_included": false
+  },
+  "local_regression_evidence": {
+    "status": "PASS",
+    "python_api_infrastructure_tests": 294,
+    "frontend_tests": 26,
+    "focused_aws_harness_tests": 70,
+    "format_lint_types_security": "PASS",
+    "artifact": "docs/validation/aws-local-regressions-2026-09-09.json",
+    "establishes_deployed_behavior": false
+  }
+}

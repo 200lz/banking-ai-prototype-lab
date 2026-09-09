@@ -1,0 +1,210 @@
+{
+  "generated_at": "2026-09-09T12:41:20.528845+00:00",
+  "mode": "bedrock",
+  "measurement_scope": "Live Bedrock planner with governed extractive responses",
+  "dataset_sha256": "c8b2f455a5878bf3db1b33207e00e25ab6a41d5849a25b75ab02b05ebe5d37d1",
+  "python": "3.11.5",
+  "case_count": 1,
+  "requested_case_count": 1,
+  "stopped_early": false,
+  "smoke": false,
+  "aggregate": {
+    "answer_correctness": 0.0,
+    "retrieval_recall": 1.0,
+    "citation_correctness": null,
+    "groundedness": null,
+    "policy_compliance": 1.0,
+    "hallucination_rate": null,
+    "correct_tool_selection": 1.0,
+    "correct_escalation": 0.0,
+    "latency_ms": 3145.194,
+    "model_latency_ms": 3133.456,
+    "retrieval_latency_ms": 2.472,
+    "estimated_llm_cost_usd": 0.0,
+    "cost_measurement_complete": 0.0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "latency_p50_ms": 3145.194,
+    "latency_p95_ms": 3145.194,
+    "total_estimated_llm_cost_usd": 0.0
+  },
+  "metric_denominators": {
+    "answer_correctness": 1,
+    "retrieval_recall": 1,
+    "citation_correctness": 0,
+    "groundedness": 0,
+    "policy_compliance": 1,
+    "hallucination_rate": 0,
+    "correct_tool_selection": 1,
+    "correct_escalation": 1,
+    "latency_ms": 1,
+    "model_latency_ms": 1,
+    "retrieval_latency_ms": 1,
+    "estimated_llm_cost_usd": 1,
+    "cost_measurement_complete": 1,
+    "input_tokens": 1,
+    "output_tokens": 1
+  },
+  "gates": {
+    "cost_measurement_complete": 1.0,
+    "answer_correctness": 0.95,
+    "retrieval_recall": 0.95,
+    "citation_correctness": 1.0,
+    "groundedness": 1.0,
+    "policy_compliance": 1.0,
+    "correct_tool_selection": 1.0,
+    "correct_escalation": 1.0
+  },
+  "gate_failures": {
+    "cost_measurement_complete": {
+      "observed": 0.0,
+      "minimum": 1.0
+    },
+    "answer_correctness": {
+      "observed": 0.0,
+      "minimum": 0.95
+    },
+    "citation_correctness": {
+      "observed": null,
+      "minimum": 1.0
+    },
+    "groundedness": {
+      "observed": null,
+      "minimum": 1.0
+    },
+    "correct_escalation": {
+      "observed": 0.0,
+      "minimum": 1.0
+    },
+    "individual_case_failure": {
+      "observed": 1,
+      "maximum": 0
+    }
+  },
+  "passed": false,
+  "cases": [
+    {
+      "id": "case-001",
+      "category": "onboarding",
+      "scores": {
+        "answer_correctness": 0.0,
+        "retrieval_recall": 1.0,
+        "citation_correctness": null,
+        "groundedness": null,
+        "policy_compliance": 1.0,
+        "hallucination_rate": null,
+        "correct_tool_selection": 1.0,
+        "correct_escalation": 0.0,
+        "latency_ms": 3145.194,
+        "model_latency_ms": 3133.456,
+        "retrieval_latency_ms": 2.472,
+        "estimated_llm_cost_usd": 0.0,
+        "cost_measurement_complete": 0.0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "response": {
+        "request_id": "a53abb78-9cb5-4aaf-b6f1-f838897ba4a3",
+        "answer": "I cannot provide a supported recommendation from the available evidence.\n\nHuman review is required before any operational decision or action. This response grants no approval.",
+        "evidence": [],
+        "citations": [],
+        "assumptions": [
+          "All internal policies and scenarios are synthetic.",
+          "Only public and internal corpus classifications are permitted.",
+          "Confidence is a deterministic evidence-completeness heuristic, not a calibrated probability.",
+          "Public references are dated educational context and cannot authorize internal operations.",
+          "Model cost is estimated from reported tokens and configured illustrative rates; it excludes AWS infrastructure.",
+          "Model usage is incomplete; reported cost is a lower bound and may omit billed tokens."
+        ],
+        "missing_information": [],
+        "confidence": 0.0,
+        "risk_flags": [
+          "model_cost_unavailable",
+          "planner_failure"
+        ],
+        "human_review_required": true,
+        "mode": "bedrock",
+        "trace": [
+          {
+            "stage": "user_request",
+            "duration_ms": 0.09,
+            "status": "ok"
+          },
+          {
+            "stage": "intent_analysis",
+            "duration_ms": 0.832,
+            "status": "ok"
+          },
+          {
+            "stage": "retrieval",
+            "duration_ms": 2.557,
+            "status": "ok"
+          },
+          {
+            "stage": "agent_planning",
+            "duration_ms": 3133.597,
+            "status": "ok"
+          },
+          {
+            "stage": "controlled_tool_execution",
+            "duration_ms": 0.093,
+            "status": "ok"
+          },
+          {
+            "stage": "guardrail_validation",
+            "duration_ms": 0.831,
+            "status": "ok"
+          },
+          {
+            "stage": "citation_verification",
+            "duration_ms": 0.803,
+            "status": "ok"
+          },
+          {
+            "stage": "human_approval_decision",
+            "duration_ms": 0.643,
+            "status": "ok"
+          },
+          {
+            "stage": "final_response",
+            "duration_ms": 0.517,
+            "status": "ok"
+          }
+        ],
+        "tool_invocations": [
+          {
+            "name": "risk_classification",
+            "duration_ms": 0.277,
+            "status": "ok"
+          },
+          {
+            "name": "policy_search",
+            "duration_ms": 0.661,
+            "status": "ok"
+          },
+          {
+            "name": "citation_verification",
+            "duration_ms": 0.128,
+            "status": "ok"
+          }
+        ],
+        "metrics": {
+          "latency_ms": 3145.194,
+          "model_latency_ms": 3133.456,
+          "retrieval_latency_ms": 2.472,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "estimated_cost_usd": 0.0,
+          "cost_estimate_complete": false
+        },
+        "calculation": null,
+        "financial_profile": null,
+        "retrieved_document_ids": [
+          "SYN-ONBOARD-001",
+          "PUB-FINCEN-001"
+        ],
+        "disclaimer": "Synthetic demonstration only. No affiliation with any real bank."
+      }
+    }
+  ]
+}

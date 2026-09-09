@@ -85,8 +85,11 @@ def check_model_access(session: Any, configuration: dict[str, str]) -> dict[str,
     ):
         raise ValueError("The selected model does not support this regional text inference path")
     availability = client.get_foundation_model_availability(modelId=model_id)
+    # Bedrock can return a versionless ID for availability (observed for Nova Lite).
+    # Details above still bind the exact requested model; never accept another explicit version.
+    availability_ids = (model_id, re.sub(r":[0-9]+$", "", model_id))
     if (
-        availability.get("modelId") != model_id
+        availability.get("modelId") not in availability_ids
         or availability.get("authorizationStatus") != "AUTHORIZED"
         or availability.get("entitlementAvailability") != "AVAILABLE"
         or availability.get("regionAvailability") != "AVAILABLE"
