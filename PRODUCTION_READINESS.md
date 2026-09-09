@@ -4,15 +4,16 @@
 operations.** AWS bootstrap passed; application deployment is NOT TESTED / BLOCKED.
 Previous live qualification attempts failed with provider throttling and the
 last regional quotas were zero. Lambda quota and Nova Lite capacity cases are
-pending; live evaluation remains NOT TESTED. Databricks authentication and bundle
-deployment passed in Free Edition, but native execution is FAIL / BLOCKED by
-workspace-file read errors. Gold/application integration remains NOT TESTED;
-see [actual workspace evidence](docs/databricks-validation.md).
+pending; live evaluation remains NOT TESTED. Databricks Free Edition validation
+passed with a managed-Volume wheel, real native tables, governed Gold adapter and
+browser SME review. Earlier Workspace Files failures and one initial browser lookup
+abstention remain recorded; their underlying causes are unresolved. See
+[actual workspace evidence](docs/databricks-validation.md).
 
 | Area | Implemented and locally checked | Required before real use |
 | --- | --- | --- |
 | Workflow | Nine-stage controller, five baseline tools plus governed financial_profile_tool, typed responses | Institution-approved scope and operating model |
-| Financial analytics | Synthetic Bronze/Silver/Gold, Decimal formulas, provenance, missing/stale flags, local and Databricks adapters | Real workspace execution, independently reconciled formulas, governed publisher and Gold-only runtime grants |
+| Financial analytics | Synthetic Bronze/Silver/Gold, Decimal formulas, provenance, missing/stale flags, local and Databricks adapters | Institution-approved and independently reconciled formulas, separate governed publisher and Gold-only runtime grants; real synthetic workspace execution passed |
 | Evidence | Exact full-sentence citations, hashes, versions, conflicts, access filtering | Signed ingestion, ownership, freshness SLAs, applicability and entitlement rules |
 | Model | Real Strands/Bedrock adapter, bounded typed plan, SDK construction/contract tests | Live model evaluation, held-out expert cases, model-risk approval |
 | Identity | Cognito/PKCE server flow, gateway JWT scope, MFA CDK settings | Live login verification, enterprise IdP, joiner/mover/leaver controls and session lifecycle |

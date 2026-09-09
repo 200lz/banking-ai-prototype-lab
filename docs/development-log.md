@@ -1,6 +1,73 @@
 # Development log
 
-## Real Databricks workspace attempt (2026-09-10 JST)
+## Volume-backed wheel and real Databricks integration (2026-09-10 JST)
+
+- Recorded [wheel acceptance](databricks-wheel-acceptance.md) before implementation.
+  Phase 1 inspected all four failed traces and confirmed Workspace Files support
+  already enabled, the exact deployed path, FILE types, run identity and inherited
+  CAN_MANAGE access.
+  Classification B describes the observed runtime read/mount boundary; underlying
+  provider cause remains unresolved. No unchanged source-file job was retried.
+- Runtime Workspace Files reads failed repeatedly; switching the job artifact
+  boundary to a packaged wheel on a Unity Catalog Volume avoided that dependency.
+  No confirmed platform bug or unsupported Free Edition feature is claimed.
+- Moved the existing typed writer into one shared module, preserving the local
+  wrapper, formulas and expected outputs. Built an allowlisted 11,407-byte wheel
+  containing financial models/pipeline/publisher and exact packaged RAW bytes via
+  importlib.resources; no API, SDK adapter or Bedrock code. Pinned build tools and
+  preserved their explicit dev-lock entries without expanding runtime dependencies.
+  Local build initially hit pip-cache write permissions; offline --no-cache-dir
+  resolved that. A metadata Path type mismatch was fixed before final artifact build.
+- Created one dedicated managed Volume in the synthetic schema using the existing
+  catalog/developer identity. No external storage or credentials were created.
+  Independent upload/download SHA verification passed for
+  `d5f2b811db9beb1d04aea256888c3831ddb8238fcffa4f72c2e0a56b466f3166`.
+- The minimal installed-wheel smoke passed in 33.733 seconds with one attempt and
+  no retry. Installed module hashes matched, the exact fixture read succeeded,
+  and no Spark session or table write occurred. Only then migrated the existing
+  task to python_wheel_task, retaining environment 2, concurrency one and timeout
+  900 seconds. Its first execution passed in 94.873 seconds with no retry.
+- Four real fixed SELECTs independently verified every Bronze/Silver row, the
+  rejected record, three Gold profiles, all twelve typed metric cells, as-of dates
+  and source/dataset/profile hashes. Actual RAW/Bronze/Silver/rejected/Gold counts
+  were 20/20/18/1/3, with one collapsed duplicate. Table verification took 33.391s.
+- Real SDK/FastAPI checks passed four reads for complete, missing, stale and absent
+  companies in a 10.399707s scenario group. Policy citations, nine stages and human
+  review passed; invalid inputs and credit bypass made no additional financial
+  calls. Malformed, tampered and outage checks used injected clients, explicitly
+  separate from live evidence. Actual permission denial and a separate Gold-only
+  application identity remain NOT TESTED.
+- Browser verification passed complete/missing/stale live Gold reviews and prohibited
+  credit approval. Workflow latencies were 5495.2 / 3965.7 / 3804.7 ms and refusal 19.6 ms;
+  all profiles displayed exact values/as-of/source, three policy citations and
+  human review, with expanded formulas/source IDs/hashes inspected. Refusal made
+  no financial-tool call. The initial request safely abstained at 3303.5ms; its
+  provider outcome and cause remain unresolved. Restarted only the local API with
+  private diagnostic instrumentation, no product change; subsequent three browser
+  SQL reads succeeded. No fix or provider bug is claimed from that sequence.
+- Final local gates passed 314 Python/API/infrastructure tests, 26 frontend tests,
+  all 61 unchanged deterministic cases, formatting/lint/types, Bandit and dependency
+  audits. The focused financial set passed 67 tests, including installed-wheel
+  execution outside the checkout. Existing Starlette/AnyIO and action-runtime
+  deprecations remain non-blocking; no warning fix is claimed. Review found that a
+  new lock-regeneration assertion compared Windows pywin32 lines byte-for-byte;
+  it now compares requirements applicable to the current platform and retains the
+  invariant that build tooling is absent from the runtime lock. All 14 wheel tests
+  passed after this portability correction; packaged wheel bytes were unchanged.
+- AWS remains frozen: no AWS call or LLM invocation, paid trial/payment, edition
+  change or new paid-resource purchase occurred. Prior AWS capacity/support and
+  Bedrock qualification evidence is unchanged. Free Edition allowance was used;
+  an actual metered dollar amount was not measured. The existing 2X-Small warehouse
+  was RUNNING at final inspection with its unchanged ten-minute auto-stop setting.
+  Private workspace identifiers
+  remain outside public files. [Live wheel evidence](validation/databricks-wheel-2026-09-10.json)
+  and [validation details](databricks-validation.md) preserve scope and limitations.
+- Updated the README, report and matrix from actual live evidence. Hosted baseline
+  [34370908568](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34370908568)
+  passed at `712fda9c5fd690fc8146009d7104e155b7290713`; the wheel revision's
+  hosted CI is PENDING and must complete before publication is declared verified.
+
+## Historical failed Workspace Files attempt (2026-09-10 JST)
 
 - Acceptance criteria: verify the expected active workspace user and Free Edition
   before execution; validate and deploy the existing dev bundle; require an actual
@@ -10,7 +77,7 @@
   evidence. No product feature or bundle code change was part of this milestone.
 - The user confirmed Free Edition. Installed official CLI 1.16.0 with checksum
   verification. CLI OAuth U2M authenticated the expected active user; the SDK
-  remains pinned to 0.136.0 and was not used live. Dev bundle validation and
+  was pinned to 0.136.0 and had not been used live at that stage. Dev bundle validation and
   deployment passed. Deployment created one unscheduled
   serverless job with environment version 2, `pydantic==2.13.5`, timeout 900 seconds
   and maximum concurrency one. Selected the existing catalog; the existing

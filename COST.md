@@ -116,14 +116,14 @@ unverified; Git authorization and a successful build are still required for a
 functioning hosted frontend. Bootstrap does not resolve Lambda capacity or these
 hosting requirements. See the [capacity/dependency review](docs/deployment-capacity-review.md)
 and [cloud validation](docs/cloud-validation.md). AWS smoke and twenty-case live
-evaluation remain **NOT TESTED**. Databricks deployment passed, but its native
-pipeline is **FAIL / BLOCKED** and Gold integration remains **NOT TESTED**. The table
+evaluation remain **NOT TESTED**. Databricks Free Edition native pipeline and
+Gold/browser integration passed through a Volume-backed wheel. The table
 below describes potential application costs, not deployed application resources
 or measured charges.
 
 | Driver | Cost behavior / chosen control |
 | --- | --- |
-| Lambda | Memory × duration × calls; 1 GiB, 28-second timeout, reserved concurrency 3 |
+| Lambda | Memory 脳 duration 脳 calls; 1 GiB, 28-second timeout, reserved concurrency 3 |
 | API Gateway | Requests; throttled to 2/second and burst 5 in the template |
 | S3 | Corpus bytes, versions and reads; bounded corpus, 60-second warm cache |
 | DynamoDB | Pay-per-request audit writes and storage; example 90-day TTL and PITR |
@@ -163,10 +163,25 @@ are failed-run wall times, not successful pipeline latency or billable DBUs.
 Free Edition is a [no-cost offering](https://docs.databricks.com/aws/en/getting-started/free-edition-limitations),
 so no charge is expected; an actual metered dollar amount was not exposed or
 measured. No paid trial, payment method, paid resource or edition change occurred.
-The existing 2X-Small serverless SQL warehouse remained STOPPED; no SQL query or
-warehouse latency was measured. The unscheduled job and bundle files are retained;
-see [evidence and cleanup](docs/databricks-validation.md).
+The subsequent managed-Volume wheel smoke passed in **33.733 s**, and the first
+migrated native pipeline passed in **94.873 s**, each with one attempt and no retry.
+Independent reads of all four tables took **33,391 ms**; the Bronze read included
+cold warehouse startup (**23,172 ms**), while Gold took **1,984 ms**. Four actual
+SDK/API profile cases plus distinct injected contracts took **10,399.707 ms**.
+
+The first browser lookup safely abstained after **3,303.5 ms** for an unresolved
+reason. Following a local API restart, complete/missing/stale profile workflow
+times displayed in the browser were **5,495.2 / 3,965.7 / 3,804.7 ms**; credit refusal
+took **19.6 ms** and performed no financial query. These individual observations
+are not latency percentiles, DBU measurements or browser round-trip benchmarks.
+All successful SQL results were real Databricks reads; the planner remained local
+with zero model tokens and **$0 LLM cost**.
+
+The existing 2X-Small serverless warehouse was **RUNNING** at final inspection with
+unchanged **10-minute auto-stop**. The unscheduled job, bounded schema, one managed
+Volume/wheel, four synthetic Delta tables and bundle files are retained. No new
+warehouse or paid resource was created. See [evidence and cleanup](docs/databricks-validation.md).
 
 Any future paid environment needs a separate cost review and approval. The
-model-cost field excludes Databricks charges; successful future validation must
-report job and query measurements separately. AWS remains frozen.
+model-cost field excludes Databricks charges; job and query measurements are
+reported separately above; an actual metered dollar amount remains unmeasured. AWS remains frozen.

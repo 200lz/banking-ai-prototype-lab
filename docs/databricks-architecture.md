@@ -5,17 +5,18 @@ indicators. The application reads a governed Gold profile through a strict tool;
 it does not give the LLM SQL, raw financial rows, credentials, or lending authority.
 Every company and financial record is fictional. No real bank is represented.
 
-The local pipeline and adapter contracts are verified. Real authentication and
-bundle deployment passed in Free Edition; native execution is **FAIL / BLOCKED**
-by workspace-file reads. Gold integration remains **NOT TESTED**; see
-[validation evidence](databricks-validation.md).
+The local contracts and real Free Edition wheel smoke, native pipeline, exact
+Delta table reconciliation, Gold adapter and browser SME review are **PASS**.
+A Volume-backed installed wheel avoids the observed Workspace Files read failure;
+its underlying cause remains unresolved. Production Gold-only identity isolation
+is **NOT TESTED**; see [validation evidence](databricks-validation.md).
 
 ```mermaid
 flowchart LR
     R[Synthetic financial JSON / RAW] --> B[Databricks Bronze<br/>raw payload + source hashes]
     B --> S[Silver<br/>typed Decimal rows, nulls, deduplication]
     S --> G[Gold Delta table<br/>indicators + lineage + data_as_of]
-    G --> Q[Fixed parameterized SELECT<br/>Gold-only runtime identity]
+    G --> Q[Fixed parameterized SELECT<br/>Gold-only identity required for production]
     Q --> T[financial_profile_tool<br/>strict synthetic company_id]
     T --> C[Deterministic safety controller<br/>quantitative evidence + policy citations]
     P[Synthetic policies / dated public context] --> E[Permitted policy evidence]
@@ -48,11 +49,13 @@ generator is `databricks/generate_fixture.py`; runtime code never invokes it.
 | Gold | One profile per company with four indicators, missing/data-quality flags, covered period count, month-end freshness date, formula version and source record/hash lineage. |
 
 The shared implementation in `packages/financial/pipeline.py` validates and
-computes these logical layers. `databricks/run_pipeline.py` runs it on the job
-driver and publishes typed Delta tables: `financial_bronze`, `financial_silver`,
+computes these logical layers. The installed wheel entry point calls the shared
+`packages/financial/publisher.py` on the job driver to publish typed Delta tables: `financial_bronze`, `financial_silver`,
 `financial_rejected`, and `financial_gold`. This is deliberately a bounded Python
 batch (2 MB, 5,000 source rows, at most 120 months per company), not a distributed
 Spark feature engineering engine. Both modes use the same Decimal formulas.
+`databricks/run_pipeline.py` remains a local compatibility wrapper; the deployed
+job uses `python_wheel_task` and the fixture packaged through `importlib.resources`.
 
 Normalized identical duplicate rows collapse. Different records for the same
 company/month are excluded and produce `conflicting_duplicate`; the pipeline
@@ -144,8 +147,12 @@ verification artifact intentionally contains public synthetic metrics and lineag
 ## Deployment and operational limits
 
 The development bundle defines one unscheduled serverless Python job with a
-15-minute job timeout and one concurrent run. Its sync paths preserve the repository
-package/data hierarchy as specified in the official
+15-minute job timeout, one concurrent run and disabled task retries/optimization.
+The `python_wheel_task` installs a minimal financial-only wheel from the single
+managed Unity Catalog Volume. Its required `wheel_path` is supplied only after
+upload/download SHA verification and a separate minimal smoke. Environment 2 and
+pydantic 2.13.5 remain fixed. Synced sources are for inspection; runtime module and
+fixture reads use the installed distribution. See the official
 [bundle configuration reference](https://docs.databricks.com/aws/en/dev-tools/bundles/reference).
 Spark publishes Gold last. Individual table overwrites are atomic Delta operations;
 the four-table batch is not one transaction. A failed run can leave old Gold beside
@@ -159,5 +166,6 @@ bounded. End-to-end deadline propagation, timeout/audit recovery and cold-wareho
 latency are unverified production gaps. A process hard timeout cannot guarantee a
 final audit record. Databricks compute and warehouse charges are additional to
 Bedrock/AWS costs in paid deployments. Two failed Free Edition job wall times are
-recorded in [validation evidence](databricks-validation.md); successful pipeline/
-query latency and an actual metered cost remain unmeasured.
+retained alongside the subsequent 33.733-second wheel smoke, 94.873-second native
+pipeline and actual SQL/browser observations in [validation evidence](databricks-validation.md).
+A metered dollar cost, production capacity and sustained availability remain unmeasured.

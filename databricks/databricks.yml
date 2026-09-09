@@ -7,8 +7,10 @@ variables:
   schema:
     description: Dedicated synthetic development schema
     default: banking_ai_synthetic
+  wheel_path:
+    description: Absolute /Volumes path to the uploaded SHA-256-verified financial-only wheel
 
-# The common ancestor is the repository root; relative package/data paths remain intact.
+# Sources remain available for inspection; the runtime reads only the installed Volume wheel.
 sync:
   paths:
     - ../packages/financial
@@ -27,11 +29,13 @@ resources:
       tasks:
         - task_key: publish_gold
           environment_key: financial
-          spark_python_task:
-            python_file: ./run_pipeline.py
+          max_retries: 0
+          retry_on_timeout: false
+          disable_auto_optimization: true
+          python_wheel_task:
+            package_name: banking_ai_financial
+            entry_point: publish
             parameters:
-              - --repo-root
-              - ${workspace.file_path}
               - --catalog
               - ${var.catalog}
               - --schema
@@ -42,6 +46,7 @@ resources:
             environment_version: '2'
             dependencies:
               - pydantic==2.13.5
+              - ${var.wheel_path}
 
 targets:
   dev:

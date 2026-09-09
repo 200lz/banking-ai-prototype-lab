@@ -39,6 +39,11 @@ def lock() -> None:
         str(canonicalize_name(d.metadata["Name"])) for d in metadata.distributions()
     }
     all_names -= {"banking-ai-prototype-lab", "pip", "setuptools", "wheel"}
+    # Explicit development build tools must survive regeneration; runtime stays separate.
+    all_names |= {
+        str(canonicalize_name(Requirement(raw).name))
+        for raw in project["project"].get("optional-dependencies", {}).get("dev", [])
+    }
     for filename, names in [
         ("requirements.lock", all_names),
         ("requirements-runtime.lock", runtime),

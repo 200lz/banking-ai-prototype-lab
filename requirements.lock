@@ -90,6 +90,7 @@ rich==15.0.0
 rpds-py==2026.6.3
 ruff==0.16.6
 s3transfer==0.19.2
+setuptools==84.0.0
 six==1.17.0
 sortedcontainers==2.4.0
 sse-starlette==3.4.11
@@ -105,4 +106,5 @@ typing-inspection==0.4.4
 urllib3==2.7.0
 uvicorn==0.52.4
 watchdog==6.0.0
+wheel==0.48.0
 wrapt==2.4.0

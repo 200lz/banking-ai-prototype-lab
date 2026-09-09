@@ -1,80 +1,193 @@
 # Databricks integration validation
 
-Updated 2026-09-10 JST. **Authentication, bundle validation and deployment: PASS.
-Real pipeline: FAIL / BLOCKED. Gold query, real application adapter and end-to-end
-workspace integration: NOT TESTED.** All financial entities and records are synthetic.
+Updated 2026-09-10 JST. **Real Free Edition workspace validation: PASS** for the
+Volume-backed wheel smoke, native pipeline, exact live table reconciliation, Gold
+query, real SDK/API tool and browser SME review. All entities and records are
+synthetic. AWS remains frozen; no model was invoked.
 
-## Actual Free Edition workspace attempt
+[Acceptance criteria](databricks-wheel-acceptance.md) were recorded before
+implementation. [Current machine-readable evidence](validation/databricks-wheel-2026-09-10.json)
+preserves actual timings, artifact hashes, checks and sanitized run references.
+The [earlier failed execution](validation/databricks-workspace-2026-09-10.json)
+remains historical evidence; it has not been relabeled as successful.
 
-Acceptance criteria were recorded before execution: use the existing dev bundle
-and synthetic data; verify exact layer counts, indicators and provenance; require
-real Gold reads and governed SME review; preserve safe missing/stale/invalid and
-failure behavior; make no AWS, billing, trial or edition changes. Workspace PASS
-requires every real integration gate below, not merely deployment.
+## Diagnosis and source-delivery change
 
-The user confirmed **Free Edition**. Installed the official standalone Databricks
-CLI **1.16.0** from its checksum-verified Windows release, then authenticated using
-OAuth U2M. `current-user me` verified the active expected user and `auth describe`
-verified the supplied workspace mapping. Credentials remain outside the repository.
-The existing SDK remains pinned to **0.136.0**. The earlier missing-CLI/profile
-preflight is historical; authentication is now proven.
+The two historical `spark_python_task` runs failed after **71.903 s** and
+**104.309 s**, including four task attempts. All four full traces were inspected.
+Each failed before RAW processing/table writes with `OSError: [Errno 5]
+Input/output error` on different Workspace Python files. No unchanged pipeline
+retry was submitted in this milestone.
 
-| Real check | Actual result |
+Read-only checks returned `enableWorkspaceFilesystem=true`. Exact deployed paths
+matched the bundle; source objects were regular `FILE` objects; the current user
+or group had `CAN_MANAGE` on every inspected folder/file. The run-as user matched
+the authenticated developer, environment version was 2, and exported `models.py`
+matched local bytes. These observations support **B: observed runtime Workspace
+Files read/mount failure**. The underlying cause is unresolved; no deterministic
+path defect, permission denial, documented Free Edition restriction or confirmed
+Databricks platform bug was established.
+
+**Runtime Workspace Files reads failed repeatedly; switching the job artifact
+boundary to a packaged wheel on a Unity Catalog Volume avoided that dependency.**
+
+The financial-only wheel includes the shared models, unchanged formulas, shared
+typed publisher, two entry points and the exact 20-row fixture through
+`importlib.resources`. It excludes API/web/Bedrock code. The builder copies an
+explicit source allowlist into a temporary build stage; there is no second
+maintained business implementation. Runtime module origins must match the
+installed distribution, and runtime code does not change `sys.path` or read the
+bundle's Workspace source tree. Bundle-synced files remain available for inspection.
+
+## Actual live results
+
+Official CLI **1.16.0** and SDK **0.136.0** used the existing OAuth U2M development
+profile. Credentials remain outside Git. User-confirmed **Free Edition** was
+retained throughout.
+
+| Check | Actual result |
 | --- | --- |
-| Workspace discovery | PASS: Unity Catalog, an existing managed catalog and one stopped serverless 2X-Small SQL warehouse. No target schema or matching project job existed before deployment. |
-| `bundle validate -t dev` | PASS without bundle or product changes. Two non-failing exclusions matched no files. |
-| `bundle deploy -t dev` | PASS: one unscheduled serverless job, one task, environment version 2, `pydantic==2.13.5`, one concurrent run and 900-second timeout; bundle source/data files uploaded. No catalog, warehouse or classic cluster created. |
-| Initial pipeline run | FAIL: 71.903 seconds, including two automatic task attempts. Workspace file reads failed on the financial models module and then the entry script. |
-| One bounded retry of the unchanged job | FAIL: 104.309 seconds, including two automatic task attempts. Reads failed on the pipeline module and then the entry script. No further run submitted. |
-| Read-only diagnosis | Uploaded objects are regular `FILE` objects; exported `models.py` exactly matches the local bytes. All errors occurred before RAW loading and schema/table writes. |
-| Final resource state | Target schema absent; SQL warehouse still STOPPED. Both job runs terminal. One unscheduled job and its bundle files retained. |
-| Actual Bronze/Silver/Gold counts | NOT TESTED; no output tables were produced. Expected fixture counts below are not live results. |
-| Gold query / real SDK adapter / SME review | NOT TESTED; no SQL statement was submitted after the publisher failed. |
+| Managed storage | PASS: one new bounded `workspace.banking_ai_synthetic` schema and one MANAGED `banking_ai_artifacts` Volume, both owned by the current developer. Existing catalog reused. |
+| Actual privileges | Catalog effective grants include `USE_CATALOG`; schema/Volume effective-grant arrays contain no explicit assignments. Ownership was independently verified; empty arrays are not evidence of denied owner access. |
+| Minimal wheel | PASS: `banking_ai_financial-0.1.0-py3-none-any.whl`, 11,407 bytes, only `pydantic==2.13.5` as runtime dependency. |
+| Upload integrity | PASS: official CLI upload followed by independent download; downloaded SHA-256 equals local SHA-256. |
+| Minimal serverless wheel smoke | PASS: 33.733 s, one task attempt, zero retries. Installation/imports, installed-module hashes and packaged 20-row fixture reads verified; no Spark or table writes. |
+| Existing bundle migration | PASS: validate/deploy and re-read deployed settings. `python_wheel_task`, `publish`, environment 2, exact Volume wheel, max concurrency 1, timeout 900 s. No classic compute or schedule. |
+| Native pipeline | PASS: first migrated run, 94.873 s, one attempt, zero retries; no pipeline retry required. |
+| Actual counts | RAW 20; Bronze **20**; Silver **18**; rejected **1**; collapsed duplicate **1**; Gold **3**. |
+| Independent table reconciliation | PASS: four fixed bounded SELECTs; all Bronze payload/hash pairs, every Silver field, rejected errors and all three full Gold profiles match exactly. Twelve typed metric cells (including four nulls), timestamps, source IDs and dataset/Gold hashes verified. |
+| SQL timing | Four-table verification 33,391 ms; individual reads Bronze 23,172 / Silver 2,937 / rejected 1,782 / Gold 1,984 ms. Bronze includes cold warehouse startup. |
+| Real SDK/API | PASS: four Gold reads for complete/missing/stale/absent companies; 108 total checks across live and separately injected contracts, 10,399.707 ms overall. No model or AWS calls. |
+| Input/scope controls | Invalid IDs and supplied SQL produce HTTP 422 with no financial query; prohibited credit approval is refused and escalated with no financial query. |
+| Browser SME review | PASS: actual local Next.js to FastAPI to Databricks. Complete, missing and stale cards, policy excerpts, exact metrics, expanded hashes/formulas/source IDs and mandatory human review verified. Credit approval refused without the financial tool. |
 
-The exact blocker is **`OSError: [Errno 5] Input/output error` while reading
-workspace Python files**. The root cause remains unresolved. This error does not
-establish that the required capability is unsupported by Free Edition: official
-[workspace-file documentation](https://docs.databricks.com/aws/en/files/workspace)
-supports Python modules, and [serverless documentation](https://docs.databricks.com/aws/en/compute/serverless/limitations)
-recommends workspace files. No compute, networking, permission or edition workaround
-was attempted. If a required capability is confirmed unsupported, stop and report
-it; do not upgrade automatically.
+Uploaded wheel SHA-256:
 
-[Sanitized machine-readable evidence](validation/databricks-workspace-2026-09-10.json)
-records UTC start/end times, durations, attempt errors and public run-reference
-hashes. Actual job/run/task IDs, workspace host, principal, user-specific paths and
-raw provider responses are retained only in ignored local evidence. No credentials
-or provider identifiers are published.
-
-Free Edition is a [no-cost offering with fair-use limits and no SLA](https://docs.databricks.com/aws/en/getting-started/free-edition-limitations).
-No charge is expected for this confirmed Free Edition execution; an actual metered
-dollar amount was not exposed or measured. The two job runtimes total 176.212
-seconds, which is not a DBU or billing measurement. No LLM was invoked. No trial,
-payment method, paid resource or edition change occurred. AWS remains frozen.
-This test used the developer identity; a separate application identity restricted
-to Gold-only access has **not** been verified. Free Edition results do not establish
-production security, reliability or capacity.
-
-## Retained resources and cleanup
-
-The retained dev job has no schedule and both runs have ended. Its uploaded files
-contain only the existing publisher, financial package and synthetic fixtures.
-The existing catalog and warehouse were not created by this milestone. The
-proposed `banking_ai_synthetic` schema does not exist, so there are no project
-tables to drop.
-
-To remove this milestone's bundle-managed resources, first confirm the same
-workspace/profile and exact dev bundle, then run from `databricks/`:
-
-```sh
-databricks bundle summary -t dev --var catalog=workspace -p banking-ai-dev
-databricks bundle destroy -t dev --var catalog=workspace -p banking-ai-dev
+```text
+d5f2b811db9beb1d04aea256888c3831ddb8238fcffa4f72c2e0a56b466f3166
 ```
 
-Review the destroy plan and verify removal. Inspect any remaining personal bundle
-files before deleting only that deployment directory. Preserve private run evidence
-first. Do not delete the pre-existing catalog/warehouse, use a recursive schema
-drop, or change billing. Cleanup has not been executed.
+The Volume path is
+`/Volumes/workspace/banking_ai_synthetic/banking_ai_artifacts/<wheel-sha256>/banking_ai_financial-0.1.0-py3-none-any.whl`.
+The complete SHA-resolved path is in the evidence JSON. A hash-named directory is
+an operator integrity convention, not immutable storage or a signature.
+
+The first browser lookup safely abstained after 3,303.5 ms. Its underlying failure
+was not captured and remains unresolved. Restarting only the local API with private
+SDK diagnostics was followed by three successful real statements; no product,
+pipeline or workspace settings changed. Successful browser-displayed workflow
+times were **5,495.2 / 3,965.7 / 3,804.7 ms** for complete/missing/stale and **19.6 ms**
+for refusal. These are individual workflow observations, not browser round-trip
+percentiles or an availability guarantee. The initial failure is retained in the
+evidence instead of being removed from the record.
+
+Malformed profiles/columns, tampered hashes and provider outage were tested through
+**injected contracts**, distinctly from successful live reads. Actual warehouse
+permission denial and a real outage remain **NOT TESTED**. A separate production
+identity restricted to Gold-only SELECT remains **NOT TESTED**; this milestone
+used the current development owner as explicitly approved.
+
+## Reproduce the approved artifact boundary
+
+These are operator instructions for an approved synthetic development environment,
+not runtime-agent capabilities. Confirm edition, workspace/profile and exact
+schema/Volume ownership first; do not upgrade when a capability is unavailable.
+The official [wheel-task instructions](https://docs.databricks.com/aws/en/jobs/tasks/python-wheel)
+describe packaged entry points and serverless environments; [Volume documentation](https://docs.databricks.com/aws/en/files/volumes)
+describes managed file storage.
+
+From the repository root after `make setup` (use `.venv/Scripts/python.exe` on
+Windows), build offline with the locked developer tools:
+
+```sh
+.venv/bin/python databricks/build_wheel.py
+```
+
+Record the emitted SHA and artifact size. The builder uses pinned setuptools
+84.0.0/wheel 0.48.0, fixed timestamps, no dependency resolution or build cache.
+Require the canonical fixture hash below; compare each built module with source.
+Reuse the single approved Volume. Set `WHEEL_SHA`, `WHEEL_FILE` and `WHEEL_PATH`
+locally from the inspected output; `WHEEL_PATH` must be an absolute path under that
+Volume with a SHA-specific directory. Do not use a Workspace Files wheel path.
+
+```sh
+databricks fs mkdir "dbfs:/Volumes/workspace/banking_ai_synthetic/banking_ai_artifacts/$WHEEL_SHA" -p banking-ai-dev
+databricks fs cp "$WHEEL_FILE" "dbfs:$WHEEL_PATH" -p banking-ai-dev
+databricks fs cp "dbfs:$WHEEL_PATH" .runtime/downloaded-financial.whl -p banking-ai-dev
+sha256sum "$WHEEL_FILE" .runtime/downloaded-financial.whl
+```
+
+On PowerShell use `Get-FileHash -Algorithm SHA256` for both files. Require equal
+hashes before any execution. `wheel_path` is a required bundle string; its Volume
+boundary and hash are enforced by this operator preflight, not by YAML type validation.
+
+Submit **one** minimal `python_wheel_task` with package `banking_ai_financial`,
+entry point `smoke`, environment version 2 and dependencies `pydantic==2.13.5` plus
+the verified absolute wheel path. Set `max_retries=0`, `retry_on_timeout=false`,
+`disable_auto_optimization=true`, task/job timeout 300 seconds. Record the returned
+run ID privately and inspect the one task's output. Require `status=PASS`,
+`source_boundary=installed_wheel`, 20 fixture rows, installed module hash matches,
+`spark_initialized=false`, `tables_written=false` and no Workspace source reads.
+If the same Errno 5 occurs, stop. This milestone used a one-time Jobs submission,
+not another saved diagnostic job.
+
+Only after that gate passes, from `databricks/`:
+
+```sh
+databricks bundle validate -t dev --var catalog=workspace --var "wheel_path=$WHEEL_PATH" -p banking-ai-dev
+databricks bundle deploy -t dev --var catalog=workspace --var "wheel_path=$WHEEL_PATH" -p banking-ai-dev
+databricks bundle run -t dev --var catalog=workspace --var "wheel_path=$WHEEL_PATH" -p banking-ai-dev financial_pipeline
+```
+
+Inspect deployed settings and actual tables. Retain environment 2, timeout 900,
+max concurrency one and disabled task retries/optimization. Do not rerun a failure
+without diagnosis and a concrete bounded fix. These four named Delta tables are
+overwritten; use only the approved synthetic schema.
+
+Configure the API privately with `FINANCIAL_BACKEND=databricks`, authenticated
+`DATABRICKS_CONFIG_PROFILE`, `DATABRICKS_AUTH_TYPE=databricks-cli`, workspace host,
+warehouse ID, catalog and schema. Keep `AGENT_MODE=local`, `RETRIEVAL_BACKEND=local`,
+`API_AUTH_MODE=local`, local audit, and no remote audit/OTLP or model configuration.
+From the repository root, the committed read-only helper exercises the actual
+adapter and policy workflow:
+
+```sh
+.venv/bin/python databricks/verify_profile.py --backend databricks --company-id SYN-SME-001 --output .runtime/databricks-live.json
+```
+
+Verify real complete/missing/stale/absent profiles and actual browser behavior;
+do not reinterpret injected failures as live permission testing. Keep workspace
+hosts, identities, job/task/statement IDs and raw provider responses private.
+
+## Retained resources, cost and cleanup
+
+The existing unscheduled job is updated; the one-time smoke and first wheel
+pipeline runs are terminal. Retained project resources are the bounded schema,
+one MANAGED Volume, one wheel, four named Delta tables and bundle inspection files.
+No catalog, warehouse, classic cluster, external storage or cloud credentials were
+created. The existing serverless **2X-Small** SQL warehouse was **RUNNING** at final
+inspection with its unchanged **10-minute auto-stop**. This differs from the
+STOPPED state before this milestone; final auto-stop completion was not asserted.
+
+[Free Edition](https://docs.databricks.com/aws/en/getting-started/free-edition-limitations)
+is no-cost with fair-use limits and no SLA. No charge is expected; a metered dollar
+amount was not exposed or measured. Job durations are not DBUs. No paid trial,
+payment method, paid resource or edition change occurred. See [cost boundaries](../COST.md).
+
+Cleanup has **not** been executed. Preserve private evidence and confirm the exact
+workspace/profile and ownership before removing anything. From `databricks/`,
+inspect `bundle summary`, then `bundle destroy` with `-t dev`, the same catalog,
+`wheel_path` and profile variables above. Review the plan; verify only this job and
+its deployment files are removed. Inspect any residual personal bundle directory
+before deleting only that directory.
+
+Separately remove the four exact project tables (`financial_gold`,
+`financial_rejected`, `financial_silver`, `financial_bronze`) in
+`workspace.banking_ai_synthetic`; remove the single MANAGED `banking_ai_artifacts`
+Volume, then drop the schema only after confirming it is empty. Do not use a
+recursive schema drop, delete the pre-existing catalog/warehouse or change billing.
+Deleting managed objects can delete their data; preserve the intended evidence
+first. No cleanup instruction is an autonomous runtime-agent tool.
 
 ## Historical local evidence (2026-09-09)
 
@@ -121,72 +234,3 @@ To reproduce the complete fixture itself, run
 `python databricks/generate_fixture.py`. The generator writes only synthetic
 financial source/Gold artifacts. A regression compares committed Gold exactly
 against a rebuild of the committed raw file.
-
-## Remaining real verification after the runtime blocker is resolved
-
-1. Resolve the workspace-file read failure in the existing Free Edition workspace.
-   Authentication, CLI installation and bundle deployment are already verified.
-   Preserve the failed evidence and check the same workspace/profile before a
-   subsequent bounded run. If OAuth expires, authenticate the deployment user
-   with `databricks auth login --host <workspace-url>`; keep profiles and tokens
-   outside this repository. See the official
-   [OAuth login instructions](https://docs.databricks.com/aws/en/dev-tools/auth/oauth-u2m).
-2. Use a dedicated development schema. The bundle overwrites the four named
-   synthetic Delta tables on each run. Grant the publisher the required schema
-   creation/write rights; use a separate application identity with Gold-only
-   SELECT plus USE CATALOG, USE SCHEMA and warehouse CAN USE. Do not grant the
-   application access to Bronze, Silver or underlying raw storage.
-3. In `databricks/`, validate, deploy and run the versioned development bundle:
-
-   ```sh
-   databricks bundle validate -t dev --var catalog=<development_catalog>
-   databricks bundle deploy -t dev --var catalog=<development_catalog>
-   databricks bundle run -t dev --var catalog=<development_catalog> financial_pipeline
-   ```
-
-   Record the real run status and an appropriately sanitized run reference.
-   Inspect all four tables: expected fixture counts are Bronze 20, Silver 18,
-   rejected 1 and Gold 3. Check the exact raw dataset hash and profile hash against
-   the committed local snapshot. The two actual runs above failed before this
-   output-verification step; successful native publication remains unverified.
-4. Configure the application process with `FINANCIAL_BACKEND=databricks`,
-   `DATABRICKS_HOST`, `DATABRICKS_WAREHOUSE_ID`, `DATABRICKS_CATALOG` and
-   `DATABRICKS_SCHEMA`. The adapter accepts AWS workspace HTTPS hosts and scoped
-   lowercase catalog/schema identifiers. Authentication is supplied through
-   [Databricks unified authentication](https://docs.databricks.com/aws/en/dev-tools/auth/unified-auth).
-   A service principal can use `DATABRICKS_AUTH_TYPE=oauth-m2m`,
-   `DATABRICKS_CLIENT_ID` and `DATABRICKS_CLIENT_SECRET` injected by a secret
-   provider; use workload federation where the actual deployment supports it.
-   No credential value belongs in a command example, `.env` commit, log or report.
-   The current CDK stack does not provision these credentials or workspace grants.
-   For this AWS-frozen milestone, explicitly use `AGENT_MODE=local`,
-   `RETRIEVAL_BACKEND=local`, `API_AUTH_MODE=local`, a local audit path, and unset
-   `AUDIT_TABLE` and remote `OTEL_EXPORTER_OTLP_ENDPOINT` before running the helper
-   or application. Use the authenticated `DATABRICKS_CONFIG_PROFILE`; no Bedrock
-   or DynamoDB action is authorized.
-5. From the repository root, perform an actual governed Gold read and local
-   controller end-to-end check:
-
-   ```sh
-   .venv/bin/python databricks/verify_profile.py --backend databricks --company-id SYN-SME-001 --output .runtime/databricks-live.json
-   ```
-
-   This opt-in command uses the real SDK adapter and fixed parameterized SQL. It
-   does not create tables or deploy jobs. It requires a valid profile plus verified
-   policy citations and human review. Inspect adapter `databricks`, hashes, values,
-   risk flags and tool invocation. Repeat with missing-data company `SYN-SME-002`,
-   stale company `SYN-SME-003` and an absent company to confirm safe abstention.
-   An absent company intentionally exits with failure; no metric is fabricated.
-6. Start the API with the same server environment and use the web SME review form
-   to submit `SYN-SME-001`. Verify that the response says `source: databricks`,
-   displays policy citations plus Gold lineage, and requires human review. Confirm
-   that a credit approval/bypass request is refused and makes no financial query.
-   Check runtime logs for metadata only. Separately test the intended warehouse
-   permission denial and outage. These real permission and network checks are
-   not substitutes for the already passing mock contract tests.
-
-Mark workspace integration PASS only after the native job actually produced the
-tables, the governed tool queried Gold successfully and the end-to-end synthetic
-scenario succeeded. Bedrock-backed quality and latency remain a separate live
-evaluation milestone. Retain failed runs as evidence, and do not reinterpret local
-or mock results as cloud verification.

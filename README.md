@@ -41,11 +41,12 @@ as-of dates. Failures abstain and surface missing evidence or required review.
 
 [![Quality and safety regression](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml)
 
-**Local application, Docker, GitHub Actions, AWS bootstrap and Bedrock discovery:
-PASS. AWS application deployment: NOT TESTED / BLOCKED. AWS smoke, live Bedrock
-evaluation and Databricks Gold integration: NOT TESTED. Databricks authentication,
-bundle validation and deployment: PASS; native pipeline: FAIL / BLOCKED.** Hosted
-CI runs without cloud credentials and does not establish those integrations.
+**Databricks Volume-backed wheel smoke, native pipeline, exact live tables and
+real SDK/API and browser SME review: PASS. Local application, Docker, prior hosted
+CI, AWS bootstrap and Bedrock discovery: PASS. AWS application deployment: NOT
+TESTED / BLOCKED; AWS smoke and live Bedrock evaluation: NOT TESTED.** This
+revision's hosted CI is pending. Hosted CI runs without cloud credentials;
+real workspace results come from separate execution.
 
 On 2026-09-09, real non-root sandbox identity, Tokyo model discovery, model access
 checks and a target-environment CDK diff passed. The explicitly approved Tokyo
@@ -76,11 +77,13 @@ the default unconnected template has no missing-secret dependency. The three-cas
 smoke and twenty-case live suite were not run. [Capacity/support evidence](docs/deployment-capacity-review.md)
 and [cloud validation](docs/cloud-validation.md) preserve the exact boundaries.
 
-Verified prior hosted baseline: [run 34365266090](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34365266090)
-passed at commit `ff03313f33cb060491b6f50a91140d0e403c4a95`. The workflow covers
-formatting, types, tests, evaluation, security, web/CDK builds and Docker checks.
-This result applies to the named commit; the Databricks documentation update
-requires its own completed run. The badge links to the current `main` workflow state.
+Verified prior hosted baseline: [run 34370908568](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34370908568)
+passed at commit `712fda9c5fd690fc8146009d7104e155b7290713` on 2026-09-09 UTC.
+The workflow covers formatting, types, tests, evaluation, security, web/CDK builds
+and Docker checks. This result precedes the wheel change; this revision requires
+its own completed hosted run. The badge links to the current `main` workflow state.
+The wheel continuation's local checks passed 314 Python/API/infrastructure tests,
+26 frontend tests, all 61 deterministic cases, formatting/lint/types and security audits.
 
 The Node.js 20 action-runtime deprecation annotation is **NON-BLOCKING**. GitHub
 forced the pinned actions onto Node.js 24; updating those action pins remains a
@@ -153,19 +156,32 @@ runway. The application reads only a governed Gold profile through
 `financial_profile_tool(company_id)`; the model receives no raw rows or profile
 values. Missing, invalid, conflicting and stale data are visible and require review.
 
-The local adapter works without credentials. A separate Databricks SDK adapter
+The local adapter works without credentials. The real Databricks SDK adapter
 uses fixed parameterized SQL, bounded inline results and strict provenance/schema
-checks. The native bundle is intended to publish Delta tables in a configured
-workspace. On 2026-09-10 JST, authentication, bundle validation and deployment
-passed in a user-confirmed Free Edition workspace. Both submitted pipeline runs
-failed with `OSError: [Errno 5]` while reading workspace Python files, before raw
-data processing or schema writes. The root cause is unresolved; no unsupported
-Free Edition feature has been established. The final schema was absent and the
-existing warehouse was STOPPED.
+checks. On 2026-09-10 JST, a financial-only wheel in one managed Unity Catalog
+Volume passed an installed-package smoke in **33.733 seconds**, then the migrated
+serverless `python_wheel_task` published the four tables in **94.873 seconds**.
+Each ran once, with no retry. Independent live SELECTs verified every Bronze and
+Silver row, the rejection record, all three Gold profiles and their typed metrics,
+as-of dates and hashes: **RAW 20 → Bronze 20 → Silver 18 → rejected 1 → Gold 3**,
+with one duplicate collapsed.
 
-Gold reads, the real adapter and end-to-end workspace scenarios remain NOT TESTED.
-No AWS, LLM or SQL calls, trial/payment or paid-resource changes occurred during
-this milestone. See [actual workspace evidence](docs/validation/databricks-workspace-2026-09-10.json),
+Real in-process FastAPI checks used the Databricks adapter for complete, missing,
+stale and absent companies. Policy citations and human review remained mandatory;
+invalid inputs and a credit-approval bypass made no additional financial calls.
+Malformed-result and outage tests used injected clients and do not prove real
+permission denial or an actual workspace outage. The browser passed complete,
+missing and stale live Gold reviews plus credit-bypass refusal. An earlier browser
+request safely abstained; its underlying failure remains unresolved and preserved.
+
+Runtime Workspace Files reads failed repeatedly; switching the job artifact
+boundary to a packaged wheel on a Unity Catalog Volume avoided that dependency.
+The earlier two failed runs/four attempts are preserved. The underlying provider
+cause remains unresolved; no platform bug or Free Edition restriction is claimed.
+The workspace remains Free Edition, with no paid trial, billing change, external
+storage, AWS action or LLM invocation in this continuation. See
+[wheel and live integration evidence](docs/validation/databricks-wheel-2026-09-10.json),
+[prior failures](docs/validation/databricks-workspace-2026-09-10.json),
 [validation and remaining checks](docs/databricks-validation.md), and
 [architecture](docs/databricks-architecture.md).
 
