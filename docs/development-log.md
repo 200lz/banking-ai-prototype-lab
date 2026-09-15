@@ -1,5 +1,65 @@
 # Development log
 
+## Tokyo AWS deployment resumption (2026-09-15 JST)
+
+- Recorded [acceptance criteria](aws-deployment-resumption-acceptance.md) before
+  changes: expected same-account non-root SSO, Tokyo only, real Lambda quota and
+  actual CDK diff, reservation three, unchanged runtime IAM, completed
+  CloudFormation, safe corpus publication and actual authenticated smoke. Model
+  qualification stays independent; no new quota request, cross-region inference
+  or unapproved resource expansion is permitted. The user's renewed deployment
+  authorization supersedes the prior support milestone's AWS freeze for this scope.
+- Fresh SSO/region verification passed at 06:14:46 UTC. Actual Tokyo Lambda
+  settings were concurrent 1000 / unreserved 1000, resolving the former blocker.
+  No request for 1001 was repeated. All three relevant Nova Lite capacity quotas
+  remained zero; no model invocation or qualification retry occurred.
+- Re-ran the actual CDK diff after the smoke harness change and reviewed all 30
+  controls. The final template SHA-256 was
+  `80f4556d6b80c71bd470108d39c54dfdfb4a5aa0b7487c1126c38fcecdb72fd9`.
+  Deployed that frozen assembly with the existing broadening approval check;
+  completion took 261.937 seconds including asset build/publication. CloudFormation
+  reached CREATE_COMPLETE at the subsequent inspection, with 34 resources and
+  an exact reviewed-template match. Lambda was Active/Successful, reservation
+  three was deployed and actual unreserved capacity became 997. Runtime IAM,
+  required Cognito MFA and the regional model boundary were preserved.
+- The safe publisher validated the complete corpus before upload and published
+  the manifest last. All twelve documents plus manifest were independently read
+  back with exact bytes and encryption verified (13 objects, 10,527 bytes).
+  Existing planned DynamoDB, CloudWatch and unconnected Amplify resources were
+  created; a working hosted frontend/SSR deployment remains NOT TESTED.
+- Added an explicit infrastructure-only mode to the verification harness. Its
+  fixed prohibited-credit request exercises the existing controller refusal and
+  requires zero model tokens, latency and estimated cost, all nine stages, exact
+  policy citations and correlated audit/log metadata. Default model smoke behavior
+  and application code are unchanged. Mutation tests cover accidental model usage,
+  altered refusal/citations/audit and arbitrary replacement questions.
+- First six real smoke checks passed in 5.563 seconds: resource scope, S3 corpus,
+  Lambda configuration, Cognito configuration, gateway authorization and actual
+  unauthorized request rejection. Full smoke remains PARTIAL / INCOMPLETE:
+  authenticated refusal, DynamoDB audit correlation and CloudWatch record
+  correlation require a legitimate scoped Cognito OAuth JWT. Browser navigation
+  returned `ERR_BLOCKED_BY_CLIENT`; a private sign-in handoff remains pending.
+  The verified resource inventory does not establish those runtime outcomes.
+- Local regression passed 340 Python/API/infrastructure tests, 26 frontend tests
+  and all 61 deterministic evaluation cases. Python formatting/lint/type checks,
+  Bandit and scoped smoke mutation checks passed. The existing Starlette/AnyIO
+  deprecation remains non-blocking. Docker Desktop initially had no running daemon;
+  the old Docker CLI panicked on a formatted info request. Starting the existing
+  daemon enabled the actual image build; no product fix is claimed for that CLI.
+- Extended the ignored offline publication checker to current AWS account,
+  principal, resource, provider-request and OAuth/TOTP/credential values while
+  preserving historical Databricks exclusions. Its current full-tree check passed,
+  including UTF-8/LF, JSON syntax, Markdown fences and local links. Private evidence
+  remains outside Git; final source/history scans and publication checks must pass
+  after all documentation/evidence changes are complete.
+- Latest previously verified hosted baseline is
+  [34378399602](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34378399602),
+  commit `4e652d48f32c4699acf3ebce27090a8400a8692e`: all 22 Linux quality steps and
+  `evidence-and-infrastructure` passed. AWS resumption changes require their own
+  hosted result after publication. Node action-runtime deprecation remains
+  NON-BLOCKING; action pins are unchanged. Databricks retains its separately
+  verified Free Edition PASS; this milestone performs no Databricks operations.
+
 ## Volume-backed wheel and real Databricks integration (2026-09-10 JST)
 
 - Published implementation commit `87e6417d268bf9671820039f5e9c5bb422d82779` and verified

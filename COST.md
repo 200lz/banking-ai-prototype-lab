@@ -19,13 +19,23 @@ or successful inference latency. Both stopped the harness in its first phase;
 the three-case smoke and twenty-case suite did not run. **Qualification: FAIL;
 twenty-case live Bedrock evaluation: NOT TESTED.**
 
-| Measurement | Local baseline | Tokyo cloud activity |
+| Measurement | Local baseline | Historical Tokyo model qualification |
 | --- | --- | --- |
 | Cases | 61; all gates passed | Two attempts of one case; both failed |
 | Workflow p50 / p95 | 12.696 / 16.525 ms | Unavailable for an unrun smoke/suite |
 | Model tokens | Exactly zero; no model invoked | Unknown; usage was not returned |
 | LLM cost | $0 for the local run | Unknown; reported zero is an incomplete lower bound |
-| Infrastructure/billed cost | Not a cloud measurement | CDK bootstrap resources persist; no AWS bill measured |
+| Infrastructure/billed cost | Not a cloud measurement | No AWS bill measured |
+
+On **2026-09-15**, the actual Tokyo CDK deployment completed in **261.937
+seconds** and CloudFormation reached **CREATE_COMPLETE**. The safe corpus
+publication verified **13 encrypted objects totaling 10,527 bytes**. The first
+six real infrastructure-smoke checks took **5.563 seconds**, ending with an
+unauthenticated API **401**. That duration covers inspection and rejection, not
+an authenticated workflow or inference. Scoped Cognito authorization, DynamoDB
+audit correlation and CloudWatch runtime-record checks remain pending. No model
+invocation occurred in this deployment milestone; no actual infrastructure bill
+was measured. [Execution and scope](docs/aws-deployment-resumption.md)
 
 The API exposes model latency, retrieval latency, total workflow latency, token
 counts, estimated cost, and `cost_estimate_complete`. Failed model calls can be
@@ -79,47 +89,51 @@ The explicitly approved Tokyo `CDKToolkit` bootstrap completed and its
 [actual resource verification passed](docs/validation/cdk-bootstrap-2026-09-09.json)
 on 2026-09-09: `CREATE_COMPLETE`, 11 reviewed resources, bootstrap version 32.
 The five IAM roles, policy resources, S3 staging bucket and policy, ECR repository,
-and SSM version parameter now persist for the planned sandbox deployment. The
+and SSM version parameter now support the deployed sandbox application. The
 bootstrap CloudFormation execution role's `AdministratorAccess` was explicitly
 approved; role trust remains same-account or the CloudFormation service, with no
 added external trust or change to application runtime IAM.
 
 The private, versioned staging bucket uses AWS-managed KMS encryption. Both the
-bucket and immutable-tag ECR repository were empty at verification. No
-customer-managed KMS key, provisioned compute or application stack was created,
-and the bootstrap made no model calls. Asset storage, encryption requests and
-other API usage can incur charges as the bootstrap is used; empty storage is an
-inventory observation, not a measured $0 bill. The deliberate disposition is to
-**keep the bootstrap for the planned sandbox deployment**. See
+bucket and immutable-tag ECR repository were empty at the September 9 bootstrap
+verification. The September 15 application deployment published assets to that
+storage; the earlier empty observation is historical. The bootstrap introduced
+no customer-managed KMS key and made no model calls. Asset storage, encryption
+requests and other API usage can incur charges. The deliberate disposition is to
+**keep the bootstrap and application for the sandbox demo and remaining validation**. See
 [bootstrap inventory and cleanup](docs/cdk-bootstrap.md) before future removal.
 
-Application deployment remains **NOT TESTED / BLOCKED**. The earlier Lambda
-request for 1,001 without Support returned `NOT_APPROVED`. The subsequently
-authorized request with Support enabled is **PENDING**, with provider status
-`CASE_OPENED`; last-observed applied and unreserved concurrency remain **10**.
-The application reservation stays **three**. Requesting a larger limit does not
-provision running environments or change that reservation.
-[Submission and applied-capacity evidence](docs/validation/support-escalation-2026-09-09.json)
+Application deployment is **PASS**: the existing Tokyo stack reached
+**CREATE_COMPLETE** with **34 resources**, including one CDK metadata resource.
+The deployed template matches the review and runtime IAM is unchanged. Fresh
+Lambda applied/unreserved capacity was **1000/1000** before deployment and
+**1000/997** afterward, with the existing reservation **three**. The Lambda
+capacity blocker is **RESOLVED**; no new request for 1001 was made. Reservation
+does not provision running environments. The earlier rejected and pending
+requests remain [dated historical evidence](docs/validation/support-escalation-2026-09-09.json).
 
 Nova Lite's on-demand request, token-per-minute and daily-token limits were still
-zero in the last check. The separately approved capacity inquiry is
-**SUBMITTED / PENDING**, provider **Unassigned**, under Basic Support's stored
-**Account / Service Quotas, General** routing. No paid Support plan/trial,
-provisioned capacity or new paid resource was purchased, and no further model
-calls followed the zero-capacity finding. No runtime IAM, workload region or
-reservation changed. The inquiry has not established restored capacity or a
-measured AWS bill. [Confirmed case evidence](docs/validation/nova-lite-support-case-2026-09-09.json)
+zero at the September 15 preflight. The separately approved inquiry remains
+**SUBMITTED / PENDING** at its last verified Support checkpoint: **Unassigned**,
+under Basic Support's stored **Account / Service Quotas, General** routing.
+No paid Support plan, trial or provisioned model capacity was purchased and no
+model was invoked in this deployment milestone. The existing application
+resources were created under the user's deployment authorization. No runtime IAM,
+workload region or reservation changed. The inquiry has not established restored
+model capacity or a measured AWS bill.
+[Confirmed historical case evidence](docs/validation/nova-lite-support-case-2026-09-09.json)
 
 The default unconnected Amplify template contains no repository/token reference
-and therefore no missing-secret dependency. Its actual creation remains
-unverified; Git authorization and a successful build are still required for a
-functioning hosted frontend. Bootstrap does not resolve Lambda capacity or these
-hosting requirements. See the [capacity/dependency review](docs/deployment-capacity-review.md)
-and [cloud validation](docs/cloud-validation.md). AWS smoke and twenty-case live
-evaluation remain **NOT TESTED**. Databricks Free Edition native pipeline and
-Gold/browser integration passed through a Volume-backed wheel. The table
-below describes potential application costs, not deployed application resources
-or measured charges.
+and therefore no missing-secret dependency. Its real application and branch
+creation now passed; Git authorization and a successful SSR build are still
+required for a functioning hosted frontend. Infrastructure smoke is
+**INCOMPLETE**, with six real checks passed; authenticated workflow/audit/log
+correlation remains pending. The twenty-case live evaluation is **NOT TESTED**.
+See the [current deployment record](docs/aws-deployment-resumption.md).
+Databricks Free Edition native pipeline and Gold/browser integration passed
+through a Volume-backed wheel. The table describes cost drivers; it does not
+estimate an actual bill. The optional OTLP collector and account budget were not
+provisioned by the reviewed deployment.
 
 | Driver | Cost behavior / chosen control |
 | --- | --- |
@@ -184,4 +198,6 @@ warehouse or paid resource was created. See [evidence and cleanup](docs/databric
 
 Any future paid environment needs a separate cost review and approval. The
 model-cost field excludes Databricks charges; job and query measurements are
-reported separately above; an actual metered dollar amount remains unmeasured. AWS remains frozen.
+reported separately above; an actual metered dollar amount remains unmeasured.
+That Databricks milestone made no AWS calls. The separately authorized September
+15 AWS deployment and its costs are recorded above.

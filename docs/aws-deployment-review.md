@@ -1,5 +1,11 @@
 # AWS deployment acceptance and security review
 
+> Historical September 9 record. Current Lambda capacity and Tokyo application
+> deployment were reverified on September 15: Lambda RESOLVED and application
+> CREATE_COMPLETE. See the [current execution record](aws-deployment-resumption.md)
+> and [authoritative matrix](verification-matrix.md). Historical failures below
+> remain preserved; they do not describe the current deployment state.
+
 Review date: 2026-09-09. Target: the explicitly authorized personal sandbox in
 `ap-northeast-1`, using the non-root IAM Identity Center profile `jdd-sandbox`.
 Account numbers, session identifiers and credentials are deliberately omitted.

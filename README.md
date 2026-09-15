@@ -43,10 +43,11 @@ as-of dates. Failures abstain and surface missing evidence or required review.
 
 **Databricks Volume-backed wheel smoke, native pipeline, exact live tables and
 real SDK/API and browser SME review: PASS. Local application, Docker, hosted
-CI, AWS bootstrap and Bedrock discovery: PASS. AWS application deployment: NOT
-TESTED / BLOCKED; AWS smoke and live Bedrock evaluation: NOT TESTED.** This
-wheel implementation passed hosted CI. Hosted CI runs without cloud credentials;
-real workspace results come from separate execution.
+CI, AWS bootstrap, Tokyo application deployment and Bedrock discovery: PASS.
+Lambda capacity: RESOLVED. AWS infrastructure smoke: INCOMPLETE (six checks
+passed); authenticated workflow/audit/log correlation and live Bedrock evaluation:
+NOT TESTED.** Hosted CI runs without cloud credentials; real AWS and Databricks
+results come from separate execution.
 
 On 2026-09-09, real non-root sandbox identity, Tokyo model discovery, model access
 checks and a target-environment CDK diff passed. The explicitly approved Tokyo
@@ -57,25 +58,37 @@ same-account or CloudFormation service trust, including explicitly approved
 trust was added and application runtime IAM was unchanged. The private versioned
 staging bucket uses AWS-managed KMS encryption; it and the immutable-tag ECR
 repository were empty at verification. No customer-managed KMS key or application
-stack was created by this bootstrap. The resources are kept for the planned
-sandbox deployment. [Bootstrap evidence](docs/validation/cdk-bootstrap-2026-09-09.json)
+stack was created by this bootstrap. Its resources now support the separately
+deployed sandbox application. [Bootstrap evidence](docs/validation/cdk-bootstrap-2026-09-09.json)
 and [inventory, cost and cleanup](docs/cdk-bootstrap.md) record the actual scope.
 
-**Lambda quota: PENDING. Nova Lite capacity inquiry: SUBMITTED / PENDING.**
-The approved Lambda request for 1001 reached provider status `CASE_OPENED`; the
-last applied and unreserved limits remain 10, while application reservation stays
-three. The Tokyo Nova Lite inquiry was accepted through Basic Support and is
-Unassigned, category Service Quotas, General, severity General question. Requested
-capacity and an accepted case do not establish applied capacity.
+On **2026-09-15**, fresh non-root SSO and Tokyo checks confirmed Lambda applied
+and unreserved capacity **1000/1000**. The existing stack deployed successfully:
+CloudFormation **CREATE_COMPLETE**, **34 resources**, deployed template equal to
+the review and unchanged runtime IAM. Lambda is Active/Successful with reservation
+**3**; the actual post-deployment account values are **1000 applied / 997
+unreserved**. No new request for 1001 was made. The safe publisher uploaded and
+independently verified **12 documents plus manifest, 10,527 encrypted bytes**,
+with the manifest last.
+
+The first six real infrastructure checks passed, including Cognito/JWT
+configuration and an unauthenticated API response of **401**. Synthetic-user
+creation and API-based TOTP enrollment passed; the browser authorization-code
+handoff remains pending after an authenticator-code error and client-side
+navigation blocking. A legitimate scoped access token is still needed for the
+fixed prohibited-credit refusal, correlated DynamoDB audit and CloudWatch checks.
+This is not a full AWS smoke PASS. [Actual deployment and remaining validation](docs/aws-deployment-resumption.md)
+records the exact scope, resource inventory and cleanup.
 
 The previous Nova Lite qualification and diagnostic retry remain **FAIL** with
-provider throttling; the last observed regional request, token and daily quotas
-were zero. No further application model invocation occurred after that finding.
-No application resources, paid Support plan, region change or runtime IAM change
-were made. The Amplify GitHub connection is still required for working hosted SSR;
-the default unconnected template has no missing-secret dependency. The three-case
-smoke and twenty-case live suite were not run. [Capacity/support evidence](docs/deployment-capacity-review.md)
-and [cloud validation](docs/cloud-validation.md) preserve the exact boundaries.
+provider throttling; the three selected regional runtime quotas were still zero
+on September 15. **No model invocation occurred in this deployment milestone.**
+The Nova Lite inquiry remains **SUBMITTED / PENDING** at its last verified Basic
+Support checkpoint. No paid Support plan, region change or runtime IAM change
+occurred. The unconnected Amplify shell now exists; a working hosted SSR frontend
+still requires a repository connection and successful build. The model-dependent
+smoke and twenty-case live suite remain unrun. [Historical capacity/support evidence](docs/deployment-capacity-review.md)
+and [earlier cloud validation](docs/cloud-validation.md) preserve prior failures.
 
 Verified wheel implementation: [run 34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941)
 passed at commit `87e6417d268bf9671820039f5e9c5bb422d82779` on GitHub-hosted Linux.
@@ -83,8 +96,12 @@ All 22 quality-job steps passed, including fresh Docker acceptance; the actual
 artifact is `evidence-and-infrastructure`. [Recorded CI evidence](docs/validation/github-databricks-wheel-2026-09-10.json)
 includes runner, gates and artifact digest. The badge links to current `main`;
 this paragraph records the tested implementation commit, not a future revision.
-The wheel continuation's local checks passed 314 Python/API/infrastructure tests,
-26 frontend tests, all 61 deterministic cases, formatting/lint/types and security audits.
+The subsequent documentation commit `4e652d48f32c4699acf3ebce27090a8400a8692e`
+also passed [hosted run 34378399602](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34378399602).
+The current deployment-harness changes passed **340 Python/API/infrastructure
+tests** and all **61 deterministic cases** locally, including 75 focused AWS-smoke
+tests. Their new hosted run remains pending publication; the prior wheel milestone
+also passed 26 frontend tests and its formatting/type/security gates.
 
 The Node.js 20 action-runtime deprecation annotation is **NON-BLOCKING**. GitHub
 forced the pinned actions onto Node.js 24; updating those action pins remains a
@@ -141,10 +158,11 @@ PKCE/MFA, CloudWatch and Amplify Next.js hosting. Runtime permissions are scoped
 to corpus reads, audit writes and the selected model. No unrelated services are
 added. Offline synthesis and a local Lambda image are distinct from deployment.
 
-[AWS validation](docs/cloud-validation.md) states the actual sandbox status;
+[AWS deployment validation](docs/aws-deployment-resumption.md) states the actual sandbox status;
 [deployment runbook](docs/cloud-deployment.md) covers configuration and review.
 The completed [CDK bootstrap](docs/cdk-bootstrap.md) provides persistent asset
-storage and deployment roles; the application stack remains undeployed.
+storage and deployment roles. The application stack now exists in Tokyo; full
+authenticated smoke and working Amplify SSR remain separate validation gates.
 `make deploy` requires an explicit account/region and presents a CDK diff and IAM
 approval. Retained storage and log resources require deliberate cleanup.
 

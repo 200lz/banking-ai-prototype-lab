@@ -1,29 +1,35 @@
 # Production readiness
 
-**Status: functional local portfolio prototype; not approved for real financial
-operations.** AWS bootstrap passed; application deployment is NOT TESTED / BLOCKED.
-Previous live qualification attempts failed with provider throttling and the
-last regional quotas were zero. Lambda quota and Nova Lite capacity cases are
-pending; live evaluation remains NOT TESTED. Databricks Free Edition validation
+**Status: functional synthetic portfolio prototype; not approved for real financial
+operations.** Tokyo AWS bootstrap and application deployment passed. Lambda
+capacity is RESOLVED: applied 1000, reservation three and post-deployment
+unreserved capacity 997. Six real infrastructure checks passed; authenticated
+refusal, DynamoDB audit correlation and CloudWatch runtime records remain pending
+a legitimate scoped Cognito authorization-code session. Required-MFA configuration
+and API-based TOTP enrollment passed; browser sign-in has not completed.
+Previous live qualification attempts failed with provider throttling; the three
+selected regional quotas were still zero on September 15. The Nova Lite capacity
+inquiry is pending and live evaluation remains NOT TESTED. See
+[actual AWS scope](docs/aws-deployment-resumption.md). Databricks Free Edition validation
 passed with a managed-Volume wheel, real native tables, governed Gold adapter and
 browser SME review. Earlier Workspace Files failures and one initial browser lookup
 abstention remain recorded; their underlying causes are unresolved. See
 [actual workspace evidence](docs/databricks-validation.md).
 
-| Area | Implemented and locally checked | Required before real use |
+| Area | Implemented and verified scope | Required before real use |
 | --- | --- | --- |
 | Workflow | Nine-stage controller, five baseline tools plus governed financial_profile_tool, typed responses | Institution-approved scope and operating model |
 | Financial analytics | Synthetic Bronze/Silver/Gold, Decimal formulas, provenance, missing/stale flags, local and Databricks adapters | Institution-approved and independently reconciled formulas, separate governed publisher and Gold-only runtime grants; real synthetic workspace execution passed |
-| Evidence | Exact full-sentence citations, hashes, versions, conflicts, access filtering | Signed ingestion, ownership, freshness SLAs, applicability and entitlement rules |
+| Evidence | Exact full-sentence citations, hashes, versions, conflicts, access filtering; real encrypted S3 corpus publication and byte verification | Signed ingestion, ownership, freshness SLAs, applicability and entitlement rules |
 | Model | Real Strands/Bedrock adapter, bounded typed plan, SDK construction/contract tests | Live model evaluation, held-out expert cases, model-risk approval |
-| Identity | Cognito/PKCE server flow, gateway JWT scope, MFA CDK settings | Live login verification, enterprise IdP, joiner/mover/leaver controls and session lifecycle |
+| Identity | Deployed Cognito required MFA/scoped JWT configuration, synthetic TOTP enrollment and real unauthenticated API rejection | Completed scoped OAuth login and authenticated workflow verification, enterprise IdP, joiner/mover/leaver controls and session lifecycle |
 | Human review | Mandatory routing with JSONL persistence; conditional DynamoDB event adapter | Staffed review queue, reviewer identity, approval reasons, SLA and segregation of duties |
 | Privacy | Synthetic-only corpus, example redactor, content-free telemetry | Approved DLP, data inventory, purpose/retention/residency controls and privacy assessment |
 | Security | Allowlisted capabilities, restrictive IAM, schema/abuse tests, dependency audits | Threat validation, penetration testing, supply-chain attestations, continuous attack evaluation |
 | Resilience | Error abstention, concurrency bounds, timeouts, audit failure blocks output | Load/failure/chaos tests, dependency budgets, backups/restore drills, RTO/RPO |
-| Observability | OTel parent/step/tool spans, latency/tokens/cost, dedicated Lambda audit log mirror, bounded span flush and CloudWatch definition | Live exporter verification, actionable on-call alerts, dashboards/SLO ownership |
-| Audit | JSONL local; conditional DynamoDB events in cloud design | Tamper evidence, regulated retention, independent audit access, replay/reconciliation design |
-| Delivery | Locked dependencies, verified Docker/Compose and hosted CI, synthesized CDK and verified sandbox bootstrap | Image signing, staged application deployment and rollback exercise |
+| Observability | OTel parent/step/tool spans, latency/tokens/cost, dedicated Lambda audit log mirror, bounded span flush; three deployed log groups, alarms and dashboard | Correlated live runtime logs, live exporter verification, actionable on-call alerts, dashboards/SLO ownership |
+| Audit | JSONL local; deployed encrypted DynamoDB table with PITR, TTL and deletion protection | Correlated runtime events, tamper evidence, regulated retention, independent audit access, replay/reconciliation design |
+| Delivery | Locked dependencies, verified Docker/Compose and prior hosted CI; real Tokyo application CREATE_COMPLETE with reviewed template and unchanged runtime IAM | Complete authenticated smoke, working hosted SSR, new-change hosted CI, image signing, staged release and rollback exercise |
 | Cost | Model estimate and incomplete-cost flag, verified Tokyo model rates, optional AWS budget definition | Measured usage envelope and recurring cost ownership |
 
 Current container, hosted CI, cloud and data-platform verification is recorded in

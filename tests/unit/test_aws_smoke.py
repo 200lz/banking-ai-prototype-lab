@@ -31,7 +31,9 @@ OUTPUTS = {
 
 
 class FakeCloud:
-    def __init__(self, tmp_path):
+    def __init__(self, tmp_path, *, infrastructure_only=False):
+        self.infrastructure_only = infrastructure_only
+        self.question = smoke.INFRASTRUCTURE_QUESTION if infrastructure_only else smoke.QUESTION
         self.calls = []
         self.http_calls = []
         self.sleeps = []
@@ -103,18 +105,38 @@ class FakeCloud:
         ]
         # Exercise the real local controller contract without invoking an LLM.
         path = tmp_path / "audit.jsonl"
-        response = Workflow(audit=AuditLogger(path)).run(AgentRequest(question=smoke.QUESTION))
+        self.planner_calls = []
+
+        class RefusalPlanner:
+            mode = "bedrock"
+
+            def plan(inner_self, request, evidence):
+                self.planner_calls.append(request)
+                raise AssertionError("The infrastructure refusal must never reach a planner")
+
+        response = Workflow(
+            audit=AuditLogger(path), planner=RefusalPlanner() if infrastructure_only else None
+        ).run(AgentRequest(question=self.question))
         self.response = response.model_dump(mode="json")
-        self.response.update(mode="bedrock")
-        self.response["metrics"].update(
-            input_tokens=100, output_tokens=50, model_latency_ms=25.0, estimated_cost_usd=0.000018
-        )
         self.audit = [json.loads(line) for line in path.read_text().splitlines()]
-        for record in self.audit:
-            if record["event"] == "response_completed":
-                record.update(
-                    mode="bedrock", input_tokens=100, output_tokens=50, estimated_cost_usd=0.000018
-                )
+        if not infrastructure_only:
+            # Only the original model smoke uses fabricated usage in injected
+            # contracts. Infrastructure tests use the untouched refusal response.
+            self.response.update(mode="bedrock")
+            self.response["metrics"].update(
+                input_tokens=100,
+                output_tokens=50,
+                model_latency_ms=25.0,
+                estimated_cost_usd=0.000018,
+            )
+            for record in self.audit:
+                if record["event"] == "response_completed":
+                    record.update(
+                        mode="bedrock",
+                        input_tokens=100,
+                        output_tokens=50,
+                        estimated_cost_usd=0.000018,
+                    )
 
     def client(self, service):
         cloud = self
@@ -276,7 +298,7 @@ class FakeCloud:
         raise AssertionError(f"Unexpected service operation {method}")
 
     def transport(self, url, token, payload):
-        assert url == OUTPUTS["ApiUrl"] + "/v1/query" and payload == {"question": smoke.QUESTION}
+        assert url == OUTPUTS["ApiUrl"] + "/v1/query" and payload == {"question": self.question}
         self.http_calls.append(token)
         if token is None:
             return smoke.HttpResult(self.unauthorized_status, {}, b"{}")
@@ -289,7 +311,12 @@ class FakeCloud:
 
     def run(self):
         return smoke.CloudSmoke(
-            self.config, self.client, self.transport, sleep=self.sleeps.append, now=lambda: 1000.0
+            self.config,
+            self.client,
+            self.transport,
+            infrastructure_only=self.infrastructure_only,
+            sleep=self.sleeps.append,
+            now=lambda: 1000.0,
         ).run()
 
 
@@ -583,7 +610,7 @@ def test_missing_configuration_exits_not_tested_without_client_creation(
 ):
     monkeypatch.setattr(smoke, "ROOT", tmp_path)
     monkeypatch.delenv("AWS_REGION", raising=False)
-    assert smoke.main() == 2
+    assert smoke.main([]) == 2
     report = json.loads(capsys.readouterr().out)
     assert report["status"] == "NOT TESTED" and report["execution"] == "none"
 
@@ -602,6 +629,157 @@ def test_missing_credentials_exits_not_tested_and_sanitizes_provider_error(
     monkeypatch.setattr(
         boto3, "Session", lambda **kwargs: SimpleNamespace(get_credentials=lambda: None)
     )
-    assert smoke.main() == 2
+    assert smoke.main([]) == 2
     output = capsys.readouterr().out
     assert json.loads(output)["status"] == "NOT TESTED" and TOKEN not in output
+
+
+@pytest.fixture
+def infrastructure(tmp_path):
+    return FakeCloud(tmp_path, infrastructure_only=True)
+
+
+def test_infrastructure_refusal_checks_all_resources_and_correlated_records(infrastructure):
+    report = infrastructure.run()
+    assert report["status"] == "PASS" and report["execution"] == "injected_clients"
+    assert report["scope"] == "infrastructure_only"
+    assert report["bedrock_evaluation"] == "NOT TESTED"
+    assert [check["name"] for check in report["checks"]] == list(smoke.CHECKS)
+    assert all(check["status"] == "PASS" for check in report["checks"])
+    assert infrastructure.http_calls == [None, TOKEN]
+    assert infrastructure.planner_calls == []
+    assert report["measurements"]["cost_estimate_complete"] is True
+    assert all(
+        report["measurements"][key] == 0
+        for key in ("input_tokens", "output_tokens", "model_latency_ms", "estimated_cost_usd")
+    )
+    assert report["verified_excerpt_count"] > 0
+    assert {method for _, method, _ in infrastructure.calls} >= {"query", "filter_log_events"}
+    serialized = json.dumps(report)
+    assert all(
+        private not in serialized
+        for private in (TOKEN, ACCOUNT, infrastructure.response["request_id"], *OUTPUTS.values())
+    )
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("input_tokens", 1),
+        ("output_tokens", 1),
+        ("model_latency_ms", 0.001),
+        ("estimated_cost_usd", 0.000001),
+        ("cost_estimate_complete", False),
+    ],
+)
+def test_infrastructure_rejects_any_model_usage_or_unknown_usage(infrastructure, field, value):
+    infrastructure.response["metrics"][field] = value
+    report = infrastructure.run()
+    assert report["checks"][6]["status"] == "FAIL"
+    assert not any(method == "query" for _, method, _ in infrastructure.calls)
+
+
+@pytest.mark.parametrize(
+    "case",
+    [
+        "no_prohibition",
+        "planner_failure",
+        "confidence",
+        "review",
+        "local",
+        "approval_text",
+        "quote",
+        "hash",
+        "citation",
+        "extra_tool",
+    ],
+)
+def test_infrastructure_http_success_cannot_hide_an_invalid_refusal(infrastructure, case):
+    response = infrastructure.response
+    if case == "no_prohibition":
+        response["risk_flags"] = []
+    elif case == "planner_failure":
+        response["risk_flags"].append("planner_failure")
+    elif case == "confidence":
+        response["confidence"] = 0.85
+    elif case == "review":
+        response["human_review_required"] = False
+    elif case == "local":
+        response["mode"] = "local"
+    elif case == "approval_text":
+        response["answer"] += "\n\nThe requested credit is approved."
+    elif case == "quote":
+        response["evidence"][0]["quote"] = "A fabricated policy permits approval."
+    elif case == "hash":
+        response["evidence"][0]["source_hash"] = "0" * 64
+    elif case == "citation":
+        response["citations"][0]["verified"] = False
+    elif case == "extra_tool":
+        response["tool_invocations"][0]["name"] = "deterministic_calculation"
+    assert infrastructure.run()["checks"][6]["status"] == "FAIL"
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [("input_tokens", 1), ("estimated_cost_usd", 1), ("cost_estimate_complete", False)],
+)
+def test_infrastructure_correlated_audit_must_also_show_zero_model_use(
+    infrastructure, field, value
+):
+    next(record for record in infrastructure.audit if record["event"] == "response_completed")[
+        field
+    ] = value
+    assert infrastructure.run()["checks"][7]["status"] == "FAIL"
+
+
+def test_infrastructure_audit_must_preserve_the_prohibition(infrastructure):
+    next(record for record in infrastructure.audit if record["event"] == "review_decision")[
+        "risk_flags"
+    ] = []
+    assert infrastructure.run()["checks"][7]["status"] == "FAIL"
+
+
+def test_default_model_smoke_does_not_accept_a_refusal(infrastructure):
+    infrastructure.infrastructure_only = False
+    infrastructure.question = smoke.QUESTION
+    assert infrastructure.run()["checks"][6]["status"] == "FAIL"
+
+
+def test_infrastructure_does_not_accept_fabricated_full_model_usage(cloud):
+    cloud.infrastructure_only = True
+    cloud.question = smoke.INFRASTRUCTURE_QUESTION
+    assert cloud.run()["checks"][6]["status"] == "FAIL"
+
+
+@pytest.mark.parametrize("arguments,expected", [([], False), (["--infrastructure-only"], True)])
+def test_cli_requires_explicit_infrastructure_selection(monkeypatch, arguments, expected):
+    calls = []
+    monkeypatch.setattr(
+        smoke,
+        "execute_main",
+        lambda *, infrastructure_only: calls.append(infrastructure_only) or 0,
+    )
+    assert smoke.main(arguments) == 0
+    assert calls == [expected]
+
+
+def test_cli_cannot_substitute_an_arbitrary_infrastructure_question(monkeypatch):
+    calls = []
+    monkeypatch.setattr(smoke, "execute_main", lambda **kwargs: calls.append(kwargs))
+    with pytest.raises(SystemExit) as error:
+        smoke.main(["--infrastructure-only", "--question", smoke.QUESTION])
+    assert error.value.code == 2 and not calls
+
+
+def test_infrastructure_still_requires_a_real_token_configuration(monkeypatch, capsys, tmp_path):
+    runtime = tmp_path / ".runtime"
+    runtime.mkdir()
+    (runtime / "cloud-outputs.json").write_text(json.dumps({smoke.STACK: OUTPUTS}))
+    monkeypatch.setattr(smoke, "ROOT", tmp_path)
+    monkeypatch.setenv("AWS_REGION", REGION)
+    monkeypatch.delenv("AWS_SMOKE_ACCESS_TOKEN", raising=False)
+    assert smoke.main(["--infrastructure-only"]) == 2
+    report = json.loads(capsys.readouterr().out)
+    assert report["status"] == "NOT TESTED" and report["execution"] == "none"
+    assert report["scope"] == "infrastructure_only"
+    assert report["bedrock_evaluation"] == "NOT TESTED"

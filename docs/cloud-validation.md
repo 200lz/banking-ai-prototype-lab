@@ -1,5 +1,11 @@
 # AWS sandbox validation
 
+> Historical September 9 record. Current Lambda capacity and Tokyo application
+> deployment were reverified on September 15: Lambda RESOLVED and application
+> CREATE_COMPLETE. See the [current execution record](aws-deployment-resumption.md)
+> and [authoritative matrix](verification-matrix.md). Historical failures below
+> remain preserved; they do not describe the current deployment state.
+
 Date: 2026-09-09. Region: **ap-northeast-1 (Tokyo)**.
 **AWS application deployment: NOT TESTED / BLOCKED. AWS smoke and twenty-case
 live Bedrock evaluation: NOT TESTED. Lambda quota: PENDING. Nova Lite capacity

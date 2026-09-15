@@ -1,10 +1,11 @@
 # AWS deployment runbook
 
-**Status: not deployed.** The Lambda image and local Compose runtime were
-[built and exercised locally](milestones/01-containers.md). CDK synthesis is a
-separate local template check. Neither establishes regional Bedrock access,
-Cognito sign-in in an account, or an Amplify hosting build. No billable resources
-or real financial data were created during implementation.
+**Status: Tokyo application stack deployed on 2026-09-15.** CloudFormation is
+CREATE_COMPLETE, reservation three is verified, and the corpus is published.
+See the [execution record](aws-deployment-resumption.md) for the exact current
+smoke/authentication status. Live Bedrock evaluation and hosted Amplify frontend
+build remain separate, unverified milestones. Local/container and credential-free
+CDK checks alone establish neither cloud authentication nor model capacity.
 
 The stack is a deployable starting point for a synthetic portfolio demo. An
 institution would require separate security, privacy, architecture, resilience,
@@ -193,3 +194,21 @@ for the promotion gates. Live latency and model quality remain unmeasured.
 - [Amplify CloudWatch service-role permissions](https://docs.aws.amazon.com/amplify/latest/userguide/cloudwatch-logs-role.html)
 - [CDK Amplify CfnApp API](https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_amplify/CfnApp.html)
 - [Amazon Nova Lite model card](https://docs.aws.amazon.com/us_en/bedrock/latest/userguide/model-card-amazon-nova-lite.html)
+
+## Infrastructure-only verification while model capacity is unavailable
+
+After obtaining a legitimate Cognito access token with `banking-ai/query`, keep it
+in the private operator environment as `AWS_SMOKE_ACCESS_TOKEN`; never put it in
+arguments, source files or public evidence. With verified Tokyo outputs and SSO
+credentials, run:
+
+```sh
+AWS_REGION=ap-northeast-1 .venv/bin/python -m scripts.aws_smoke --infrastructure-only
+```
+
+This mode sends only the fixed prohibited-credit request. It verifies the existing
+refusal before model planning, zero model tokens/latency/cost, citations, required
+human review, and the same nine resource/auth/audit/log checks. A PASS applies
+only to that infrastructure/refusal scope. The default `make aws-smoke` includes
+a normal model-backed request and must wait for separately verified usable
+Tokyo capacity. Neither mode substitutes for the independent live evaluation.

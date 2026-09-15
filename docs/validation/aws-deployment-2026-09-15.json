@@ -1,0 +1,301 @@
+{
+  "recorded_at": "2026-09-15T06:33:02.046619+00:00",
+  "milestone": "Tokyo application deployment resumption",
+  "region": "ap-northeast-1",
+  "application_source_baseline_commit": "4e652d48f32c4699acf3ebce27090a8400a8692e",
+  "application_runtime_or_stack_code_changed": false,
+  "verification_boundary": "Actual SSO/operator SDK, CDK deployment and resource reads; infrastructure-only smoke is independent of model qualification and hosted frontend verification.",
+  "preflight": {
+    "verified_at": "2026-09-15T06:14:46.760391+00:00",
+    "status": "PASS",
+    "expected_account_verified": true,
+    "non_root_sso_role_verified": true,
+    "credential_provider": "sso",
+    "region": "ap-northeast-1",
+    "lambda_concurrent_executions": 1000,
+    "lambda_unreserved_concurrent_executions": 1000,
+    "reserved_concurrency_target": 3,
+    "unreserved_after_target_reservation": 997,
+    "reservation_deployable": true,
+    "lambda_quota_status": "RESOLVED",
+    "new_quota_requests": 0,
+    "stacks": {
+      "CDKToolkit": "CREATE_COMPLETE",
+      "BankingAiPrototypeLab": "ABSENT"
+    },
+    "nova_lite_capacity_quotas": [
+      {
+        "QuotaCode": "L-E386A278",
+        "QuotaName": "On-demand model inference requests per minute for Amazon Nova Lite",
+        "Value": 0.0,
+        "Adjustable": false
+      },
+      {
+        "QuotaCode": "L-70423BF8",
+        "QuotaName": "On-demand model inference tokens per minute for Amazon Nova Lite",
+        "Value": 0.0,
+        "Adjustable": false
+      },
+      {
+        "QuotaCode": "L-45E0AD92",
+        "QuotaName": "Model invocation max tokens per day for Amazon Nova Lite (doubled for cross-region calls)",
+        "Value": 0.0,
+        "Adjustable": false
+      }
+    ],
+    "model_invocations": 0
+  },
+  "cdk_diff": {
+    "operation": "diff",
+    "exit_code": 0,
+    "elapsed_seconds": 53.875,
+    "completed_at": "2026-09-15T06:19:43.305542+00:00",
+    "region": "ap-northeast-1",
+    "log": "diff-private.log"
+  },
+  "diff_controls": {
+    "status": "PASS",
+    "reviewed_at": "2026-09-15T06:20:00.115990+00:00",
+    "execution": "local_artifact_review",
+    "region": "ap-northeast-1",
+    "template_path": ".runtime/aws-deploy-2026-09-15/cdk.out/BankingAiPrototypeLab.template.json",
+    "template_sha256": "80f4556d6b80c71bd470108d39c54dfdfb4a5aa0b7487c1126c38fcecdb72fd9",
+    "diff_sha256": "48db402e61c5f7c0e8440ce750af3b9cfc68c9cc904084c51bc5de51ccb9133c",
+    "resource_count": 34,
+    "application_resource_count": 33,
+    "resource_types": {
+      "AWS::Amplify::App": 1,
+      "AWS::Amplify::Branch": 1,
+      "AWS::ApiGatewayV2::Api": 1,
+      "AWS::ApiGatewayV2::Authorizer": 1,
+      "AWS::ApiGatewayV2::Integration": 1,
+      "AWS::ApiGatewayV2::Route": 4,
+      "AWS::ApiGatewayV2::Stage": 1,
+      "AWS::CDK::Metadata": 1,
+      "AWS::CloudWatch::Alarm": 3,
+      "AWS::CloudWatch::Dashboard": 1,
+      "AWS::Cognito::UserPool": 1,
+      "AWS::Cognito::UserPoolClient": 1,
+      "AWS::Cognito::UserPoolDomain": 1,
+      "AWS::Cognito::UserPoolResourceServer": 1,
+      "AWS::DynamoDB::Table": 1,
+      "AWS::IAM::Policy": 2,
+      "AWS::IAM::Role": 2,
+      "AWS::Lambda::Function": 1,
+      "AWS::Lambda::Permission": 4,
+      "AWS::Logs::LogGroup": 3,
+      "AWS::S3::Bucket": 1,
+      "AWS::S3::BucketPolicy": 1
+    },
+    "checks": {
+      "explicit_authorized_tokyo_assembly": "PASS",
+      "actual_diff_completed_one_stack": "PASS",
+      "existing_application_resource_count": "PASS",
+      "lambda_reserved_concurrency_three": "PASS",
+      "lambda_existing_memory_timeout_architecture": "PASS",
+      "lambda_tokyo_image_destination": "PASS",
+      "existing_runtime_modes_unchanged": "PASS",
+      "exact_regional_nova_lite_model": "PASS",
+      "reviewed_tokyo_token_rates": "PASS",
+      "message_content_capture_disabled": "PASS",
+      "runtime_inline_iam_exact_existing_allowlist": "PASS",
+      "runtime_trust_lambda_only": "PASS",
+      "runtime_managed_policy_existing_basic_logs_only": "PASS",
+      "s3_private_versioned_encrypted": "PASS",
+      "s3_tls_enforced": "PASS",
+      "dynamodb_encryption_pitr_ttl_deletion_protection": "PASS",
+      "cognito_required_totp_no_self_signup": "PASS",
+      "cognito_public_code_flow_custom_scope": "PASS",
+      "cognito_short_token_lifetimes_and_revocation": "PASS",
+      "jwt_exact_cognito_issuer_audience": "PASS",
+      "all_four_routes_scoped_jwt": "PASS",
+      "lambda_invocation_only_scoped_api_routes": "PASS",
+      "no_function_url_or_unrelated_paid_resource_types": "PASS",
+      "existing_unconnected_amplify_shell": "PASS",
+      "cognito_callback_existing_amplify_domain": "PASS",
+      "api_rate_and_burst_unchanged": "PASS",
+      "api_access_logs_metadata_only": "PASS",
+      "all_three_log_groups_retained_thirty_days": "PASS",
+      "data_user_pool_retention_unchanged": "PASS",
+      "existing_three_alarms_and_dashboard": "PASS"
+    },
+    "unchanged_limitations": [
+      "AWSLambdaBasicExecutionRole log resources wildcard",
+      "X-Ray submission resource wildcard",
+      "Amplify DescribeLogGroups resource wildcard",
+      "Unconnected hosting shell does not serve the demo",
+      "CloudWatch alarm notification actions unconfigured",
+      "Retained data and logs require deliberate cleanup"
+    ],
+    "scope": "Existing application template only; this review makes no AWS calls and does not establish deployment success."
+  },
+  "deployment": {
+    "status": "PASS",
+    "exit_code": 0,
+    "started_at": "2026-09-15T06:20:34.969093+00:00",
+    "completed_at": "2026-09-15T06:24:56.902674+00:00",
+    "elapsed_seconds": 261.937,
+    "region": "ap-northeast-1",
+    "template_sha256": "80f4556d6b80c71bd470108d39c54dfdfb4a5aa0b7487c1126c38fcecdb72fd9",
+    "approval_mode": "broadening",
+    "reviewed_existing_stack_authorized": true
+  },
+  "resource_inventory": {
+    "status": "PASS",
+    "observed_at": "2026-09-15T06:25:28.391526+00:00",
+    "region": "ap-northeast-1",
+    "cloudformation": "CREATE_COMPLETE",
+    "resource_count": 34,
+    "resource_types": {
+      "AWS::Amplify::App": 1,
+      "AWS::Amplify::Branch": 1,
+      "AWS::ApiGatewayV2::Api": 1,
+      "AWS::ApiGatewayV2::Authorizer": 1,
+      "AWS::ApiGatewayV2::Integration": 1,
+      "AWS::ApiGatewayV2::Route": 4,
+      "AWS::ApiGatewayV2::Stage": 1,
+      "AWS::CDK::Metadata": 1,
+      "AWS::CloudWatch::Alarm": 3,
+      "AWS::CloudWatch::Dashboard": 1,
+      "AWS::Cognito::UserPool": 1,
+      "AWS::Cognito::UserPoolClient": 1,
+      "AWS::Cognito::UserPoolDomain": 1,
+      "AWS::Cognito::UserPoolResourceServer": 1,
+      "AWS::DynamoDB::Table": 1,
+      "AWS::IAM::Policy": 2,
+      "AWS::IAM::Role": 2,
+      "AWS::Lambda::Function": 1,
+      "AWS::Lambda::Permission": 4,
+      "AWS::Logs::LogGroup": 3,
+      "AWS::S3::Bucket": 1,
+      "AWS::S3::BucketPolicy": 1
+    },
+    "template_matches_reviewed": true,
+    "reserved_concurrency": 3,
+    "concurrent_executions": 1000,
+    "unreserved_concurrent_executions": 997,
+    "runtime_iam_unchanged": true,
+    "lambda_state": "Active",
+    "lambda_update_status": "Successful",
+    "alarms": 3,
+    "dashboards": 1,
+    "resolved_image_digest": "sha256:520ef9035d89b209129c5628252fea35bca7e327981ea96670e05feeeefeba2f"
+  },
+  "corpus_publication": {
+    "status": "PASS",
+    "completed_at": "2026-09-15T06:26:01.136806+00:00",
+    "document_count": 12,
+    "object_count": 13,
+    "manifest_last": true,
+    "all_bytes_verified": true,
+    "all_objects_encrypted": true,
+    "total_bytes": 10527
+  },
+  "synthetic_user": {
+    "status": "PASS",
+    "synthetic_user_created": true,
+    "invitations_sent": 0,
+    "email_or_phone_supplied": false,
+    "user_confirmed": true,
+    "pool_mfa_required": true,
+    "runtime_iam_changed": false,
+    "client_auth_configuration_changed": false
+  },
+  "totp_enrollment": {
+    "success": true,
+    "executeLiveExplicit": true,
+    "targetValidated": true,
+    "providerCallAttempted": true,
+    "totpSetupOffered": true,
+    "totpSecretStored": true,
+    "totpVerificationSubmitted": true,
+    "mfaSetupCompletionSubmitted": true,
+    "authenticationSucceeded": true,
+    "apiTokensDiscarded": true,
+    "customScopeNotClaimed": true,
+    "unexpectedFlowRejected": false,
+    "timeout": false
+  },
+  "infrastructure_smoke": {
+    "status": "INCOMPLETE",
+    "execution": "live_aws",
+    "scope": "infrastructure_only",
+    "bedrock_evaluation": "NOT TESTED",
+    "checks": [
+      {
+        "name": "stack_and_resource_scope",
+        "status": "PASS"
+      },
+      {
+        "name": "reviewed_s3_corpus",
+        "status": "PASS"
+      },
+      {
+        "name": "lambda_configuration",
+        "status": "PASS"
+      },
+      {
+        "name": "cognito_configuration",
+        "status": "PASS"
+      },
+      {
+        "name": "gateway_authorization",
+        "status": "PASS"
+      },
+      {
+        "name": "unauthorized_request_denied",
+        "status": "PASS"
+      }
+    ],
+    "completed_at": "2026-09-15T06:30:38.686779+00:00",
+    "elapsed_seconds": 5.563
+  },
+  "bedrock": {
+    "capacity": "BLOCKED",
+    "relevant_tokyo_quotas": 0,
+    "new_model_invocations": 0,
+    "previous_qualification": "FAIL",
+    "live_evaluation": "NOT TESTED",
+    "support_inquiry": "SUBMITTED / PENDING at last verified September 9 status; no new Support action"
+  },
+  "amplify": {
+    "app_and_branch": "CREATE_COMPLETE",
+    "repository_connected": false,
+    "build_executed": false,
+    "hosted_frontend": "NOT TESTED"
+  },
+  "databricks": "Previous real Free Edition validation PASS; no operations in this milestone",
+  "local_validation": {
+    "python_api_infrastructure_tests": 340,
+    "focused_smoke_contract_tests": 75,
+    "frontend_tests": 26,
+    "evaluation_cases": 61,
+    "evaluation_all_gates": "PASS",
+    "ruff_format_lint": "PASS",
+    "mypy": "PASS",
+    "frontend_lint_typecheck_format": "PASS",
+    "frontend_production_build": "PASS",
+    "bandit": "PASS",
+    "python_dependency_audit": "PASS",
+    "web_cdk_npm_audits": "PASS",
+    "independent_smoke_diff_review": "PASS"
+  },
+  "failures_and_limits": [
+    "Docker daemon was initially stopped; existing Docker Desktop started. No application deployment retry was needed.",
+    "Initial private Cognito schema guard treated the built-in immutable sub attribute as a user-required field; actual schema inspection corrected that local assertion. Corpus was not republished.",
+    "Cognito rejected a TOTP reused from enrollment. Subsequent form stayed disabled with the old error; another provider rejection was not established. In-app navigation then returned ERR_BLOCKED_BY_CLIENT; private browser handoff required.",
+    "No normal model-backed answer, hosted frontend, rollback, workload capacity or actual AWS invoice established."
+  ],
+  "retention": {
+    "decision": "Keep bootstrap and application for sandbox demonstration; cleanup procedure in docs/aws-deployment-resumption.md",
+    "bootstrap_resources": 11,
+    "application_stack_resources_including_metadata": 34,
+    "paid_support_upgrade": false,
+    "new_quota_request": false,
+    "cross_region_inference": false,
+    "reserved_concurrency_changed": false,
+    "runtime_iam_weakened": false,
+    "unrelated_resources": false
+  },
+  "publication_privacy": "Account/SSO identifiers, credentials, TOTP, OAuth values, provider request IDs, deployed endpoints and physical resource IDs omitted; raw evidence retained only under ignored .runtime."
+}

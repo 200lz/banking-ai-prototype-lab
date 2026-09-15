@@ -1,5 +1,11 @@
 # Deployment capacity and dependency review
 
+> Historical September 9 record. Current Lambda capacity and Tokyo application
+> deployment were reverified on September 15: Lambda RESOLVED and application
+> CREATE_COMPLETE. See the [current execution record](aws-deployment-resumption.md)
+> and [authoritative matrix](verification-matrix.md). Historical failures below
+> remain preserved; they do not describe the current deployment state.
+
 Date: 2026-09-09. Target: the approved personal sandbox in `ap-northeast-1`.
 This review distinguishes resource provisioning, frontend hosting readiness and
 successful model inference. No resource, runtime IAM, reservation, authentication
