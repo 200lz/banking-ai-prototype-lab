@@ -2,7 +2,7 @@
 
 2026-09-15 JST. **Tokyo application deployment, legitimate Cognito OAuth and AWS infrastructure smoke: PASS, 9/9 checks.** The fixed refusal preserved evidence and human review with zero model usage; exact DynamoDB audit and CloudWatch runtime/API correlation passed. Local application, Docker, previously published hosted CI and real Databricks wheel/pipeline/SDK/API/browser validation also passed.
 
-**Scoped AWS application/bootstrap and Databricks cleanup: PASS.** The tested project resources have since been removed. One automatic DynamoDB SYSTEM backup remains until October 20; the pre-existing Databricks catalog and stopped warehouse remain. **Live Bedrock evaluation: NOT TESTED / BLOCKED by zero provider-account capacity.** Previous model qualification remains FAIL; the support inquiry remains SUBMITTED / PENDING at its last verified checkpoint. Final publication CI is pending. No real-bank affiliation; all internal policies, companies and financial records are synthetic.
+**Scoped AWS application/bootstrap and Databricks cleanup: PASS.** The tested project resources have since been removed. One automatic DynamoDB SYSTEM backup remains until October 20; the pre-existing Databricks catalog and stopped warehouse remain. **Live Bedrock evaluation: NOT TESTED / BLOCKED by zero provider-account capacity.** Previous model qualification remains FAIL; the support inquiry remains SUBMITTED / PENDING at its last verified checkpoint. Final-validation milestone CI: PASS, [run 34951352510](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34951352510) at `d93bf802d1d4a7376d912179e4703f26e5a5611f`. No real-bank affiliation; all internal policies, companies and financial records are synthetic.
 
 The [authoritative verification matrix](docs/verification-matrix.md) links every PASS to executed evidence. Hosted CI was independently verified using `gh`; deployed AWS, live Bedrock and Databricks workspace success is not inferred from local or hosted tests.
 
@@ -82,9 +82,12 @@ development timings are separate from the real AWS refusal response:
 [Final local regression evidence](docs/validation/final-local-regressions-2026-09-15.json)
 links the [full 61-case results](evals/results/final-validation-2026-09-15.json).
 
-Earlier source and complete eleven-commit history secret scans passed during
-preparation. Final source/history and documentation/privacy checks remain required
-after all evidence and resource-disposition updates are complete. The prior
+Pre-publication privacy/documentation checks passed for **198 text files,
+47 Markdown files, 48 JSON files and 263 local links**. Source scanning
+passed **201 candidate paths** and complete **11-commit** history scanning
+passed, both with zero findings. These measured pre-publication scopes
+are bounded automated checks, not proof that all sensitive data is absent.
+The prior
 deployment checkpoint's 340-test result and slower concurrent evaluation remain
 dated development history; they are not cloud performance targets.
 
@@ -97,8 +100,11 @@ records exact gates, runner and artifact digest. The action-runtime deprecation
 remains NON-BLOCKING; no action pin was changed. The subsequent status commit
 `ad9eb001717c7817834e1f2f77b4df9019a3c5af` passed
 [run 34938551581](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34938551581).
-Final validation and cleanup publication requires a new hosted run; these prior
-results do not establish that later revision's outcome.
+The final-validation milestone commit `d93bf802d1d4a7376d912179e4703f26e5a5611f` passed
+[hosted run 34951352510](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34951352510) on GitHub-hosted Linux. All **22 quality steps**
+succeeded; artifact **evidence-and-infrastructure** was present and unexpired
+when verified (146,860 bytes). [Milestone CI evidence](docs/validation/github-final-validation-2026-09-15.json)
+records the actual runner, all step outcomes and artifact digest.
 
 The deployed image digest is
 `sha256:520ef9035d89b209129c5628252fea35bca7e327981ea96670e05feeeefeba2f`.
@@ -312,6 +318,31 @@ format/lint checks passed afterward. The resulting commit
 the independently verified hosted workflow below.
 
 ## GitHub hosted CI: PASS
+
+### Final-validation milestone
+
+The final-validation milestone commit `d93bf802d1d4a7376d912179e4703f26e5a5611f` passed
+[hosted run 34951352510](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34951352510) on GitHub-hosted Linux. All **22 quality steps**
+succeeded; artifact **evidence-and-infrastructure** was present and unexpired
+when verified (146,860 bytes). [Actual CI record](docs/validation/github-final-validation-2026-09-15.json).
+
+| Hosted evidence | Verified value |
+| --- | --- |
+| Tested commit / branch | `d93bf802d1d4a7376d912179e4703f26e5a5611f` / `main` |
+| Run | [hosted run 34951352510](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34951352510) |
+| Completed / independently verified | 2026-09-15T09:19:09Z / 2026-09-15T09:19:27.879425+00:00 |
+| Job / recorded successful steps | `quality` / 22 |
+| Hosted runner | `GitHub Actions 1000000264`; group `GitHub Actions`; labels `ubuntu-latest` |
+| Artifact | `evidence-and-infrastructure`; ID `10389841178`; 146,860 bytes; unexpired when checked |
+| Artifact SHA-256 | `sha256:e262b45b21c16b7ff263b9e9b2d8175377314e018df2b71aa54d6eecef78ed6d` |
+
+Actual successful gates: Install exact tested dependencies; Formatting and linting; Type checking; Unit and API integration tests; infrastructure security assertions; Evaluation smoke gates; Full evaluation gates; Security analysis and dependency vulnerability audits; Production web build; CDK synth without credentials; Install checksum-verified secret scanner; Scan repository candidate files for secrets; Scan complete Git history for secrets; Fresh container build, health, scenarios, telemetry, restart and cleanup; Preserve evaluation and synthesized template.
+
+Recorded evidence applies to this commit; the badge and workflow history
+track the current main branch.
+Node action deprecation remains NON-BLOCKING; pins are unchanged and no fix is claimed.
+
+### Original hosted run (historical)
 
 Verified with GitHub CLI REST queries for the run, jobs, artifacts and check-run
 annotations, supplemented by job logs read through the connected GitHub app.
@@ -560,12 +591,12 @@ See [cost boundaries](COST.md) and
 ## Next steps and recommended interview sequence
 
 The user authorized final validation, scoped cleanup and portfolio polish. The
-authenticated AWS gate and scoped cleanup passed, with evidence preserved. Final
-publication checks and hosted CI remain pending. No further model request is authorized while Tokyo Nova Lite
+authenticated AWS gate and scoped cleanup passed, with evidence preserved.
+Pre-publication checks and the final-validation milestone's hosted CI passed. No further model request is authorized while Tokyo Nova Lite
 capacity remains unusable. Preserve both earlier Databricks failures and the first
 authenticated AWS log-delivery failure alongside successful execution evidence.
 
-1. Pass final privacy/security checks and hosted CI for the published revision; preserve the disclosed cleanup scope, automatic backup expiry and historical execution evidence.
+1. Preserve the dated execution and cleanup evidence, including the disclosed scope, automatic backup expiry and earlier failures.
 2. In a future model milestone, establish usable Tokyo capacity and review any required redeployment before qualification, three-case smoke and the unchanged twenty-case suite. Compare actual quality, tokens, latency and cost against the deterministic baseline.
 3. Update pinned actions for the non-blocking Node.js 20 runtime deprecation in a separate maintenance change and verify a new hosted run. A functioning Amplify SSR frontend also remains a separate deployment milestone.
 4. For institutional use, verify a Gold-only identity, real denied-access/outage behavior, reconciliation, deadline handling and the [production-readiness gaps](PRODUCTION_READINESS.md), including independent Japanese policy/privacy/model-risk review.

@@ -121,14 +121,22 @@ on September 15. Previous qualification failures remain preserved; no model
 invocation occurred in the deployment or final-validation milestone.
 [Capacity/support history](docs/deployment-capacity-review.md) records the finding.
 
-The deployment implementation passed [hosted run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647)
+The final-validation milestone commit `d93bf802d1d4a7376d912179e4703f26e5a5611f` passed
+[hosted run 34951352510](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34951352510) on GitHub-hosted Linux. All **22 quality steps**
+succeeded; artifact **evidence-and-infrastructure** was present and unexpired
+when verified (146,860 bytes). [Milestone CI evidence](docs/validation/github-final-validation-2026-09-15.json)
+records the exact runner, gates and artifact digest.
+Recorded evidence applies to this commit; the badge and workflow history
+track the current main branch.
+
+The earlier deployment implementation passed [hosted run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647)
 at commit `8a49bf849fcae5006f5c1ac529120224f6c0badf`: all **22 quality steps** on
 GitHub-hosted Linux, with artifact **evidence-and-infrastructure**. The subsequent
 status commit `ad9eb001717c7817834e1f2f77b4df9019a3c5af` also passed
 [hosted run 34938551581](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34938551581).
 [Recorded CI evidence](docs/validation/github-aws-deployment-2026-09-15.json)
-identifies the implementation runner, gates and artifact digest. Later revisions
-need their own hosted verification. CI uses no AWS or Databricks credentials.
+identifies that earlier implementation runner, gates and artifact digest.
+CI uses no AWS or Databricks credentials.
 
 Node.js 20 action-runtime deprecation remains **NON-BLOCKING**. GitHub forced
 the pinned actions onto Node.js 24; those pins have not been updated to fix the
@@ -139,7 +147,7 @@ The latest local regression passed **342 Python/API/infrastructure tests**,
 including **77 AWS-smoke contract tests**, **26 frontend tests** and all **61
 deterministic cases**. Formatting, linting, type checks, Bandit and Python/web/CDK
 dependency audits passed. [Local regression evidence](docs/validation/final-local-regressions-2026-09-15.json)
-records the commands and scope. Final publication requires a new hosted run.
+records the commands and scope. The milestone's hosted PASS is recorded above.
 
 ## Evaluation and live-model comparison
 

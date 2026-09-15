@@ -20,8 +20,12 @@ reproducible. This milestone adds no product functionality.
 [Acceptance criteria](final-validation-cleanup-acceptance.md),
 [actual AWS smoke](validation/aws-final-validation-2026-09-15.json), and
 [local regression evidence](validation/final-local-regressions-2026-09-15.json)
-define these scopes. The final publication requires independent hosted CI; use
-the repository's commit-specific CI record and workflow history for that result.
+define these scopes. The final-validation milestone commit `d93bf802d1d4a7376d912179e4703f26e5a5611f` passed
+[hosted run 34951352510](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34951352510) on GitHub-hosted Linux. All **22 quality steps**
+succeeded; artifact **evidence-and-infrastructure** was present and unexpired
+when verified (146,860 bytes).
+[Milestone CI evidence](validation/github-final-validation-2026-09-15.json)
+records exact gates, runner and artifact integrity.
 
 ## Failure preserved and corrected
 

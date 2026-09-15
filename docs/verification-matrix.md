@@ -100,6 +100,13 @@ that capability; NOT TESTED means an applicable integration was not executed.
   passed. [Local evidence](validation/final-local-regressions-2026-09-15.json) links
   the [full 61-case results](../evals/results/final-validation-2026-09-15.json).
   Application behavior and IAM are unchanged.
+- **Final-validation milestone hosted CI: PASS.**
+  The final-validation milestone commit `d93bf802d1d4a7376d912179e4703f26e5a5611f` passed
+  [hosted run 34951352510](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34951352510) on GitHub-hosted Linux. All **22 quality steps**
+  succeeded; artifact **evidence-and-infrastructure** was present and unexpired
+  when verified (146,860 bytes).
+  [Commit-specific evidence](validation/github-final-validation-2026-09-15.json)
+  contains the actual runner, all step outcomes and artifact digest.
 - **AWS deployment implementation hosted CI: PASS.**
   [run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647)
   passed at commit `8a49bf849fcae5006f5c1ac529120224f6c0badf` on GitHub-hosted Linux.
@@ -108,8 +115,8 @@ that capability; NOT TESTED means an applicable integration was not executed.
   [runner/gates/artifact evidence](validation/github-aws-deployment-2026-09-15.json).
   The subsequent status commit `ad9eb001717c7817834e1f2f77b4df9019a3c5af` passed
   [run 34938551581](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34938551581).
-  Final validation/publication changes require a new hosted run. Hosted checks are
-  credential-free; real authenticated AWS evidence is recorded separately.
+  These earlier results remain historical. Hosted checks are credential-free;
+  real authenticated AWS evidence is recorded separately.
 - **Verified wheel implementation hosted CI: PASS.** [run 34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941)
   passed at commit `87e6417d268bf9671820039f5e9c5bb422d82779` on GitHub-hosted Linux.
   All 22 `quality` steps succeeded; actual artifact `evidence-and-infrastructure`
@@ -183,7 +190,7 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 | Integration | Status | Evidence or blocker |
 | --- | --- | --- |
-| GitHub repository publication and hosted Actions | PASS (previous checkpoint) | Implementation run 34937568647 and subsequent [status run 34938551581](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34938551581), commit `ad9eb001717c7817834e1f2f77b4df9019a3c5af`, passed. Final validation changes require their own hosted PASS. |
+| GitHub repository publication and hosted Actions | PASS (final-validation milestone) | [hosted run 34951352510](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34951352510), commit `d93bf802d1d4a7376d912179e4703f26e5a5611f`, passed all 22 quality steps and preserved `evidence-and-infrastructure`. [Exact evidence](validation/github-final-validation-2026-09-15.json). |
 | CDK sandbox bootstrap | PASS / PERFORMED; subsequently removed | Approved standard stack reached CREATE_COMPLETE in Tokyo, 11 resources, 25 passing checks; no extra trusted accounts or application runtime IAM changes. Cleanup PASS below. |
 | Lambda Tokyo quota | RESOLVED | Total/unreserved 1000/1000 before deployment, 1000/997 with reservation three, and 1000/1000 after function removal. No new request for 1001. Earlier Support case status is historical and was not re-queried. |
 | AWS sandbox application deployment | PASS; subsequently removed | Tokyo CloudFormation reached CREATE_COMPLETE, 34 resources, reviewed template and unchanged runtime IAM verified. Amplify was an unconnected shell; working hosted SSR remains NOT TESTED. |

@@ -61,7 +61,8 @@
   secret scan passed **201 candidate paths / 3,454,215 bytes** and the complete
   **11-commit history / 3,197,713 bytes** scan passed, both with zero findings.
   These are bounded automated checks, not a guarantee of absence of every kind
-  of sensitive information. Final staged/publication CI remains a separate gate.
+  of sensitive information. The milestone subsequently passed hosted CI as
+  recorded below.
 - After the private-value exclusion scan passed, verified the retired sign-in
   helper process and listener were stopped. Removed exactly three local temporary
   files containing the demo password, authenticator secret and OAuth tokens at
@@ -108,8 +109,22 @@
   documents logical removal and retained resources separately.
 - Reordered README around purpose, verified boundaries and the prominent blocked
   Bedrock status. Prepared a nine-step 4:40 interview sequence with preserved
-  failures and lessons. Hosted verification of the final publication is still
-  required; an earlier hosted PASS does not establish a later revision's result.
+  failures and lessons.
+- The final-validation milestone commit `d93bf802d1d4a7376d912179e4703f26e5a5611f` passed
+  [hosted run 34951352510](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34951352510) on GitHub-hosted Linux. All **22 quality steps**
+  succeeded; artifact **evidence-and-infrastructure** was present and unexpired
+  when verified (146,860 bytes).
+  Actual `gh` run/job/artifact/annotation reads verified runner `GitHub Actions 1000000264`
+  in group `GitHub Actions`, labels `ubuntu-latest`, completion 2026-09-15T09:19:09Z.
+  Artifact digest: `sha256:e262b45b21c16b7ff263b9e9b2d8175377314e018df2b71aa54d6eecef78ed6d`.
+  [Exact milestone CI evidence](validation/github-final-validation-2026-09-15.json)
+  preserves every gate outcome. Node runtime deprecation is NON-BLOCKING;
+  action pins were unchanged.
+  No AWS or Databricks action accompanied this CI documentation update.
+- After adding that CI record, source scanning passed **202 candidate paths /
+  3,463,782 bytes** and complete **12-commit history / 3,722,874 bytes** scanning
+  passed with zero findings. These checks cover the status update's working tree
+  and the published milestone history respectively.
 
 ## Tokyo AWS deployment resumption — earlier checkpoint (2026-09-15 JST)
 
