@@ -37,6 +37,14 @@ audit correlation and CloudWatch runtime-record checks remain pending. No model
 invocation occurred in this deployment milestone; no actual infrastructure bill
 was measured. [Execution and scope](docs/aws-deployment-resumption.md)
 
+Supplemental checks verified all four routes reject unauthenticated requests,
+correlated CloudWatch rejection metadata, and active DynamoDB protection/PITR/TTL.
+These are additional inspection/request operations, not authenticated workflow
+latency or a billing measurement. The implementation's
+[hosted run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647)
+passed all 22 steps at `8a49bf849fcae5006f5c1ac529120224f6c0badf`, preserving
+`evidence-and-infrastructure`; credential-free CI does not measure cloud cost.
+
 The API exposes model latency, retrieval latency, total workflow latency, token
 counts, estimated cost, and `cost_estimate_complete`. Failed model calls can be
 billed without returning usage; the reported numeric estimate is then a lower

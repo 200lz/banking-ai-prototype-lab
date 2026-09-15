@@ -141,10 +141,18 @@ The first six real smoke checks passed at **06:30:38 UTC**, in **5.563 seconds**
 | Correlated DynamoDB audit | NOT TESTED; authenticated request pending |
 | Correlated CloudWatch runtime records | NOT TESTED; authenticated request pending |
 
+Supplemental real checks at **06:36:24 UTC** verified **HTTP 401 on all four
+routes**, matching metadata-only CloudWatch records for an unauthenticated
+request, and an **ACTIVE** DynamoDB table with PITR/TTL enabled and deletion
+protection present. These supplement the six passed checks; they do not complete
+the authenticated response and correlated application audit/log gates.
+
 A synthetic demo user was created without an email/phone value or invitation
-message. Required-MFA configuration and API-based TOTP enrollment passed. The
-browser initially rejected a previously used authenticator code; a later browser
-navigation returned `ERR_BLOCKED_BY_CLIENT`. No successful authorization-code
+message. Required-MFA configuration and TOTP registration/verification through
+the actual `MFA_SETUP` flow passed. `AdminGetUser` did not return MFA preference
+metadata, so preference activation was not independently established. The browser
+displayed an authenticator-code error; later navigation returned
+`ERR_BLOCKED_BY_CLIENT`. The cause is not established. No successful authorization-code
 callback or scoped JWT is claimed from those attempts. A private normal-browser
 handoff is awaiting completion. The existing app-client authentication settings,
 callback, runtime IAM and MFA policy remain unchanged.
@@ -203,8 +211,14 @@ records and arbitrary query substitution. Injected test clients remain labeled
 `injected_clients`; their results are not actual AWS evidence.
 
 The full 61-case deterministic evaluation remains a development baseline with
-zero LLM use. The newly triggered hosted GitHub run must pass after publication;
-no future run is claimed at this checkpoint.
+zero LLM use. Implementation commit `8a49bf849fcae5006f5c1ac529120224f6c0badf`
+passed [hosted run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647)
+at **06:40:23 UTC**. All **22 quality steps** passed on GitHub-hosted Linux;
+the actual unexpired artifact was **evidence-and-infrastructure**.
+[Commit-specific CI evidence](validation/github-aws-deployment-2026-09-15.json)
+records the runner, gates and artifact digest. Node action deprecation remains
+NON-BLOCKING with unchanged action pins. This subsequent status update must pass
+its own hosted run; no future revision is claimed as verified.
 
 ## Retention, cost and cleanup
 

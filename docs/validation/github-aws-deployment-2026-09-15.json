@@ -1,0 +1,129 @@
+{
+  "verified_at": "2026-09-15T06:40:50.413813+00:00",
+  "status": "PASS",
+  "verification_method": "Actual public GitHub REST reads through gh; push event, exact commit and all quality job steps checked",
+  "workflow": "Quality and safety regression",
+  "workflow_id": 353961123,
+  "run_id": 34937568647,
+  "run_url": "https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647",
+  "commit_sha": "8a49bf849fcae5006f5c1ac529120224f6c0badf",
+  "event": "push",
+  "branch": "main",
+  "started_at": "2026-09-15T06:34:48Z",
+  "completed_at": "2026-09-15T06:40:23Z",
+  "job": {
+    "id": 104278722854,
+    "name": "quality",
+    "conclusion": "success",
+    "labels": [
+      "ubuntu-latest"
+    ],
+    "runner_name": "GitHub Actions 1000000262",
+    "runner_group_name": "GitHub Actions",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install exact tested dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Formatting and linting",
+        "conclusion": "success"
+      },
+      {
+        "name": "Type checking",
+        "conclusion": "success"
+      },
+      {
+        "name": "Unit and API integration tests; infrastructure security assertions",
+        "conclusion": "success"
+      },
+      {
+        "name": "Evaluation smoke gates",
+        "conclusion": "success"
+      },
+      {
+        "name": "Full evaluation gates",
+        "conclusion": "success"
+      },
+      {
+        "name": "Security analysis and dependency vulnerability audits",
+        "conclusion": "success"
+      },
+      {
+        "name": "Production web build",
+        "conclusion": "success"
+      },
+      {
+        "name": "CDK synth without credentials",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install checksum-verified secret scanner",
+        "conclusion": "success"
+      },
+      {
+        "name": "Scan repository candidate files for secrets",
+        "conclusion": "success"
+      },
+      {
+        "name": "Scan complete Git history for secrets",
+        "conclusion": "success"
+      },
+      {
+        "name": "Fresh container build, health, scenarios, telemetry, restart and cleanup",
+        "conclusion": "success"
+      },
+      {
+        "name": "Preserve evaluation and synthesized template",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "artifact": {
+    "id": 10383808219,
+    "name": "evidence-and-infrastructure",
+    "size_in_bytes": 124794,
+    "digest": "sha256:8ba5c3272e9ef54659b4ad6c317166cc326a096847f8a909f14c3d61e8454a6b",
+    "expired": false
+  },
+  "annotations": [
+    {
+      "level": "warning",
+      "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020, actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/"
+    }
+  ],
+  "node_action_deprecation": "NON-BLOCKING; existing action pins unchanged; no fix claimed",
+  "cloud_verification_boundary": "Hosted checks are credential-free. Actual AWS deployment and Databricks evidence are separate; scoped AWS smoke status comes from its live report, and live Bedrock remains NOT TESTED."
+}

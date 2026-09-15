@@ -28,7 +28,9 @@ that capability; NOT TESTED means an applicable integration was not executed.
 | Lambda reservation and deployed configuration | NOT APPLICABLE | NOT APPLICABLE | PASS (reservation 3 / regional limit 1000) | NOT APPLICABLE | NOT APPLICABLE |
 | Published S3 corpus bytes and manifest | PASS | PASS | PASS (12 documents / 13 objects) | NOT APPLICABLE | NOT APPLICABLE |
 | Cognito configuration and gateway JWT/scope configuration | PASS | NOT APPLICABLE | PASS (configuration only) | NOT APPLICABLE | NOT APPLICABLE |
-| Real unauthorized API request rejection | PASS | PASS | PASS | NOT APPLICABLE | NOT APPLICABLE |
+| Real unauthorized API request rejection | PASS | PASS | PASS (all four routes return 401) | NOT APPLICABLE | NOT APPLICABLE |
+| Unauthorized API request → metadata-only CloudWatch access log | NOT APPLICABLE | NOT APPLICABLE | PASS | NOT APPLICABLE | NOT APPLICABLE |
+| DynamoDB active state, PITR, TTL and deletion protection | PASS (assertions) | NOT APPLICABLE | PASS | NOT APPLICABLE | NOT APPLICABLE |
 | Scoped Cognito OAuth request with correlated audit and logs | PASS (contracts) | NOT APPLICABLE | NOT TESTED (legitimate OAuth JWT pending) | NOT APPLICABLE | NOT APPLICABLE |
 | Approved CDK bootstrap and actual resource/trust verification | PASS (template review) | NOT APPLICABLE | PASS (bootstrap only) | NOT APPLICABLE | NOT APPLICABLE |
 | 61-case deterministic regression | PASS | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE |
@@ -50,20 +52,30 @@ that capability; NOT TESTED means an applicable integration was not executed.
 - **AWS smoke: PARTIAL / INCOMPLETE.** Six actual checks passed: stack/resource
   scope, reviewed S3 corpus, Lambda configuration, Cognito configuration, gateway
   authorization configuration and unauthorized request rejection. The remaining
-  scoped OAuth query, correlated DynamoDB audit and CloudWatch records require a
+  scoped OAuth query, correlated DynamoDB audit and CloudWatch workflow records require a
   legitimate Cognito JWT. Browser navigation returned `ERR_BLOCKED_BY_CLIENT`;
   private sign-in handoff remains pending. Resource creation is verified separately
   from authenticated workflow execution. The provisioned Amplify shell remains
   unconnected; hosted frontend/SSR execution is NOT TESTED.
+- **Supplemental live infrastructure checks: PASS.** All four API routes returned
+  HTTP 401 without credentials. A corresponding metadata-only API Gateway access
+  record was verified in CloudWatch. DynamoDB was ACTIVE, with PITR, TTL and
+  deletion protection enabled. The synthetic Cognito user was confirmed and TOTP
+  enrollment succeeded through the MFA_SETUP challenge. AdminGetUser did not return
+  MFA preference metadata; no cause is inferred. These checks preserve the separate
+  NOT TESTED status of an authenticated scoped request and its workflow audit/logs.
 - **AWS resumption local regression: PASS.** 340 Python/API/infrastructure tests,
   26 frontend tests and all 61 deterministic evaluation cases passed. The new
   explicit infrastructure-only smoke mode selects an existing prohibited-action
   refusal and requires zero model usage; application behavior and IAM are unchanged.
-- **Latest previously verified hosted CI: PASS.**
-  [run 34378399602](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34378399602)
-  passed at commit `4e652d48f32c4699acf3ebce27090a8400a8692e` on GitHub-hosted Linux;
-  all 22 quality steps and artifact `evidence-and-infrastructure` were verified.
-  Publication of the AWS resumption changes still requires its own hosted PASS.
+- **AWS deployment implementation hosted CI: PASS.**
+  [run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647)
+  passed at commit `8a49bf849fcae5006f5c1ac529120224f6c0badf` on GitHub-hosted Linux.
+  Actual `gh` reads verified the push to main, all 22 `quality` steps, and the
+  unexpired `evidence-and-infrastructure` artifact (124,794 bytes). See
+  [runner/gates/artifact evidence](validation/github-aws-deployment-2026-09-15.json).
+  The status-documentation follow-up requires its own completed hosted run. Hosted
+  checks are credential-free; authenticated AWS smoke remains independently incomplete.
 - **Verified wheel implementation hosted CI: PASS.** [run 34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941)
   passed at commit `87e6417d268bf9671820039f5e9c5bb422d82779` on GitHub-hosted Linux.
   All 22 `quality` steps succeeded; actual artifact `evidence-and-infrastructure`
@@ -136,14 +148,14 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 | Integration | Status | Evidence or blocker |
 | --- | --- | --- |
-| GitHub repository publication and hosted Actions | PASS (previous commit) | Latest verified [34378399602](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34378399602), commit `4e652d48f32c4699acf3ebce27090a8400a8692e`; all 22 Linux quality steps and actual artifact verified. AWS resumption publication requires its own PASS. |
+| GitHub repository publication and hosted Actions | PASS (AWS deployment implementation) | Verified [34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647), commit `8a49bf849fcae5006f5c1ac529120224f6c0badf`; all 22 Linux quality steps and actual artifact verified. The status-documentation follow-up requires its own PASS. |
 | CDK sandbox bootstrap | PASS / PERFORMED | Approved standard stack CREATE_COMPLETE in Tokyo, 11 resources, 25 passing checks; no extra trusted accounts or application runtime IAM changes. Kept for planned sandbox deployment. |
 | Lambda Tokyo quota | RESOLVED | Fresh regional account settings: concurrent 1000 / unreserved 1000 before deployment; reservation three deployed, leaving 997 unreserved. No new request for 1001. Earlier Support case status is historical and was not re-queried. |
 | AWS sandbox application deployment | PASS | Tokyo CloudFormation CREATE_COMPLETE, 34 resources, reviewed template and unchanged runtime IAM verified. Amplify is the existing unconnected shell; working hosted SSR remains NOT TESTED. |
-| AWS smoke | PARTIAL / INCOMPLETE | Six of nine actual checks passed. Legitimate scoped OAuth JWT is pending; authenticated refusal, DynamoDB audit correlation and CloudWatch record correlation remain NOT TESTED. |
+| AWS smoke | PARTIAL / INCOMPLETE | Six of nine actual checks passed. Legitimate scoped OAuth JWT is pending; authenticated refusal, DynamoDB audit correlation and CloudWatch workflow-record correlation remain NOT TESTED. |
 | S3 corpus publication | PASS | Twelve documents plus manifest uploaded with full validation and manifest last; all thirteen encrypted objects independently matched expected bytes. |
-| Lambda / API Gateway / Cognito configuration | PASS | Lambda Active/Successful with reservation three; existing Cognito MFA and four scoped JWT routes verified; real unauthorized request rejected. Authenticated OAuth boundary remains pending. |
-| DynamoDB / CloudWatch provisioning | PASS (resources only) | Audit table, log groups, three alarms and dashboard created. Correlated runtime audit and logs await authenticated smoke. |
+| Lambda / API Gateway / Cognito configuration | PASS | Lambda Active/Successful with reservation three; existing Cognito MFA and four scoped JWT routes verified; all four routes returned 401 without credentials. Synthetic TOTP enrollment passed; authenticated OAuth boundary remains pending. |
+| DynamoDB / CloudWatch | PASS (configuration and unauthorized access logs) | Table ACTIVE, PITR/TTL/deletion protection enabled; log groups, three alarms and dashboard created. Unauthorized metadata-only access log correlation passed. Authenticated workflow audit/log correlation remains NOT TESTED. |
 | Bedrock discovery | PASS | Authenticated Tokyo discovery returned 62 models; selected Nova Lite access metadata AUTHORIZED/AVAILABLE. Metadata does not establish inference success. |
 | Bedrock qualification | FAIL (previous attempts) | Single-case qualification and diagnostic retry failed with ModelThrottledException. All three relevant Tokyo Nova Lite quotas were re-queried at zero on 2026-09-15. No invocation after the zero-capacity finding; failed token/cost reporting incomplete. |
 | Nova Lite capacity inquiry | SUBMITTED / PENDING | Last verified Basic Support state: Unassigned, Account / Service Quotas, General, severity General question. Support was not re-queried this milestone; current zero quotas establish no usable capacity. No paid plan or capacity purchase. |

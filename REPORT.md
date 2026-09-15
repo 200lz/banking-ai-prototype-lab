@@ -14,7 +14,10 @@ The active Lambda retains reservation three and unchanged runtime IAM.
 The safe publisher uploaded twelve reviewed documents and their manifest last;
 all thirteen objects (10,527 bytes) were downloaded and verified byte-for-byte
 with AES256 encryption. The first six real infrastructure smoke checks passed,
-including API JWT/scope configuration and unauthenticated rejection. A synthetic
+including API JWT/scope configuration and unauthenticated rejection. Supplemental
+checks verified HTTP 401 on all four routes, correlated metadata-only rejection
+logs, and active DynamoDB with PITR, TTL and deletion protection enabled. These
+checks do not establish authenticated application audit correlation. A synthetic
 Cognito user was created with invitations suppressed and required TOTP enrolled.
 The in-app browser blocked subsequent OAuth navigation; a private browser handoff
 is pending. Authenticated query, DynamoDB audit and CloudWatch correlation remain
@@ -58,10 +61,20 @@ The default model smoke retains its original behavior and was not run.
 
 Local validation passed 340 Python/API/infrastructure tests (including 75 smoke
 contract tests), 26 frontend tests and all 61 deterministic evaluation cases.
-Ruff formatting/lint, mypy, frontend checks, Bandit and Python/npm dependency
-audits passed. The evaluation measured mean 25.734 ms, p50 24.798 ms and p95
+Ruff formatting/lint, mypy, frontend checks/production build, Bandit and Python/npm
+dependency audits passed. Full-source and ten-commit history secret scans passed;
+the offline documentation/privacy scan found no private identifiers. The evaluation measured mean 25.734 ms, p50 24.798 ms and p95
 37.934 ms; all configured quality metrics passed and LLM cost was zero.
 These concurrent local development measurements are not AWS latency benchmarks.
+
+The implementation/deployment checkpoint passed real hosted Linux CI:
+[run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647),
+commit `8a49bf849fcae5006f5c1ac529120224f6c0badf`, all 22 quality steps. The actual
+`evidence-and-infrastructure` artifact is 124,794 bytes and was unexpired when
+verified. [Machine-readable CI evidence](docs/validation/github-aws-deployment-2026-09-15.json)
+records exact gates, runner and artifact digest. The action-runtime deprecation
+remains NON-BLOCKING; no action pin was changed. This later status publication
+requires a separate hosted run and is not covered by that commit-specific result.
 
 The deployed image digest is
 `sha256:520ef9035d89b209129c5628252fea35bca7e327981ea96670e05feeeefeba2f`.
@@ -377,11 +390,11 @@ telemetry, not successful Bedrock planning, model usage or AWS deployment.
 
 | External milestone | Status | Actual blocker/evidence |
 | --- | --- | --- |
-| Public GitHub repository and hosted Actions | **PASS** | Verified wheel implementation [run 34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941), commit `87e6417d268bf9671820039f5e9c5bb422d82779`; actual `evidence-and-infrastructure` artifact. |
+| Public GitHub repository and hosted Actions | **PASS** | Tokyo deployment/smoke-harness checkpoint [run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647), commit `8a49bf849fcae5006f5c1ac529120224f6c0badf`; all 22 steps, actual `evidence-and-infrastructure` artifact. |
 | CDK bootstrap | **PASS / PERFORMED** | Tokyo `CDKToolkit` is CREATE_COMPLETE; all 11 resources and 25 control checks passed after explicit approval. No extra trusted accounts or runtime IAM change. |
 | Lambda Tokyo concurrency | **RESOLVED** | Actual total/unreserved 1000/1000 before deployment; 1000/997 afterward; reservation three verified live. No repeat 1001 request; old request status is historical. |
 | AWS application deployment | **PASS** | CREATE_COMPLETE; all 34 resources and exact reviewed template verified in Tokyo. Active Lambda reservation three and unchanged runtime IAM. Unconnected Amplify shell is not a hosted frontend PASS. |
-| AWS infrastructure smoke | **INCOMPLETE** | Six resource/configuration/unauthorized-rejection checks PASS. Scoped-token query and correlated DynamoDB/CloudWatch checks await browser handoff; model smoke NOT TESTED. |
+| AWS infrastructure smoke | **INCOMPLETE** | Six of nine suite checks PASS; all four routes reject unauthenticated requests. Supplemental DynamoDB configuration and metadata-only CloudWatch rejection log checks PASS. Scoped-token query and correlated application audit/log checks await browser handoff; model smoke NOT TESTED. |
 | Bedrock discovery/access preflight | **PASS** | Tokyo text-model discovery and exact Nova Lite access metadata verified; this does not establish inference capacity. |
 | Previous Bedrock qualification | **FAIL** | Both single-case attempts failed with provider throttling; last-observed regional Nova Lite runtime quotas remain zero. Failed artifacts and incomplete usage are preserved. |
 | Nova Lite capacity inquiry | **SUBMITTED / PENDING** | Basic Support case confirmed; provider `Unassigned`, stored type Account, category Service Quotas, General. No quota approval or capacity restoration verified. |

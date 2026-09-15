@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-09-15T06:33:02.046619+00:00",
+  "recorded_at": "2026-09-15T06:41:33.168313+00:00",
   "milestone": "Tokyo application deployment resumption",
   "region": "ap-northeast-1",
   "application_source_baseline_commit": "4e652d48f32c4699acf3ebce27090a8400a8692e",
@@ -297,5 +297,36 @@
     "runtime_iam_weakened": false,
     "unrelated_resources": false
   },
-  "publication_privacy": "Account/SSO identifiers, credentials, TOTP, OAuth values, provider request IDs, deployed endpoints and physical resource IDs omitted; raw evidence retained only under ignored .runtime."
+  "publication_privacy": "Account/SSO identifiers, credentials, TOTP, OAuth values, provider request IDs, deployed endpoints and physical resource IDs omitted; raw evidence retained only under ignored .runtime.",
+  "supplement": {
+    "status": "PASS",
+    "observed_at": "2026-09-15T06:36:24.817442+00:00",
+    "unauthenticated_routes": [
+      {
+        "route": "GET /health",
+        "status": 401
+      },
+      {
+        "route": "GET /v1/config",
+        "status": 401
+      },
+      {
+        "route": "GET /v1/documents/SYN-KYC-001",
+        "status": 401
+      },
+      {
+        "route": "POST /v1/query",
+        "status": 401
+      }
+    ],
+    "unauthorized_cloudwatch_access_log": "PASS",
+    "access_log_metadata_only": true,
+    "dynamodb_table": "ACTIVE",
+    "dynamodb_deletion_protection": true,
+    "dynamodb_pitr": "ENABLED",
+    "dynamodb_ttl": "ENABLED",
+    "synthetic_user_confirmed": true,
+    "user_mfa_preference_metadata": "Not returned by AdminGetUser; enrollment success separately recorded",
+    "authenticated_audit_verification": "NOT TESTED pending scoped OAuth token"
+  }
 }

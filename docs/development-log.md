@@ -36,10 +36,18 @@
 - First six real smoke checks passed in 5.563 seconds: resource scope, S3 corpus,
   Lambda configuration, Cognito configuration, gateway authorization and actual
   unauthorized request rejection. Full smoke remains PARTIAL / INCOMPLETE:
-  authenticated refusal, DynamoDB audit correlation and CloudWatch record
+  authenticated refusal, DynamoDB audit correlation and CloudWatch workflow-record
   correlation require a legitimate scoped Cognito OAuth JWT. Browser navigation
   returned `ERR_BLOCKED_BY_CLIENT`; a private sign-in handoff remains pending.
   The verified resource inventory does not establish those runtime outcomes.
+- Supplemental real infrastructure checks passed at 06:36:24 UTC. All four API
+  routes returned HTTP 401 without credentials; corresponding metadata-only
+  API Gateway access logging was verified in CloudWatch. DynamoDB was ACTIVE,
+  with PITR and TTL enabled and deletion protection true. The synthetic Cognito
+  user was confirmed. TOTP enrollment succeeded through the MFA_SETUP challenge;
+  AdminGetUser did not return MFA preference metadata, and no cause is inferred.
+  No scoped OAuth token was obtained. Full smoke remains six of nine checks;
+  authenticated refusal and its correlated workflow audit/log records are pending.
 - Local regression passed 340 Python/API/infrastructure tests, 26 frontend tests
   and all 61 deterministic evaluation cases. Python formatting/lint/type checks,
   Bandit and scoped smoke mutation checks passed. The existing Starlette/AnyIO
@@ -52,13 +60,20 @@
   including UTF-8/LF, JSON syntax, Markdown fences and local links. Private evidence
   remains outside Git; final source/history scans and publication checks must pass
   after all documentation/evidence changes are complete.
-- Latest previously verified hosted baseline is
-  [34378399602](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34378399602),
-  commit `4e652d48f32c4699acf3ebce27090a8400a8692e`: all 22 Linux quality steps and
-  `evidence-and-infrastructure` passed. AWS resumption changes require their own
-  hosted result after publication. Node action-runtime deprecation remains
-  NON-BLOCKING; action pins are unchanged. Databricks retains its separately
-  verified Free Edition PASS; this milestone performs no Databricks operations.
+- Published the AWS deployment implementation at commit
+  `8a49bf849fcae5006f5c1ac529120224f6c0badf`. Actual `gh` reads verified
+  [hosted run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647)
+  PASS: push event on main, GitHub-hosted Linux, all 22 `quality` steps and the
+  unexpired `evidence-and-infrastructure` artifact (124,794 bytes). The run
+  completed at 06:40:23 UTC; [public evidence](validation/github-aws-deployment-2026-09-15.json)
+  records the runner, gates, digest and annotation. The status-documentation
+  follow-up requires its own completed hosted run. The prior baseline
+  `4e652d48f32c4699acf3ebce27090a8400a8692e` passed run 34378399602.
+- Node action-runtime deprecation remains NON-BLOCKING; action pins are unchanged
+  and no warning fix is claimed. Hosted checks use no cloud credentials and do
+  not complete the pending authenticated AWS smoke. Databricks retains its
+  separately verified Free Edition PASS; this milestone performs no Databricks
+  operations. Live Bedrock remains NOT TESTED with zero new model invocations.
 
 ## Volume-backed wheel and real Databricks integration (2026-09-10 JST)
 

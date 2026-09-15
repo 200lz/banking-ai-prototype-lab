@@ -6,7 +6,10 @@ capacity is RESOLVED: applied 1000, reservation three and post-deployment
 unreserved capacity 997. Six real infrastructure checks passed; authenticated
 refusal, DynamoDB audit correlation and CloudWatch runtime records remain pending
 a legitimate scoped Cognito authorization-code session. Required-MFA configuration
-and API-based TOTP enrollment passed; browser sign-in has not completed.
+and TOTP registration through `MFA_SETUP` passed; user preference activation was
+not established and browser sign-in has not completed. Supplemental checks passed
+all-route unauthenticated rejection, correlated CloudWatch access metadata and
+ACTIVE DynamoDB/PITR/TTL/deletion protection.
 Previous live qualification attempts failed with provider throttling; the three
 selected regional quotas were still zero on September 15. The Nova Lite capacity
 inquiry is pending and live evaluation remains NOT TESTED. See
@@ -27,14 +30,18 @@ abstention remain recorded; their underlying causes are unresolved. See
 | Privacy | Synthetic-only corpus, example redactor, content-free telemetry | Approved DLP, data inventory, purpose/retention/residency controls and privacy assessment |
 | Security | Allowlisted capabilities, restrictive IAM, schema/abuse tests, dependency audits | Threat validation, penetration testing, supply-chain attestations, continuous attack evaluation |
 | Resilience | Error abstention, concurrency bounds, timeouts, audit failure blocks output | Load/failure/chaos tests, dependency budgets, backups/restore drills, RTO/RPO |
-| Observability | OTel parent/step/tool spans, latency/tokens/cost, dedicated Lambda audit log mirror, bounded span flush; three deployed log groups, alarms and dashboard | Correlated live runtime logs, live exporter verification, actionable on-call alerts, dashboards/SLO ownership |
+| Observability | OTel parent/step/tool spans, latency/tokens/cost, dedicated Lambda audit log mirror, bounded span flush; deployed logs/alarms/dashboard and real correlated unauthenticated access metadata | Correlated authenticated application logs, live exporter verification, actionable on-call alerts, dashboards/SLO ownership |
 | Audit | JSONL local; deployed encrypted DynamoDB table with PITR, TTL and deletion protection | Correlated runtime events, tamper evidence, regulated retention, independent audit access, replay/reconciliation design |
-| Delivery | Locked dependencies, verified Docker/Compose and prior hosted CI; real Tokyo application CREATE_COMPLETE with reviewed template and unchanged runtime IAM | Complete authenticated smoke, working hosted SSR, new-change hosted CI, image signing, staged release and rollback exercise |
+| Delivery | Locked dependencies, verified Docker/Compose and implementation hosted CI; real Tokyo application CREATE_COMPLETE with reviewed template and unchanged runtime IAM | Complete authenticated smoke, working hosted SSR, status-update hosted CI, image signing, staged release and rollback exercise |
 | Cost | Model estimate and incomplete-cost flag, verified Tokyo model rates, optional AWS budget definition | Measured usage envelope and recurring cost ownership |
 
 Current container, hosted CI, cloud and data-platform verification is recorded in
 the [authoritative matrix](docs/verification-matrix.md). A local Docker or SDK
 contract pass does not establish regional cloud behavior or production readiness.
+Implementation [hosted run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647)
+passed all 22 steps at `8a49bf849fcae5006f5c1ac529120224f6c0badf`; the actual
+artifact was `evidence-and-infrastructure`. This does not establish a PASS for the
+subsequent status-update commit.
 
 The S3 adapter intentionally serves a small curated corpus. For enterprise scale,
 introduce a retrieval backend with document entitlements applied before search,

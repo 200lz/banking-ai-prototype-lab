@@ -72,11 +72,13 @@ independently verified **12 documents plus manifest, 10,527 encrypted bytes**,
 with the manifest last.
 
 The first six real infrastructure checks passed, including Cognito/JWT
-configuration and an unauthenticated API response of **401**. Synthetic-user
-creation and API-based TOTP enrollment passed; the browser authorization-code
-handoff remains pending after an authenticator-code error and client-side
-navigation blocking. A legitimate scoped access token is still needed for the
-fixed prohibited-credit refusal, correlated DynamoDB audit and CloudWatch checks.
+configuration. Supplemental checks verified **401 on all four routes**, correlated
+metadata-only CloudWatch rejection logs, and an ACTIVE DynamoDB table with PITR,
+TTL and deletion protection. Synthetic-user creation and TOTP registration through
+the actual `MFA_SETUP` flow passed; MFA preference activation was not established.
+Browser authorization remains pending after a code error and navigation blocking;
+their cause is not established. A legitimate scoped access token is still needed
+for the fixed refusal and correlated application audit/log checks.
 This is not a full AWS smoke PASS. [Actual deployment and remaining validation](docs/aws-deployment-resumption.md)
 records the exact scope, resource inventory and cleanup.
 
@@ -90,18 +92,14 @@ still requires a repository connection and successful build. The model-dependent
 smoke and twenty-case live suite remain unrun. [Historical capacity/support evidence](docs/deployment-capacity-review.md)
 and [earlier cloud validation](docs/cloud-validation.md) preserve prior failures.
 
-Verified wheel implementation: [run 34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941)
-passed at commit `87e6417d268bf9671820039f5e9c5bb422d82779` on GitHub-hosted Linux.
-All 22 quality-job steps passed, including fresh Docker acceptance; the actual
-artifact is `evidence-and-infrastructure`. [Recorded CI evidence](docs/validation/github-databricks-wheel-2026-09-10.json)
-includes runner, gates and artifact digest. The badge links to current `main`;
-this paragraph records the tested implementation commit, not a future revision.
-The subsequent documentation commit `4e652d48f32c4699acf3ebce27090a8400a8692e`
-also passed [hosted run 34378399602](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34378399602).
-The current deployment-harness changes passed **340 Python/API/infrastructure
-tests** and all **61 deterministic cases** locally, including 75 focused AWS-smoke
-tests. Their new hosted run remains pending publication; the prior wheel milestone
-also passed 26 frontend tests and its formatting/type/security gates.
+The deployment implementation passed [hosted run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647)
+at commit `8a49bf849fcae5006f5c1ac529120224f6c0badf`. All **22 quality steps**
+succeeded on GitHub-hosted Linux; the actual artifact is
+`evidence-and-infrastructure`. [Recorded CI evidence](docs/validation/github-aws-deployment-2026-09-15.json)
+includes runner, gates and artifact digest. Local checks passed **340
+Python/API/infrastructure tests** and all **61 deterministic cases**, including
+75 focused AWS-smoke tests. This status update requires its own subsequent hosted
+run; the implementation result does not claim a future revision passed.
 
 The Node.js 20 action-runtime deprecation annotation is **NON-BLOCKING**. GitHub
 forced the pinned actions onto Node.js 24; updating those action pins remains a
