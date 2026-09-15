@@ -1,6 +1,120 @@
 # Development log
 
-## Tokyo AWS deployment resumption (2026-09-15 JST)
+## Final authenticated validation and cleanup checkpoint (2026-09-15 JST)
+
+- Recorded [acceptance criteria](final-validation-cleanup-acceptance.md) before
+  final validation. This milestone changes the developer verifier, documentation
+  and operator evidence; product behavior, runtime IAM, region and model boundaries
+  remain unchanged.
+- Restarted the private sign-in helper as a hidden native Windows process.
+  Verified its process, matching loopback TCP listener, exact-path HTTP 200,
+  wrong-path 404 and missing-Origin POST 403 before the human handoff. Password,
+  authenticator data, authorization code and token values stay outside public
+  files. An earlier authorization transaction was discarded without redemption;
+  fresh state and PKCE were used for the successful flow. The user completed the
+  legitimate browser handoff; at 08:41:23 UTC the token endpoint returned HTTP
+  200, state validation passed and the scoped access token had a 900-second lifetime.
+- The first real `python -m scripts.aws_smoke --infrastructure-only` run exited
+  one with **eight of nine checks passing**. The fixed refusal and DynamoDB audit
+  passed; all sixteen runtime audit records arrived before the run ended. The
+  matching API access log arrived later, with **48.201 seconds** ingestion lag.
+  Preserved [the failure](validation/aws-infrastructure-smoke-initial-failure-2026-09-15.json)
+  and diagnosed delivery timing with bounded reads; no cleanup followed the failure.
+- Changed only the developer log-delivery wait to **25 attempts / 120 seconds
+  total sleep** and added two regression checks. Assertions, the fixed prohibited
+  request, runtime IAM and application behavior stayed unchanged. The exact
+  reviewed CLI then passed **all nine checks** at 08:51:58 UTC in **46.25 seconds**:
+  six verified excerpts, required review, nine controller stages, exact DynamoDB
+  audit and matching CloudWatch runtime/API records. Model input/output tokens,
+  model latency and estimated inference cost were zero. Observed response latency
+  was **664.390 ms**, including **499.217 ms** retrieval; this single response is
+  not a service-level benchmark. [Final evidence](validation/aws-final-validation-2026-09-15.json)
+  remains separate from live Bedrock quality, which is still NOT TESTED / BLOCKED.
+- After the verifier correction, local regression passed **342 Python/API/
+  infrastructure tests in 57.49 seconds**, including **77 smoke contract tests**,
+  and **26 frontend tests**. Ruff checked 58 files, mypy checked 43 source files,
+  frontend formatting/lint/types passed, and Bandit found zero issues across
+  3,322 lines. Python/web/CDK dependency audits passed. All **61 deterministic
+  cases** passed with mean 13.449 ms, p50 12.981 ms, p95 18.156 ms and zero model
+  usage. [Local regression evidence](validation/final-local-regressions-2026-09-15.json)
+  links the [full evaluation](../evals/results/final-validation-2026-09-15.json).
+  The earlier preparation run passed 340 tests in 59.24 seconds; the increase
+  comes from the two verifier regressions.
+- Full-source and complete **11-commit** history secret scans passed before
+  publication. Extended the offline privacy checker to discover fresh private
+  OAuth and cloud evidence, including the helper capability URL. A broken local
+  interview link was detected and corrected before final publication checks.
+- The expanded final privacy scan initially failed five files. It identified
+  two generated IAM inline-policy physical IDs in the older public bootstrap
+  evidence; those current fields were redacted while preserving logical IDs,
+  resource types and exact private originals. This is a privacy improvement,
+  not a credential-leak finding or a Git history rewrite. Other matches were the
+  generic CDK parameter path, an AWS error class and locally generated evaluation
+  request IDs. Narrow exclusions now recognize those public literals and only
+  the response-ID field in the exact matching, zero-model local evaluation copy;
+  cloud/provider/authentication identifiers remain subject to exclusion checks.
+- Final all-public privacy/documentation checks passed: **198 text files,
+  47 Markdown files, 48 JSON files and 263 local links**, checked against **400
+  private evidence files** including fresh OAuth/token and cleanup evidence.
+  A Windows JSON rewrite initially introduced CRLF; normalizing that one file
+  to LF cleared the remaining check. At approximately 18:10 JST, the source
+  secret scan passed **201 candidate paths / 3,454,215 bytes** and the complete
+  **11-commit history / 3,197,713 bytes** scan passed, both with zero findings.
+  These are bounded automated checks, not a guarantee of absence of every kind
+  of sensitive information. Final staged/publication CI remains a separate gate.
+- After the private-value exclusion scan passed, verified the retired sign-in
+  helper process and listener were stopped. Removed exactly three local temporary
+  files containing the demo password, authenticator secret and OAuth tokens at
+  09:12:02 UTC. Sanitized evidence remains; SSO and Databricks CLI state were
+  untouched. File removal does not claim physical storage erasure.
+- Preserved the actual **9/9** evidence before approved cleanup. Application
+  CloudFormation reached **DELETE_COMPLETE at 08:54:22 UTC**; the six explicitly
+  retained resources (corpus bucket, audit table, user pool and three log groups)
+  were removed by 08:54:54 UTC. The first private absence verifier rejected an
+  Amplify ARN where GetApp requires an app ID. Strict same-account/Tokyo ARN
+  normalization corrected that private verifier; unexpected validation errors
+  still fail closed. No application change or weakened assertion was needed.
+- Kept bootstrap roles until application deletion completed. Bounded read-only
+  shared-dependency checks and the operator's no-other-consumer confirmation
+  preceded bootstrap cleanup; this did not enumerate every possible external
+  repository or indirect service reference. Bootstrap reached **DELETE_COMPLETE
+  at 08:59:55 UTC**. Independent final verification at **09:00:17 UTC** passed
+  **14 application and nine bootstrap absence checks**, including all seven
+  application/deployment IAM roles. Removed thirteen corpus and two bootstrap
+  object versions plus one ECR image digest. Tokyo Lambda capacity returned to
+  **1000 total / 1000 unreserved**. [AWS cleanup evidence](validation/aws-cleanup-2026-09-15.json)
+  preserves all stages, including the earlier retained-resource checkpoint.
+- Deleting the PITR-enabled table automatically created one AWS-managed DynamoDB
+  SYSTEM backup; none existed in the pre-cleanup table inventory. It remains
+  AVAILABLE until **2026-10-20T08:54:43.950Z**. No manual backup was created or
+  deleted. AWS documents this 35-day recovery retention at no additional cost;
+  actual billing was not measured. [AWS backup behavior](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BackupSummary.html)
+  supports that distinction. Provider/Support history, SSO/quota settings and
+  AWS-managed encryption keys remain outside cleanup scope; no whole-account or
+  immediate physical-erasure claim is made.
+- Databricks cleanup used a fresh unchanged ownership inventory for the exact
+  job, dedicated bundle, four tables, wheel, managed Volume and synthetic schema.
+  Two private pre-mutation checks needed compatibility corrections: Jobs listing
+  used bounded pagination after the service rejected its requested page size,
+  and the known artifact directory was accepted only after a fresh empty listing.
+  No unsupported Free Edition capability or provider defect is inferred.
+  Cleanup finished at **08:58:35 UTC**; separate live verification at **08:58:57
+  UTC** confirmed those project resources absent. The pre-existing catalog and
+  warehouse were preserved, with the warehouse **STOPPED** and no active work
+  observed. Exact table exports, prior evidence and the verified wheel remain
+  local. No compute start, SQL/pipeline rerun, paid action or edition change
+  occurred; Free Edition retains its historical user-confirmed basis.
+  [Databricks cleanup evidence](validation/databricks-cleanup-2026-09-15.json)
+  documents logical removal and retained resources separately.
+- Reordered README around purpose, verified boundaries and the prominent blocked
+  Bedrock status. Prepared a nine-step 4:40 interview sequence with preserved
+  failures and lessons. Hosted verification of the final publication is still
+  required; an earlier hosted PASS does not establish a later revision's result.
+
+## Tokyo AWS deployment resumption — earlier checkpoint (2026-09-15 JST)
+
+The following 06:14–06:40 UTC observations predate the successful authenticated
+validation above. Earlier incomplete statuses and test counts are retained as history.
 
 - Recorded [acceptance criteria](aws-deployment-resumption-acceptance.md) before
   changes: expected same-account non-root SSO, Tokyo only, real Lambda quota and
@@ -35,10 +149,10 @@
   altered refusal/citations/audit and arbitrary replacement questions.
 - First six real smoke checks passed in 5.563 seconds: resource scope, S3 corpus,
   Lambda configuration, Cognito configuration, gateway authorization and actual
-  unauthorized request rejection. Full smoke remains PARTIAL / INCOMPLETE:
+  unauthorized request rejection. Full smoke was then PARTIAL / INCOMPLETE:
   authenticated refusal, DynamoDB audit correlation and CloudWatch workflow-record
   correlation require a legitimate scoped Cognito OAuth JWT. Browser navigation
-  returned `ERR_BLOCKED_BY_CLIENT`; a private sign-in handoff remains pending.
+  returned `ERR_BLOCKED_BY_CLIENT`; a private sign-in handoff was pending.
   The verified resource inventory does not establish those runtime outcomes.
 - Supplemental real infrastructure checks passed at 06:36:24 UTC. All four API
   routes returned HTTP 401 without credentials; corresponding metadata-only
@@ -46,8 +160,8 @@
   with PITR and TTL enabled and deletion protection true. The synthetic Cognito
   user was confirmed. TOTP enrollment succeeded through the MFA_SETUP challenge;
   AdminGetUser did not return MFA preference metadata, and no cause is inferred.
-  No scoped OAuth token was obtained. Full smoke remains six of nine checks;
-  authenticated refusal and its correlated workflow audit/log records are pending.
+  No scoped OAuth token had been obtained at that checkpoint. Full smoke had six
+  passing checks; authenticated refusal and correlated audit/log records were pending.
 - Local regression passed 340 Python/API/infrastructure tests, 26 frontend tests
   and all 61 deterministic evaluation cases. Python formatting/lint/type checks,
   Bandit and scoped smoke mutation checks passed. The existing Starlette/AnyIO
@@ -66,12 +180,12 @@
   PASS: push event on main, GitHub-hosted Linux, all 22 `quality` steps and the
   unexpired `evidence-and-infrastructure` artifact (124,794 bytes). The run
   completed at 06:40:23 UTC; [public evidence](validation/github-aws-deployment-2026-09-15.json)
-  records the runner, gates, digest and annotation. The status-documentation
-  follow-up requires its own completed hosted run. The prior baseline
+  records the runner, gates, digest and annotation. The subsequent status commit
+  `ad9eb001717c7817834e1f2f77b4df9019a3c5af` passed run 34938551581. The prior baseline
   `4e652d48f32c4699acf3ebce27090a8400a8692e` passed run 34378399602.
 - Node action-runtime deprecation remains NON-BLOCKING; action pins are unchanged
-  and no warning fix is claimed. Hosted checks use no cloud credentials and do
-  not complete the pending authenticated AWS smoke. Databricks retains its
+  and no warning fix is claimed. Credential-free hosted checks did not establish
+  the then-pending authenticated AWS smoke. Databricks retained its
   separately verified Free Edition PASS; this milestone performs no Databricks
   operations. Live Bedrock remains NOT TESTED with zero new model invocations.
 

@@ -39,6 +39,7 @@ class FakeCloud:
         self.sleeps = []
         self.log_attempts = 0
         self.logs_delayed = False
+        self.access_log_delay_attempts = 0
         self.log_missing = False
         self.unauthorized_status = 401
         self.authorized_status = 200
@@ -285,6 +286,8 @@ class FakeCloud:
                     return {"events": []}
                 return {"events": [{"message": json.dumps(record)} for record in self.audit]}
             assert kwargs["filterPattern"] == '"synthetic-gateway-id="'
+            if self.log_attempts <= self.access_log_delay_attempts:
+                return {"events": []}
             record = {
                 "requestId": "synthetic-gateway-id=",
                 "route": "POST /v1/query",
@@ -526,12 +529,21 @@ def test_missing_or_privacy_violating_audit_records_fail(cloud):
     assert cloud.run()["checks"][7]["status"] == "FAIL"
 
 
-def test_cloudwatch_waits_for_delivery_but_is_bounded(cloud):
+def test_cloudwatch_waits_for_delivery(cloud):
     cloud.logs_delayed = True
     assert cloud.run()["status"] == "PASS" and cloud.sleeps == [5]
+
+
+def test_cloudwatch_accepts_access_delivery_after_original_polling_window(cloud):
+    cloud.access_log_delay_attempts = 9
+    assert cloud.run()["status"] == "PASS"
+    assert cloud.log_attempts == 10 and cloud.sleeps == [5] * 9
+
+
+def test_cloudwatch_missing_delivery_remains_bounded(cloud):
     cloud.log_missing = True
-    cloud.sleeps.clear()
-    assert cloud.run()["checks"][8]["status"] == "FAIL" and cloud.sleeps == [5] * 6
+    assert cloud.run()["checks"][8]["status"] == "FAIL"
+    assert cloud.log_attempts == 25 and cloud.sleeps == [5] * 24
 
 
 def test_access_logs_may_not_contain_auth_headers(cloud):

@@ -3,13 +3,14 @@
 **Status: functional synthetic portfolio prototype; not approved for real financial
 operations.** Tokyo AWS bootstrap and application deployment passed. Lambda
 capacity is RESOLVED: applied 1000, reservation three and post-deployment
-unreserved capacity 997. Six real infrastructure checks passed; authenticated
-refusal, DynamoDB audit correlation and CloudWatch runtime records remain pending
-a legitimate scoped Cognito authorization-code session. Required-MFA configuration
-and TOTP registration through `MFA_SETUP` passed; user preference activation was
-not established and browser sign-in has not completed. Supplemental checks passed
-all-route unauthenticated rejection, correlated CloudWatch access metadata and
-ACTIVE DynamoDB/PITR/TTL/deletion protection.
+unreserved capacity 997 during deployment. Legitimate scoped Cognito OAuth and
+all nine infrastructure-only smoke checks passed, including the deterministic
+refusal, DynamoDB audit and CloudWatch correlation with zero model use. Required
+MFA and all-route unauthorized rejection were verified within their recorded
+scope. The first smoke exposed delayed API access-log delivery; only the bounded
+developer verifier was corrected. Application and bootstrap cleanup subsequently
+passed; regional concurrency returned to 1000/1000. One automatic SYSTEM recovery
+backup remains until October 20. See [final evidence and disposition](docs/final-validation-cleanup.md).
 Previous live qualification attempts failed with provider throttling; the three
 selected regional quotas were still zero on September 15. The Nova Lite capacity
 inquiry is pending and live evaluation remains NOT TESTED. See
@@ -25,14 +26,14 @@ abstention remain recorded; their underlying causes are unresolved. See
 | Financial analytics | Synthetic Bronze/Silver/Gold, Decimal formulas, provenance, missing/stale flags, local and Databricks adapters | Institution-approved and independently reconciled formulas, separate governed publisher and Gold-only runtime grants; real synthetic workspace execution passed |
 | Evidence | Exact full-sentence citations, hashes, versions, conflicts, access filtering; real encrypted S3 corpus publication and byte verification | Signed ingestion, ownership, freshness SLAs, applicability and entitlement rules |
 | Model | Real Strands/Bedrock adapter, bounded typed plan, SDK construction/contract tests | Live model evaluation, held-out expert cases, model-risk approval |
-| Identity | Deployed Cognito required MFA/scoped JWT configuration, synthetic TOTP enrollment and real unauthenticated API rejection | Completed scoped OAuth login and authenticated workflow verification, enterprise IdP, joiner/mover/leaver controls and session lifecycle |
+| Identity | Real Cognito scoped OAuth/PKCE, required-MFA configuration, authenticated refusal and unauthorized API rejection | Enterprise IdP, joiner/mover/leaver controls, complete session lifecycle and broader effective entitlement tests |
 | Human review | Mandatory routing with JSONL persistence; conditional DynamoDB event adapter | Staffed review queue, reviewer identity, approval reasons, SLA and segregation of duties |
 | Privacy | Synthetic-only corpus, example redactor, content-free telemetry | Approved DLP, data inventory, purpose/retention/residency controls and privacy assessment |
 | Security | Allowlisted capabilities, restrictive IAM, schema/abuse tests, dependency audits | Threat validation, penetration testing, supply-chain attestations, continuous attack evaluation |
 | Resilience | Error abstention, concurrency bounds, timeouts, audit failure blocks output | Load/failure/chaos tests, dependency budgets, backups/restore drills, RTO/RPO |
-| Observability | OTel parent/step/tool spans, latency/tokens/cost, dedicated Lambda audit log mirror, bounded span flush; deployed logs/alarms/dashboard and real correlated unauthenticated access metadata | Correlated authenticated application logs, live exporter verification, actionable on-call alerts, dashboards/SLO ownership |
-| Audit | JSONL local; deployed encrypted DynamoDB table with PITR, TTL and deletion protection | Correlated runtime events, tamper evidence, regulated retention, independent audit access, replay/reconciliation design |
-| Delivery | Locked dependencies, verified Docker/Compose and implementation hosted CI; real Tokyo application CREATE_COMPLETE with reviewed template and unchanged runtime IAM | Complete authenticated smoke, working hosted SSR, status-update hosted CI, image signing, staged release and rollback exercise |
+| Observability | OTel parent/step/tool spans, latency/tokens/cost, Lambda audit mirror and flush; real correlated runtime audit and API access records, including measured delivery delay | Production remote OTel exporter, actionable alerts, staffed on-call ownership and SLOs |
+| Audit | Real correlated DynamoDB events; encrypted table with PITR, TTL and deletion protection verified before cleanup | Tamper evidence, regulated retention, independent audit access, replay/reconciliation design |
+| Delivery | Locked dependencies, Docker/Compose and hosted CI; real Tokyo CREATE_COMPLETE, nine-check smoke and scoped resource cleanup | Working hosted SSR, image signing, staged release and rollback exercise; final publication requires its own hosted CI |
 | Cost | Model estimate and incomplete-cost flag, verified Tokyo model rates, optional AWS budget definition | Measured usage envelope and recurring cost ownership |
 
 Current container, hosted CI, cloud and data-platform verification is recorded in

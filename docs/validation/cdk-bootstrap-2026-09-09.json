@@ -70,7 +70,7 @@
     },
     {
       "logical_id": "FilePublishingRoleDefaultPolicy",
-      "physical_id": "CDKTo-FileP-ooSxY6CQGtEy",
+      "physical_id": "<generated inline-policy identifier redacted>",
       "type": "AWS::IAM::Policy",
       "status": "CREATE_COMPLETE",
       "deletion_policy": "Delete"
@@ -84,7 +84,7 @@
     },
     {
       "logical_id": "ImagePublishingRoleDefaultPolicy",
-      "physical_id": "CDKTo-Image-ph0CYpRvhQSk",
+      "physical_id": "<generated inline-policy identifier redacted>",
       "type": "AWS::IAM::Policy",
       "status": "CREATE_COMPLETE",
       "deletion_policy": "Delete"
@@ -615,5 +615,6 @@
   },
   "reviewed_template_sha256": "dc91dbee74bd71a259313d460f9cb4a64123d73e67d4bc7fad5d11a64f0ab9b6",
   "private_inventory_location": ".runtime/aws/bootstrap-resources-private.json",
-  "public_inventory_account_ids_redacted": true
+  "public_inventory_account_ids_redacted": true,
+  "public_privacy_update_2026_09_15": "Two generated IAM inline-policy physical identifiers removed from current public evidence; exact original identifiers remain in the private inventory. Resource types, logical IDs and execution results are unchanged. This is a privacy improvement, not a credential-leak finding or Git history rewrite."
 }

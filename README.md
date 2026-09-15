@@ -1,114 +1,145 @@
-# banking-ai-prototype-lab
+# Banking AI Prototype Lab
 
-An evidence-grounded AI agent prototype for regulated financial workflows, combining governed tool use, human review, measurable evaluation and cloud/data-platform architecture.
+Evidence-grounded AI agent architecture for regulated financial workflows.
 
-![Actual local SME lending review with governed Gold indicators and mandatory human review](docs/demo/sme-workbench.png)
-
-Captured from the running Next.js → FastAPI application on 2026-09-09. **Independent portfolio project, no real-bank affiliation. All internal policies, companies, financial records and scenarios are synthetic.**
-
-```mermaid
-flowchart LR
-  U[Employee question] --> W[Next.js / FastAPI]
-  W --> I[Intent and risk]
-  I --> R[Local or S3 retrieval]
-  R --> P[Local or Strands / Bedrock plan]
-  P --> T[Allowlisted read-only tools]
-  RAW[Synthetic monthly records] --> B[Bronze provenance]
-  B --> S[Silver validation]
-  S --> GOLD[Gold deterministic indicators]
-  GOLD -->|Local file or Databricks fixed query| T
-  T --> G[Guardrails and citation verification]
-  G --> H[Hard human-review decision]
-  H --> F[Answer + evidence + metrics]
-  W -. content-free audit and OTel .-> O[JSONL / DynamoDB / CloudWatch]
-```
-
-## Why this goes beyond a generic RAG chatbot
-
-The business problem is an employee finding the applicable procedure, the missing
-information, and the person authorized to decide. AI can select evidence across
-natural-language policy vocabulary; the deterministic baseline lets that benefit
-be tested instead of assumed. An agent fits because a question may need retrieval,
-a typed calculation, a governed financial profile and escalation in one workflow.
-
-The controller owns all nine stages. Strands returns a bounded evidence-selection
-plan; no model can invent a tool, supply SQL, compute a financial ratio or approve
-credit. Important policy claims retain complete verified source sentences.
-Financial indicators expose formula versions, source IDs, hashes and business
-as-of dates. Failures abstain and surface missing evidence or required review.
-
-## Verification status
+An independent Solution Architect portfolio project. All internal policies,
+companies, financial records and scenarios are synthetic; no real-bank affiliation.
 
 [![Quality and safety regression](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/200lz/banking-ai-prototype-lab/actions/workflows/ci.yml)
 
-**Databricks Volume-backed wheel smoke, native pipeline, exact live tables and
-real SDK/API and browser SME review: PASS. Local application, Docker, hosted
-CI, AWS bootstrap, Tokyo application deployment and Bedrock discovery: PASS.
-Lambda capacity: RESOLVED. AWS infrastructure smoke: INCOMPLETE (six checks
-passed); authenticated workflow/audit/log correlation and live Bedrock evaluation:
-NOT TESTED.** Hosted CI runs without cloud credentials; real AWS and Databricks
-results come from separate execution.
+**Verified:** local application, Docker, GitHub-hosted CI, real Databricks Free
+Edition, a Unity Catalog Volume and Python wheel, Bronze/Silver/Gold processing,
+and real Gold → governed financial_profile_tool → SME review. Human-review
+routing and adversarial deterministic evaluation passed within their recorded scope.
 
-On 2026-09-09, real non-root sandbox identity, Tokyo model discovery, model access
-checks and a target-environment CDK diff passed. The explicitly approved Tokyo
-`CDKToolkit` bootstrap then reached `CREATE_COMPLETE`; actual verification passed
-for its 11 reviewed resources and version 32. Its five roles have the reviewed
-same-account or CloudFormation service trust, including explicitly approved
-`AdministratorAccess` on the bootstrap CloudFormation execution role. No external
-trust was added and application runtime IAM was unchanged. The private versioned
-staging bucket uses AWS-managed KMS encryption; it and the immutable-tag ECR
-repository were empty at verification. No customer-managed KMS key or application
-stack was created by this bootstrap. Its resources now support the separately
-deployed sandbox application. [Bootstrap evidence](docs/validation/cdk-bootstrap-2026-09-09.json)
-and [inventory, cost and cleanup](docs/cdk-bootstrap.md) record the actual scope.
+**AWS Tokyo deployment and infrastructure smoke: PASS, 9/9 checks.** Real Cognito
+OAuth/PKCE, the JWT-protected API and Lambda refusal, S3 integrity, correlated
+DynamoDB audit and CloudWatch records were verified. The fixed prohibited-action
+request required human review and used zero model tokens. **Scoped AWS and
+Databricks cleanup: PASS.** The tested project resources have since been removed;
+one automatic DynamoDB recovery backup remains until October 20. The pre-existing
+Databricks catalog and stopped warehouse remain. These are dated execution results,
+not currently running cloud demos.
 
-On **2026-09-15**, fresh non-root SSO and Tokyo checks confirmed Lambda applied
-and unreserved capacity **1000/1000**. The existing stack deployed successfully:
-CloudFormation **CREATE_COMPLETE**, **34 resources**, deployed template equal to
-the review and unchanged runtime IAM. Lambda is Active/Successful with reservation
-**3**; the actual post-deployment account values are **1000 applied / 997
-unreserved**. No new request for 1001 was made. The safe publisher uploaded and
-independently verified **12 documents plus manifest, 10,527 encrypted bytes**,
-with the manifest last.
+**Live Bedrock: BLOCKED / NOT TESTED.** Tokyo Nova Lite provider-account capacity
+was zero. Previous qualification attempts failed with throttling; no model call
+was retried after the zero-capacity finding. Infrastructure evidence does not
+measure model quality.
 
-The first six real infrastructure checks passed, including Cognito/JWT
-configuration. Supplemental checks verified **401 on all four routes**, correlated
-metadata-only CloudWatch rejection logs, and an ACTIVE DynamoDB table with PITR,
-TTL and deletion protection. Synthetic-user creation and TOTP registration through
-the actual `MFA_SETUP` flow passed; MFA preference activation was not established.
-Browser authorization remains pending after a code error and navigation blocking;
-their cause is not established. A legitimate scoped access token is still needed
-for the fixed refusal and correlated application audit/log checks.
-This is not a full AWS smoke PASS. [Actual deployment and remaining validation](docs/aws-deployment-resumption.md)
-records the exact scope, resource inventory and cleanup.
+[Verification matrix](docs/verification-matrix.md) · [Actual results](REPORT.md) ·
+[Interview demo](docs/interview-demo.md) · [Production gaps](PRODUCTION_READINESS.md)
 
-The previous Nova Lite qualification and diagnostic retry remain **FAIL** with
-provider throttling; the three selected regional runtime quotas were still zero
-on September 15. **No model invocation occurred in this deployment milestone.**
-The Nova Lite inquiry remains **SUBMITTED / PENDING** at its last verified Basic
-Support checkpoint. No paid Support plan, region change or runtime IAM change
-occurred. The unconnected Amplify shell now exists; a working hosted SSR frontend
-still requires a repository connection and successful build. The model-dependent
-smoke and twenty-case live suite remain unrun. [Historical capacity/support evidence](docs/deployment-capacity-review.md)
-and [earlier cloud validation](docs/cloud-validation.md) preserve prior failures.
+```mermaid
+flowchart LR
+  RAW[Synthetic financial data] --> DB[Databricks Bronze / Silver / Gold]
+  DB --> FT[financial_profile_tool<br/>fixed SQL + provenance]
+  FT --> C[Agent controller<br/>intent / tools / guardrails]
+  U[User] --> AUTH[Cognito<br/>MFA + OAuth PKCE]
+  AUTH --> GW[API Gateway<br/>scoped JWT]
+  GW --> L[Lambda / FastAPI]
+  L --> C
+  S3[S3 policy corpus] --> C
+  C --> E[Verified policy evidence<br/>citations + assumptions]
+  E --> H[Human review required]
+  C -. audit .-> DDB[DynamoDB]
+  C -. metadata / OTel .-> CW[CloudWatch]
+  C -. optional planning .-> B[Strands / Bedrock<br/>live evaluation separately gated]
+```
+
+The diagram maps component responsibilities. Real Databricks validation used the
+local FastAPI application with the workspace adapter; AWS validation is recorded
+separately for the deployed Tokyo stack. Financial processing and arithmetic are
+deterministic. The optional model selects a bounded plan; code verifies evidence
+and enforces review.
+
+![Actual local SME lending review with governed Gold indicators and mandatory human review](docs/demo/sme-workbench.png)
+
+Captured from the running Next.js → FastAPI application on 2026-09-09. The
+synthetic data and visible human-review requirement are part of the demonstration.
+
+## Why this goes beyond a generic RAG chatbot
+
+A bank employee needs an operational next step supported by the right policy,
+current financial evidence and the right decision-maker. The failure to prevent
+is an answer that sounds plausible but hides its assumptions or authority.
+
+AI offers natural-language evidence selection across a policy corpus. A question
+can also require a typed calculation, a governed financial profile and escalation,
+so the application uses an explicit workflow with allowlisted tools. The controller
+owns intent checks, retrieval, planning, execution, guardrails, citation verification
+and review routing. The model cannot supply SQL, invent tools, calculate financial
+ratios or authorize business actions.
+
+Important policy claims carry verified source text. Financial indicators carry
+formula versions, source identifiers, hashes and business as-of dates. Missing or
+conflicting evidence causes visible abstention or required review.
+
+## Verified execution and current boundaries
+
+On 2026-09-15, the Tokyo stack reached **CREATE_COMPLETE** with **34 resources**
+and the exact reviewed template. Non-root SSO, unchanged runtime IAM and Lambda
+capacity were verified: **1000 total, reservation 3, 997 unreserved**. No new
+request for 1001 was made. The safe publisher independently verified **12 policy
+documents plus manifest, 10,527 encrypted bytes**, publishing the manifest last.
+See [AWS execution evidence](docs/validation/aws-deployment-2026-09-15.json) and
+the [deployment and cleanup record](docs/aws-deployment-resumption.md).
+
+The actual reviewed `python -m scripts.aws_smoke --infrastructure-only` command
+passed **all nine checks** after legitimate Cognito authorization-code/PKCE sign-in.
+It verified the fixed refusal, six source excerpts, required review, all nine
+controller stages, exact DynamoDB audit and matching CloudWatch runtime/API records.
+Model input/output tokens, model latency and estimated inference cost were zero.
+The run took **46.25 seconds**; the single response reported **664.390 ms** including
+**499.217 ms** retrieval. These are observed timings, not a service-level benchmark.
+[Final authenticated evidence](docs/validation/aws-final-validation-2026-09-15.json)
+preserves the executed scope.
+
+The first authenticated run passed eight checks and failed while waiting for the
+API access log, which arrived after that run ended with **48.201 seconds** ingestion
+lag. Only the developer verifier's delivery wait changed to 25 attempts with 120
+seconds total sleep; validation, application code and IAM remained unchanged.
+The [initial failure](docs/validation/aws-infrastructure-smoke-initial-failure-2026-09-15.json)
+remains FAIL. Normal model workflows and hosted Amplify SSR remain unverified.
+Bootstrap had eleven reviewed resources and same-account trust; its approved
+administrator deployment role was separate from the restricted application role.
+[Bootstrap inventory and cleanup](docs/cdk-bootstrap.md) records this boundary.
+
+After preserving the evidence, authorized cleanup removed the application,
+retained project data/log resources and unused bootstrap. Independent verification
+passed **14 application and nine bootstrap absence checks**, including all seven
+project/deployment IAM roles. Tokyo Lambda capacity returned to **1000 total /
+1000 unreserved**. AWS automatically retained one DynamoDB SYSTEM recovery backup
+after PITR-enabled table deletion, expiring **2026-10-20 17:54:43.950 JST**. AWS
+documents this 35-day backup as having no additional cost; actual billing was not
+measured. Support/provider history and SSO/quota configuration remain outside the
+cleanup scope. See [AWS cleanup evidence](docs/validation/aws-cleanup-2026-09-15.json)
+and [AWS backup behavior](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BackupSummary.html).
+
+The Nova Lite capacity inquiry remains **SUBMITTED / PENDING** at its last
+verified Basic Support checkpoint. The three selected runtime quotas were zero
+on September 15. Previous qualification failures remain preserved; no model
+invocation occurred in the deployment or final-validation milestone.
+[Capacity/support history](docs/deployment-capacity-review.md) records the finding.
 
 The deployment implementation passed [hosted run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647)
-at commit `8a49bf849fcae5006f5c1ac529120224f6c0badf`. All **22 quality steps**
-succeeded on GitHub-hosted Linux; the actual artifact is
-`evidence-and-infrastructure`. [Recorded CI evidence](docs/validation/github-aws-deployment-2026-09-15.json)
-includes runner, gates and artifact digest. Local checks passed **340
-Python/API/infrastructure tests** and all **61 deterministic cases**, including
-75 focused AWS-smoke tests. This status update requires its own subsequent hosted
-run; the implementation result does not claim a future revision passed.
+at commit `8a49bf849fcae5006f5c1ac529120224f6c0badf`: all **22 quality steps** on
+GitHub-hosted Linux, with artifact **evidence-and-infrastructure**. The subsequent
+status commit `ad9eb001717c7817834e1f2f77b4df9019a3c5af` also passed
+[hosted run 34938551581](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34938551581).
+[Recorded CI evidence](docs/validation/github-aws-deployment-2026-09-15.json)
+identifies the implementation runner, gates and artifact digest. Later revisions
+need their own hosted verification. CI uses no AWS or Databricks credentials.
 
-The Node.js 20 action-runtime deprecation annotation is **NON-BLOCKING**. GitHub
-forced the pinned actions onto Node.js 24; updating those action pins remains a
-maintenance item. The actions have not been changed to fix the warning.
+Node.js 20 action-runtime deprecation remains **NON-BLOCKING**. GitHub forced
+the pinned actions onto Node.js 24; those pins have not been updated to fix the
+warning. The [development log](docs/development-log.md) preserves failures,
+decisions and their verification.
 
-The [authoritative verification matrix](docs/verification-matrix.md) separates
-local contracts, container runtime, real AWS, live LLM and Databricks workspace
-execution. [REPORT.md](REPORT.md) records actual commands, counts and blockers.
-The [development log](docs/development-log.md) preserves failures and decisions.
+The latest local regression passed **342 Python/API/infrastructure tests**,
+including **77 AWS-smoke contract tests**, **26 frontend tests** and all **61
+deterministic cases**. Formatting, linting, type checks, Bandit and Python/web/CDK
+dependency audits passed. [Local regression evidence](docs/validation/final-local-regressions-2026-09-15.json)
+records the commands and scope. Final publication requires a new hosted run.
 
 ## Evaluation and live-model comparison
 
@@ -120,11 +151,11 @@ The [development log](docs/development-log.md) preserves failures and decisions.
 | Policy compliance / tool selection / escalation | 100% | NOT TESTED |
 | Unsupported-claim rate | 0% under the scorer | NOT TESTED |
 | Model tokens / inference cost | 0 / $0 | Unavailable; failed qualification usage incomplete |
-| Median / p95 latency | 12.696 / 16.525 ms (in-process) | Unavailable for unrun suite |
+| Median / p95 latency | 12.981 / 18.156 ms (2026-09-15, in-process) | Unavailable for unrun suite |
 
 The deterministic baseline is **not an LLM benchmark**. These correlated cases
 are not held out; perfect mechanical checks do not establish semantic correctness
-or production safety. [Per-case results](evals/results/latest.json), the
+or production safety. [Final per-case results](evals/results/final-validation-2026-09-15.json), the
 [preserved failing baseline](evals/results/initial-baseline.json), and
 [EVALUATION.md](EVALUATION.md) explain the scorer and denominators. Model cost uses
 reported tokens and configured rates; failed usage is marked incomplete. Local
@@ -158,11 +189,14 @@ added. Offline synthesis and a local Lambda image are distinct from deployment.
 
 [AWS deployment validation](docs/aws-deployment-resumption.md) states the actual sandbox status;
 [deployment runbook](docs/cloud-deployment.md) covers configuration and review.
-The completed [CDK bootstrap](docs/cdk-bootstrap.md) provides persistent asset
-storage and deployment roles. The application stack now exists in Tokyo; full
-authenticated smoke and working Amplify SSR remain separate validation gates.
+The approved [CDK bootstrap](docs/cdk-bootstrap.md) supplied persistent asset
+storage and deployment roles during validation. Tokyo deployment and authenticated
+infrastructure smoke passed, then scoped cleanup removed both stacks and their
+project resources. Working Amplify SSR remains unverified. The dated execution
+and cleanup records establish different outcomes.
 `make deploy` requires an explicit account/region and presents a CDK diff and IAM
-approval. Retained storage and log resources require deliberate cleanup.
+approval. Future deployments require their own review and deliberate cleanup of
+retained storage and log resources.
 
 ## Databricks architecture
 
@@ -195,12 +229,20 @@ Runtime Workspace Files reads failed repeatedly; switching the job artifact
 boundary to a packaged wheel on a Unity Catalog Volume avoided that dependency.
 The earlier two failed runs/four attempts are preserved. The underlying provider
 cause remains unresolved; no platform bug or Free Edition restriction is claimed.
-The workspace remains Free Edition, with no paid trial, billing change, external
-storage, AWS action or LLM invocation in this continuation. See
+The September 10 Databricks validation used Free Edition, with no paid trial,
+billing change, external storage, AWS action or LLM invocation in that milestone. See
 [wheel and live integration evidence](docs/validation/databricks-wheel-2026-09-10.json),
 [prior failures](docs/validation/databricks-workspace-2026-09-10.json),
 [validation and remaining checks](docs/databricks-validation.md), and
 [architecture](docs/databricks-architecture.md).
+
+On September 15, ownership-checked cleanup and separate live verification removed
+the dedicated job/bundle, four tables, wheel, managed Volume and synthetic schema.
+The pre-existing catalog and warehouse were preserved; the warehouse was **STOPPED**
+with no active work observed. Historical evidence and local exports remain intact.
+No pipeline rerun, compute start, paid upgrade or edition change occurred during
+cleanup. [Databricks cleanup evidence](docs/validation/databricks-cleanup-2026-09-15.json)
+records logical removal, not immediate physical storage erasure.
 
 ## Local quick start
 

@@ -11,6 +11,10 @@ network transfer and inference. The historical
 [Docker acceptance](docs/milestones/01-containers.md) establishes local container
 behavior separately; neither result is an LLM benchmark.
 
+The [final September 15 local run](evals/results/final-validation-2026-09-15.json)
+also passed all 61 cases: mean **13.449 ms**, p50 **12.981 ms**, p95 **18.156 ms**,
+with zero model tokens/cost. These are separate observed in-process runs.
+
 Two actual Tokyo single-case qualification attempts failed:
 the [first](evals/results/bedrock-2026-09-09-single.json) took **2849.472 ms** and the
 [retry](evals/results/bedrock-2026-09-09-retry-1-single.json) took **3145.194 ms**
@@ -32,10 +36,15 @@ seconds** and CloudFormation reached **CREATE_COMPLETE**. The safe corpus
 publication verified **13 encrypted objects totaling 10,527 bytes**. The first
 six real infrastructure-smoke checks took **5.563 seconds**, ending with an
 unauthenticated API **401**. That duration covers inspection and rejection, not
-an authenticated workflow or inference. Scoped Cognito authorization, DynamoDB
-audit correlation and CloudWatch runtime-record checks remain pending. No model
-invocation occurred in this deployment milestone; no actual infrastructure bill
-was measured. [Execution and scope](docs/aws-deployment-resumption.md)
+an authenticated workflow or inference. Subsequent legitimate scoped OAuth and
+the [nine-check infrastructure-only smoke](docs/validation/aws-final-validation-2026-09-15.json)
+passed in **46.250 seconds**, including cloud inspection and log-delivery waiting.
+Its one fixed refusal measured **664.390 ms** of workflow time and **499.217 ms**
+of retrieval, with **zero model tokens and $0 model cost**. The first run failed
+because a correlated access record arrived after the verifier's original wait;
+its observed ingestion delay was **48.201 seconds**. These individual samples
+are not latency percentiles. No actual infrastructure bill was measured.
+[Execution and cleanup](docs/final-validation-cleanup.md)
 
 Supplemental checks verified all four routes reject unauthenticated requests,
 correlated CloudWatch rejection metadata, and active DynamoDB protection/PITR/TTL.
@@ -97,7 +106,7 @@ The explicitly approved Tokyo `CDKToolkit` bootstrap completed and its
 [actual resource verification passed](docs/validation/cdk-bootstrap-2026-09-09.json)
 on 2026-09-09: `CREATE_COMPLETE`, 11 reviewed resources, bootstrap version 32.
 The five IAM roles, policy resources, S3 staging bucket and policy, ECR repository,
-and SSM version parameter now support the deployed sandbox application. The
+and SSM version parameter supported the deployed sandbox application. The
 bootstrap CloudFormation execution role's `AdministratorAccess` was explicitly
 approved; role trust remains same-account or the CloudFormation service, with no
 added external trust or change to application runtime IAM.
@@ -107,9 +116,14 @@ bucket and immutable-tag ECR repository were empty at the September 9 bootstrap
 verification. The September 15 application deployment published assets to that
 storage; the earlier empty observation is historical. The bootstrap introduced
 no customer-managed KMS key and made no model calls. Asset storage, encryption
-requests and other API usage can incur charges. The deliberate disposition is to
-**keep the bootstrap and application for the sandbox demo and remaining validation**. See
-[bootstrap inventory and cleanup](docs/cdk-bootstrap.md) before future removal.
+requests and other API usage can incur charges. After successful nine-check smoke
+and evidence preservation, **application and bootstrap cleanup passed**. Both
+buckets and their versions, the image/repository, seven project/deployment roles,
+parameter and application services were verified absent. A provider-created
+DynamoDB SYSTEM recovery backup remains until **October 20, 2026, 17:54:43 JST**.
+AWS documents its 35-day retention at no additional cost; this is not a measured
+account bill. [AWS backup policy](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BackupSummary.html)
+and [actual cleanup evidence](docs/validation/aws-cleanup-2026-09-15.json).
 
 Application deployment is **PASS**: the existing Tokyo stack reached
 **CREATE_COMPLETE** with **34 resources**, including one CDK metadata resource.
@@ -133,11 +147,10 @@ model capacity or a measured AWS bill.
 
 The default unconnected Amplify template contains no repository/token reference
 and therefore no missing-secret dependency. Its real application and branch
-creation now passed; Git authorization and a successful SSR build are still
-required for a functioning hosted frontend. Infrastructure smoke is
-**INCOMPLETE**, with six real checks passed; authenticated workflow/audit/log
-correlation remains pending. The twenty-case live evaluation is **NOT TESTED**.
-See the [current deployment record](docs/aws-deployment-resumption.md).
+creation passed; it was subsequently removed without a repository connection or
+SSR build. Working hosted SSR remains unverified. Infrastructure smoke passed
+**9/9** before cleanup; the twenty-case live evaluation remains **NOT TESTED**.
+See the [final verification and disposition](docs/final-validation-cleanup.md).
 Databricks Free Edition native pipeline and Gold/browser integration passed
 through a Volume-backed wheel. The table describes cost drivers; it does not
 estimate an actual bill. The optional OTLP collector and account budget were not
@@ -145,7 +158,7 @@ provisioned by the reviewed deployment.
 
 | Driver | Cost behavior / chosen control |
 | --- | --- |
-| Lambda | Memory 脳 duration 脳 calls; 1 GiB, 28-second timeout, reserved concurrency 3 |
+| Lambda | Memory × duration × calls; 1 GiB, 28-second timeout, reserved concurrency 3 |
 | API Gateway | Requests; throttled to 2/second and burst 5 in the template |
 | S3 | Corpus bytes, versions and reads; bounded corpus, 60-second warm cache |
 | DynamoDB | Pay-per-request audit writes and storage; example 90-day TTL and PITR |
@@ -199,10 +212,13 @@ are not latency percentiles, DBU measurements or browser round-trip benchmarks.
 All successful SQL results were real Databricks reads; the planner remained local
 with zero model tokens and **$0 LLM cost**.
 
-The existing 2X-Small serverless warehouse was **RUNNING** at final inspection with
-unchanged **10-minute auto-stop**. The unscheduled job, bounded schema, one managed
-Volume/wheel, four synthetic Delta tables and bundle files are retained. No new
-warehouse or paid resource was created. See [evidence and cleanup](docs/databricks-validation.md).
+The existing 2X-Small serverless warehouse was **RUNNING** at the September 10
+checkpoint with unchanged **10-minute auto-stop**. On September 15, project
+cleanup and independent verification passed: job, dedicated bundle, four tables,
+Volume/wheel and synthetic schema were removed. The pre-existing catalog and
+warehouse remain; the warehouse is **STOPPED**, with no active runs or queries.
+No compute was started for cleanup and no paid resource was created.
+See [evidence and cleanup](docs/databricks-validation.md).
 
 Any future paid environment needs a separate cost review and approval. The
 model-cost field excludes Databricks charges; job and query measurements are

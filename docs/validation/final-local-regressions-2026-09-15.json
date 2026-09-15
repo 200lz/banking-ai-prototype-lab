@@ -1,0 +1,37 @@
+{
+  "recorded_at": "2026-09-15T08:56:55.267184+00:00",
+  "command": "python scripts/tasks.py check",
+  "status": "PASS",
+  "python_tests": 342,
+  "python_test_seconds": 57.49,
+  "frontend_tests": 26,
+  "focused_smoke_contract_tests": 77,
+  "python_formatted_files": 58,
+  "mypy_source_files": 43,
+  "ruff": "PASS",
+  "frontend_lint_format_types": "PASS",
+  "bandit": {
+    "scanned_lines": 3322,
+    "findings": 0
+  },
+  "dependency_audits": {
+    "python": "No known vulnerabilities",
+    "web": 0,
+    "cdk": 0
+  },
+  "evaluation": {
+    "path": "evals/results/final-validation-2026-09-15.json",
+    "cases": 61,
+    "all_gates_passed": true,
+    "latency_mean_ms": 13.448639344262295,
+    "latency_p50_ms": 12.981,
+    "latency_p95_ms": 18.156,
+    "llm_tokens": 0,
+    "llm_cost_usd": 0
+  },
+  "limitations": [
+    "Deterministic authored development cases, not independent model evaluation",
+    "Upstream Starlette/AnyIO deprecation and pip-audit lock-hash advisory are non-failing",
+    "Final publication source/history/privacy checks and hosted CI recorded separately"
+  ]
+}

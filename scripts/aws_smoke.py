@@ -634,8 +634,9 @@ class CloudSmoke:
                     for item in matches
                 )
             )
-        # CloudWatch delivery is eventual; bounded polling, no unbounded tailing.
-        for attempt in range(7):
+        # Hosted API access delivery exceeded 48 seconds; allow 120 seconds of
+        # bounded polling without relaxing any correlation or metadata checks.
+        for attempt in range(25):
             all_records: list[list[dict[str, Any]]] = []
             for group, correlation in zip(
                 groups, (self.response.request_id, self.gateway_request_id), strict=True
@@ -677,7 +678,7 @@ class CloudSmoke:
                 require(float(access[0]["latencyMs"]) >= 0)
                 return
             except VerificationError:
-                if attempt == 6:
+                if attempt == 24:
                     raise
                 self.sleep(5)
 

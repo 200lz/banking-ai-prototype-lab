@@ -6,7 +6,13 @@ reported Lambda quota change. The [acceptance criteria](aws-deployment-resumptio
 were written before deployment. No new quota request, region change, runtime IAM
 change, paid Support upgrade or unrelated resource is included.
 
-**Current verified checkpoint:** Lambda capacity blocker **RESOLVED**;
+**Final disposition:** the later [final verification and cleanup](final-validation-cleanup.md)
+completed legitimate OAuth, **9/9 infrastructure-only smoke**, application cleanup
+and bootstrap cleanup. Historical deployment PASS remains preserved below; the
+resources are now removed, with one disclosed provider-managed recovery backup.
+Live Bedrock remains **NOT TESTED / BLOCKED**.
+
+**Earlier deployment checkpoint, before final validation:** Lambda capacity blocker **RESOLVED**;
 bootstrap, actual CDK diff/review, application deployment and corpus publication
 **PASS**. CloudFormation is **CREATE_COMPLETE**. Infrastructure smoke is
 **INCOMPLETE**, with the first six checks passed; authenticated workflow,
@@ -154,8 +160,9 @@ metadata, so preference activation was not independently established. The browse
 displayed an authenticator-code error; later navigation returned
 `ERR_BLOCKED_BY_CLIENT`. The cause is not established. No successful authorization-code
 callback or scoped JWT is claimed from those attempts. A private normal-browser
-handoff is awaiting completion. The existing app-client authentication settings,
-callback, runtime IAM and MFA policy remain unchanged.
+handoff was awaiting completion at this earlier checkpoint. It later succeeded
+in [final validation](final-validation-cleanup.md). The deployed app-client
+authentication settings, registered callback, runtime IAM and MFA policy were unchanged.
 
 One private setup check initially assumed there were no required Cognito schema
 attributes. Actual metadata showed the provider-required `sub` attribute; the
@@ -220,13 +227,14 @@ records the runner, gates and artifact digest. Node action deprecation remains
 NON-BLOCKING with unchanged action pins. This subsequent status update must pass
 its own hosted run; no future revision is claimed as verified.
 
-## Retention, cost and cleanup
+## Historical pre-finalization retention and cleanup plan
 
-The disposition is **KEEP FOR SANDBOX DEMO AND REMAINING VALIDATION**. The actual
-34-resource application inventory and bootstrap assets are retained; the
-synthetic demo user also exists. No cleanup was executed during deployment.
-Authenticated smoke is still incomplete and must not be inferred from retention
-or successful resource creation.
+At the initial deployment checkpoint, the disposition was **KEEP FOR SANDBOX
+DEMO AND REMAINING VALIDATION**. The 34-resource application, bootstrap assets
+and synthetic user were retained while authenticated smoke was incomplete.
+The later [finalization](final-validation-cleanup.md) completed nine-check smoke
+and verified removal, preserving one automatic recovery backup explicitly.
+The following procedure describes the reviewed scope used for that cleanup.
 
 Cleanup should first reverify the same account and Tokyo target and inventory
 the actual application resources, bootstrap assets and synthetic test identity.

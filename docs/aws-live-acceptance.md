@@ -1,5 +1,10 @@
 # AWS and live Bedrock validation acceptance (2026-09-09)
 
+Historical acceptance and execution checkpoint. The later
+[final validation and cleanup](final-validation-cleanup.md) records successful
+application deployment, nine-check infrastructure smoke and verified removal.
+Live Bedrock remains separately blocked and untested.
+
 Scope: deploy and validate the existing synthetic portfolio architecture in the
 explicitly authorized personal Tokyo sandbox. No new product features, unrelated
 services, real banking data or Databricks workspace work.
@@ -47,5 +52,5 @@ Execution outcome: automatic approval review initially required specific approva
 for the standard bootstrap's persistent administrator roles. The user then
 explicitly approved that boundary, and Tokyo bootstrap completed successfully.
 The [execution and inventory](cdk-bootstrap.md) record all 11 resources and 25
-passing checks. Application deployment remains blocked by the account and Amplify
-prerequisites; no runtime IAM boundary was relaxed.
+passing checks. At that September 9 checkpoint, application deployment remained
+blocked by the recorded prerequisites; no runtime IAM boundary was relaxed.

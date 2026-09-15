@@ -1,0 +1,76 @@
+{
+  "milestone": "first authenticated infrastructure-only smoke",
+  "result": {
+    "started_at": "2026-09-15T08:47:14.834680+00:00",
+    "completed_at": "2026-09-15T08:48:03.226620+00:00",
+    "elapsed_seconds": 48.391,
+    "exit_code": 1,
+    "invocation": "python -m scripts.aws_smoke --infrastructure-only",
+    "expected_account_non_root_sso_verified": true,
+    "region": "ap-northeast-1",
+    "report": {
+      "bedrock_evaluation": "NOT TESTED",
+      "checks": [
+        {
+          "name": "stack_and_resource_scope",
+          "status": "PASS"
+        },
+        {
+          "name": "reviewed_s3_corpus",
+          "status": "PASS"
+        },
+        {
+          "name": "lambda_configuration",
+          "status": "PASS"
+        },
+        {
+          "name": "cognito_configuration",
+          "status": "PASS"
+        },
+        {
+          "name": "gateway_authorization",
+          "status": "PASS"
+        },
+        {
+          "name": "unauthorized_request_denied",
+          "status": "PASS"
+        },
+        {
+          "name": "authorized_query_and_citations",
+          "status": "PASS"
+        },
+        {
+          "name": "correlated_dynamodb_audit",
+          "status": "PASS"
+        },
+        {
+          "name": "cloudwatch_metadata",
+          "reason": "CHECK_FAILED_OR_SERVICE_UNAVAILABLE",
+          "status": "FAIL"
+        }
+      ],
+      "execution": "live_aws",
+      "scope": "infrastructure_only",
+      "status": "FAIL"
+    }
+  },
+  "read_only_log_diagnosis": {
+    "ApplicationLogs": {
+      "records": 16,
+      "delivery_lag_ms_min": 8344,
+      "delivery_lag_ms_max": 9018,
+      "ingested_after_smoke_finished": 0,
+      "last_ingestion_utc": "2026-09-15T08:47:38.873000+00:00"
+    },
+    "ApiAccessLogs": {
+      "records": 1,
+      "delivery_lag_ms_min": 48201,
+      "delivery_lag_ms_max": 48201,
+      "ingested_after_smoke_finished": 1,
+      "last_ingestion_utc": "2026-09-15T08:48:10.135000+00:00"
+    }
+  },
+  "interpretation": "Eight checks passed. The matching authenticated API access record was ingested after this run ended. All sixteen runtime audit records arrived earlier. This run remains FAIL; no cleanup followed it.",
+  "model_invocation": "None; authenticated refusal check requires zero model use.",
+  "changes_to_cloud": "None during diagnosis; bounded reads of the two recorded project log groups."
+}

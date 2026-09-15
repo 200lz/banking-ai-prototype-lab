@@ -1,7 +1,11 @@
 # Authoritative verification matrix
 
-Updated 2026-09-15 JST. Tokyo application deployment is verified; authenticated AWS
-workflow smoke remains incomplete. PASS means the stated scope was actually executed. SDK mocks,
+Updated 2026-09-15 JST. Tokyo deployment and all nine authenticated infrastructure
+smoke checks passed, followed by verified project cleanup in AWS and Databricks.
+One automatic DynamoDB SYSTEM backup remains until October 20; the pre-existing
+Databricks catalog and stopped warehouse remain. Cloud PASS rows describe dated
+execution, not currently running project resources. PASS means the stated scope
+was actually executed. SDK mocks,
 offline synthesis, container images and local file adapters never establish a real
 cloud/data-platform integration. NOT APPLICABLE means the column does not apply to
 that capability; NOT TESTED means an applicable integration was not executed.
@@ -10,9 +14,9 @@ that capability; NOT TESTED means an applicable integration was not executed.
 | --- | --- | --- | --- | --- | --- |
 | Policy request → governed answer and citations | PASS | PASS | NOT TESTED | NOT TESTED | NOT APPLICABLE |
 | Deterministic DTI with provenance | PASS | PASS | NOT TESTED | NOT TESTED | NOT APPLICABLE |
-| Prohibited action refusal and human review | PASS | PASS | NOT TESTED | NOT TESTED | PASS (controller; refusal makes no query) |
+| Prohibited action refusal and human review | PASS | PASS | PASS (authenticated fixed refusal; zero model use) | NOT TESTED | PASS (controller; refusal makes no query) |
 | Retrieved-document injection quarantine | PASS | PASS | NOT TESTED | NOT TESTED | NOT APPLICABLE |
-| Content-free stage/tool telemetry | PASS | PASS | NOT TESTED | NOT TESTED | PASS (local API stages/audit with live Gold) |
+| Content-free stage/tool telemetry | PASS | PASS | PASS (nine-stage audit/log correlation) | NOT TESTED | PASS (local API stages/audit with live Gold) |
 | Published SME Gold profile → policy-backed review | PASS | PASS | NOT TESTED | NOT TESTED | PASS (real SDK / in-process API) |
 | RAW → Bronze → Silver → Gold computation | PASS | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | PASS (Volume-backed wheel) |
 | Databricks fixed-SQL adapter contract/failure handling | PASS | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | PASS reads / injected failure contracts only |
@@ -22,16 +26,16 @@ that capability; NOT TESTED means an applicable integration was not executed.
 | Databricks unscheduled native job deployment | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | PASS |
 | Production web build and API routing | PASS | PASS | NOT TESTED | NOT APPLICABLE | NOT APPLICABLE |
 | Stack health, restart, audit persistence and clean shutdown | NOT APPLICABLE | PASS | NOT TESTED | NOT APPLICABLE | NOT APPLICABLE |
-| Lambda handler import and direct workflow smoke | NOT APPLICABLE | PASS | NOT TESTED | NOT APPLICABLE | NOT APPLICABLE |
+| Lambda handler and workflow execution | NOT APPLICABLE | PASS | PASS (fixed refusal through authenticated API) | NOT APPLICABLE | NOT APPLICABLE |
 | CDK synthesis and infrastructure security assertions | PASS | NOT APPLICABLE | PASS (actual diff / deployed template and IAM) | NOT APPLICABLE | NOT APPLICABLE |
 | Tokyo application CloudFormation deployment | NOT APPLICABLE | NOT APPLICABLE | PASS (34 resources / CREATE_COMPLETE) | NOT APPLICABLE | NOT APPLICABLE |
 | Lambda reservation and deployed configuration | NOT APPLICABLE | NOT APPLICABLE | PASS (reservation 3 / regional limit 1000) | NOT APPLICABLE | NOT APPLICABLE |
 | Published S3 corpus bytes and manifest | PASS | PASS | PASS (12 documents / 13 objects) | NOT APPLICABLE | NOT APPLICABLE |
-| Cognito configuration and gateway JWT/scope configuration | PASS | NOT APPLICABLE | PASS (configuration only) | NOT APPLICABLE | NOT APPLICABLE |
+| Cognito configuration and gateway JWT/scope validation | PASS | NOT APPLICABLE | PASS (legitimate scoped OAuth and refusal) | NOT APPLICABLE | NOT APPLICABLE |
 | Real unauthorized API request rejection | PASS | PASS | PASS (all four routes return 401) | NOT APPLICABLE | NOT APPLICABLE |
 | Unauthorized API request → metadata-only CloudWatch access log | NOT APPLICABLE | NOT APPLICABLE | PASS | NOT APPLICABLE | NOT APPLICABLE |
 | DynamoDB active state, PITR, TTL and deletion protection | PASS (assertions) | NOT APPLICABLE | PASS | NOT APPLICABLE | NOT APPLICABLE |
-| Scoped Cognito OAuth request with correlated audit and logs | PASS (contracts) | NOT APPLICABLE | NOT TESTED (legitimate OAuth JWT pending) | NOT APPLICABLE | NOT APPLICABLE |
+| Scoped Cognito OAuth request with correlated audit and logs | PASS (contracts) | NOT APPLICABLE | PASS (real CLI, exact DynamoDB and CloudWatch records) | NOT APPLICABLE | NOT APPLICABLE |
 | Approved CDK bootstrap and actual resource/trust verification | PASS (template review) | NOT APPLICABLE | PASS (bootstrap only) | NOT APPLICABLE | NOT APPLICABLE |
 | 61-case deterministic regression | PASS | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE |
 | Single-case live-model qualification and retry | NOT APPLICABLE | NOT APPLICABLE | NOT APPLICABLE | FAIL | NOT APPLICABLE |
@@ -42,40 +46,70 @@ that capability; NOT TESTED means an applicable integration was not executed.
 - **Tokyo application deployment (2026-09-15 JST): PASS.** Reverified the expected
   same-account non-root SSO identity and `ap-northeast-1`. Actual Lambda limits
   were 1000 concurrent and 1000 unreserved before deployment; reservation three
-  is now deployed and the unreserved value is 997. No new quota request was made.
+  was deployed and the unreserved value became 997. After cleanup the regional
+  values were 1000/1000. No new quota request was made.
   The actual CDK diff passed 30 controls; deployment completed in 261.937 seconds.
   CloudFormation reached CREATE_COMPLETE with 34 resources, matching the reviewed
   template. Runtime IAM and the single-region model boundary were preserved.
   The safe publisher uploaded twelve documents and the manifest last; all thirteen
   encrypted objects matched their expected bytes. See the
   [deployment record](aws-deployment-resumption.md).
-- **AWS smoke: PARTIAL / INCOMPLETE.** Six actual checks passed: stack/resource
-  scope, reviewed S3 corpus, Lambda configuration, Cognito configuration, gateway
-  authorization configuration and unauthorized request rejection. The remaining
-  scoped OAuth query, correlated DynamoDB audit and CloudWatch workflow records require a
-  legitimate Cognito JWT. Browser navigation returned `ERR_BLOCKED_BY_CLIENT`;
-  private sign-in handoff remains pending. Resource creation is verified separately
-  from authenticated workflow execution. The provisioned Amplify shell remains
-  unconnected; hosted frontend/SSR execution is NOT TESTED.
+- **AWS authenticated infrastructure smoke: PASS, 9/9 (2026-09-15 JST).** The exact
+  reviewed CLI ran after legitimate Cognito authorization-code/PKCE sign-in and
+  state verification. All resource/auth checks, fixed refusal with six verified
+  excerpts, required review, DynamoDB audit and CloudWatch runtime/API correlation
+  passed. Model tokens, model latency and estimated inference cost were zero. The suite
+  took 46.25 seconds; response/retrieval timings were 664.390/499.217 ms for one
+  observation. See [final evidence](validation/aws-final-validation-2026-09-15.json).
+  Normal model workflows and hosted Amplify frontend/SSR remain NOT TESTED.
+- **Preserved first authenticated failure:** eight checks passed; the matching
+  API access record arrived after the run ended, with 48.201 seconds ingestion lag.
+  All sixteen runtime audit records had arrived earlier. The developer verifier
+  delivery wait changed to 25 attempts and 120 seconds total sleep; validation,
+  application code and runtime IAM were unchanged. The
+  [initial run remains FAIL](validation/aws-infrastructure-smoke-initial-failure-2026-09-15.json).
+- **AWS scoped cleanup: PASS, with a disclosed SYSTEM backup (2026-09-15 JST).**
+  Application CloudFormation deletion completed at 08:54:22 UTC, followed by six
+  retained project resources at 08:54:54 UTC. After a bounded dependency review,
+  bootstrap deletion completed at 08:59:55 UTC. Independent verification at
+  09:00:17 UTC passed 14 application and nine bootstrap absence checks, including
+  all seven IAM roles. Corpus/bootstrap object versions and the ECR image were
+  removed. One automatic DynamoDB SYSTEM backup remains AVAILABLE until
+  2026-10-20T08:54:43.950Z; provider history, SSO and quota configuration remain
+  outside scope. This is not a whole-account erasure claim. See
+  [cleanup evidence](validation/aws-cleanup-2026-09-15.json).
+- **Databricks scoped cleanup: PASS (2026-09-15 JST).** Ownership-checked removal
+  and separate verification at 08:58:57 UTC confirmed the dedicated job/bundle,
+  four managed tables, wheel, Volume and synthetic schema absent. The existing
+  catalog and warehouse remain; the warehouse was STOPPED with no active work
+  observed. Historical evidence and local exports were preserved. No new compute,
+  pipeline run, paid action or edition switch occurred. The user-confirmed Free
+  Edition basis is historical, not a new edition query. See
+  [cleanup evidence](validation/databricks-cleanup-2026-09-15.json).
 - **Supplemental live infrastructure checks: PASS.** All four API routes returned
   HTTP 401 without credentials. A corresponding metadata-only API Gateway access
   record was verified in CloudWatch. DynamoDB was ACTIVE, with PITR, TTL and
   deletion protection enabled. The synthetic Cognito user was confirmed and TOTP
   enrollment succeeded through the MFA_SETUP challenge. AdminGetUser did not return
-  MFA preference metadata; no cause is inferred. These checks preserve the separate
-  NOT TESTED status of an authenticated scoped request and its workflow audit/logs.
-- **AWS resumption local regression: PASS.** 340 Python/API/infrastructure tests,
-  26 frontend tests and all 61 deterministic evaluation cases passed. The new
-  explicit infrastructure-only smoke mode selects an existing prohibited-action
-  refusal and requires zero model usage; application behavior and IAM are unchanged.
+  MFA preference metadata; no cause is inferred. The later actual OAuth and
+  authenticated request are established separately by the final evidence above.
+- **Latest local regression: PASS.** 342 Python/API/infrastructure tests in 57.49
+  seconds, including 77 smoke contract tests; 26 frontend tests and all 61
+  deterministic cases passed. Ruff checked 58 files, mypy checked 43 source files,
+  and Bandit found zero issues across 3,322 lines. Python/web/CDK dependency audits
+  passed. [Local evidence](validation/final-local-regressions-2026-09-15.json) links
+  the [full 61-case results](../evals/results/final-validation-2026-09-15.json).
+  Application behavior and IAM are unchanged.
 - **AWS deployment implementation hosted CI: PASS.**
   [run 34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647)
   passed at commit `8a49bf849fcae5006f5c1ac529120224f6c0badf` on GitHub-hosted Linux.
   Actual `gh` reads verified the push to main, all 22 `quality` steps, and the
   unexpired `evidence-and-infrastructure` artifact (124,794 bytes). See
   [runner/gates/artifact evidence](validation/github-aws-deployment-2026-09-15.json).
-  The status-documentation follow-up requires its own completed hosted run. Hosted
-  checks are credential-free; authenticated AWS smoke remains independently incomplete.
+  The subsequent status commit `ad9eb001717c7817834e1f2f77b4df9019a3c5af` passed
+  [run 34938551581](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34938551581).
+  Final validation/publication changes require a new hosted run. Hosted checks are
+  credential-free; real authenticated AWS evidence is recorded separately.
 - **Verified wheel implementation hosted CI: PASS.** [run 34377575941](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34377575941)
   passed at commit `87e6417d268bf9671820039f5e9c5bb422d82779` on GitHub-hosted Linux.
   All 22 `quality` steps succeeded; actual artifact `evidence-and-infrastructure`
@@ -99,10 +133,11 @@ that capability; NOT TESTED means an applicable integration was not executed.
   tests, 26 frontend tests, all 61 deterministic cases, formatting/lint/types,
   Bandit and dependency audits. Real installed-wheel tests run outside the checkout.
 - **Actual CDK bootstrap: PASS / PERFORMED.** Explicit user approval cleared the
-  prior administrator-role approval blocker. Tokyo `CDKToolkit` is CREATE_COMPLETE;
+  prior administrator-role approval blocker. Tokyo `CDKToolkit` reached CREATE_COMPLETE;
   all 11 resources and 25 control checks passed. The deployed template matches
   the review, extra trusted accounts are absent and runtime IAM is unchanged.
-  See [inventory/cleanup](cdk-bootstrap.md) and [actual AWS evidence](validation/cdk-bootstrap-2026-09-09.json).
+  Its September 15 removal is recorded separately above. See
+  [inventory/cleanup](cdk-bootstrap.md) and [actual AWS evidence](validation/cdk-bootstrap-2026-09-09.json).
 - **Historical local AWS-harness correction:** 294 Python/API/infrastructure tests,
   26 frontend tests, formatting/lint/types and security checks passed; a focused
   70-test harness regression also passed. See [local regression evidence](validation/aws-local-regressions-2026-09-09.json).
@@ -148,14 +183,17 @@ that capability; NOT TESTED means an applicable integration was not executed.
 
 | Integration | Status | Evidence or blocker |
 | --- | --- | --- |
-| GitHub repository publication and hosted Actions | PASS (AWS deployment implementation) | Verified [34937568647](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34937568647), commit `8a49bf849fcae5006f5c1ac529120224f6c0badf`; all 22 Linux quality steps and actual artifact verified. The status-documentation follow-up requires its own PASS. |
-| CDK sandbox bootstrap | PASS / PERFORMED | Approved standard stack CREATE_COMPLETE in Tokyo, 11 resources, 25 passing checks; no extra trusted accounts or application runtime IAM changes. Kept for planned sandbox deployment. |
-| Lambda Tokyo quota | RESOLVED | Fresh regional account settings: concurrent 1000 / unreserved 1000 before deployment; reservation three deployed, leaving 997 unreserved. No new request for 1001. Earlier Support case status is historical and was not re-queried. |
-| AWS sandbox application deployment | PASS | Tokyo CloudFormation CREATE_COMPLETE, 34 resources, reviewed template and unchanged runtime IAM verified. Amplify is the existing unconnected shell; working hosted SSR remains NOT TESTED. |
-| AWS smoke | PARTIAL / INCOMPLETE | Six of nine actual checks passed. Legitimate scoped OAuth JWT is pending; authenticated refusal, DynamoDB audit correlation and CloudWatch workflow-record correlation remain NOT TESTED. |
+| GitHub repository publication and hosted Actions | PASS (previous checkpoint) | Implementation run 34937568647 and subsequent [status run 34938551581](https://github.com/200lz/banking-ai-prototype-lab/actions/runs/34938551581), commit `ad9eb001717c7817834e1f2f77b4df9019a3c5af`, passed. Final validation changes require their own hosted PASS. |
+| CDK sandbox bootstrap | PASS / PERFORMED; subsequently removed | Approved standard stack reached CREATE_COMPLETE in Tokyo, 11 resources, 25 passing checks; no extra trusted accounts or application runtime IAM changes. Cleanup PASS below. |
+| Lambda Tokyo quota | RESOLVED | Total/unreserved 1000/1000 before deployment, 1000/997 with reservation three, and 1000/1000 after function removal. No new request for 1001. Earlier Support case status is historical and was not re-queried. |
+| AWS sandbox application deployment | PASS; subsequently removed | Tokyo CloudFormation reached CREATE_COMPLETE, 34 resources, reviewed template and unchanged runtime IAM verified. Amplify was an unconnected shell; working hosted SSR remains NOT TESTED. |
+| AWS infrastructure smoke | PASS (9/9) | Real reviewed CLI after legitimate scoped Cognito OAuth; fixed refusal, six verified excerpts, required review and exact DynamoDB/CloudWatch correlation. Zero model usage; normal model smoke NOT TESTED. |
 | S3 corpus publication | PASS | Twelve documents plus manifest uploaded with full validation and manifest last; all thirteen encrypted objects independently matched expected bytes. |
-| Lambda / API Gateway / Cognito configuration | PASS | Lambda Active/Successful with reservation three; existing Cognito MFA and four scoped JWT routes verified; all four routes returned 401 without credentials. Synthetic TOTP enrollment passed; authenticated OAuth boundary remains pending. |
-| DynamoDB / CloudWatch | PASS (configuration and unauthorized access logs) | Table ACTIVE, PITR/TTL/deletion protection enabled; log groups, three alarms and dashboard created. Unauthorized metadata-only access log correlation passed. Authenticated workflow audit/log correlation remains NOT TESTED. |
+| Lambda / API Gateway / Cognito | PASS | Reservation three and required Cognito MFA retained; all four routes returned 401 without credentials. Actual OAuth/PKCE and the scoped JWT-protected fixed refusal passed. |
+| DynamoDB / CloudWatch | PASS (configuration and authenticated correlation) | Exact refusal audit, nine controller stages, tools/review metadata, runtime logs and matching API access log verified. First delivery-wait failure preserved separately. |
+| AWS application cleanup | PASS with disclosed SYSTEM backup | Stack and six retained resources removed; 14 independent absence checks passed. One automatic DynamoDB recovery backup remains until October 20; [exact scope](validation/aws-cleanup-2026-09-15.json). |
+| CDK bootstrap cleanup | PASS | Following application deletion and reviewed dependencies, stack/assets/ECR/roles/parameter removed; nine independent absence checks passed. |
+| Databricks project cleanup | PASS | Dedicated job/bundle, four tables, wheel/Volume/schema absent. Existing catalog and STOPPED warehouse preserved; no active work observed; [exact scope](validation/databricks-cleanup-2026-09-15.json). |
 | Bedrock discovery | PASS | Authenticated Tokyo discovery returned 62 models; selected Nova Lite access metadata AUTHORIZED/AVAILABLE. Metadata does not establish inference success. |
 | Bedrock qualification | FAIL (previous attempts) | Single-case qualification and diagnostic retry failed with ModelThrottledException. All three relevant Tokyo Nova Lite quotas were re-queried at zero on 2026-09-15. No invocation after the zero-capacity finding; failed token/cost reporting incomplete. |
 | Nova Lite capacity inquiry | SUBMITTED / PENDING | Last verified Basic Support state: Unassigned, Account / Service Quotas, General, severity General question. Support was not re-queried this milestone; current zero quotas establish no usable capacity. No paid plan or capacity purchase. |

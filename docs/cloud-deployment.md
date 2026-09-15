@@ -1,9 +1,10 @@
 # AWS deployment runbook
 
-**Status: Tokyo application stack deployed on 2026-09-15.** CloudFormation is
-CREATE_COMPLETE, reservation three is verified, and the corpus is published.
-See the [execution record](aws-deployment-resumption.md) for the exact current
-smoke/authentication status. Live Bedrock evaluation and hosted Amplify frontend
+**Status: Tokyo deployment and nine-check infrastructure smoke passed on
+2026-09-15; project application and bootstrap resources were then removed.**
+CloudFormation CREATE_COMPLETE, reservation three, corpus integrity and legitimate
+scoped OAuth were verified before cleanup. See [final execution and disposition](final-validation-cleanup.md).
+Live Bedrock evaluation and hosted Amplify frontend
 build remain separate, unverified milestones. Local/container and credential-free
 CDK checks alone establish neither cloud authentication nor model capacity.
 
@@ -106,7 +107,8 @@ resolve it to a reviewed digest, scan it, and sign the resulting image.
    `node infra/cdk/node_modules/aws-cdk/bin/cdk --app "python -m infra.cdk.app" diff` before running `make deploy`.
    The direct deployment command is
    `node infra/cdk/node_modules/aws-cdk/bin/cdk --app "python -m infra.cdk.app" deploy --require-approval broadening --outputs-file .runtime/cloud-outputs.json`.
-   Deployment was not performed while implementing this repository.
+   Actual deployment and subsequent cleanup are recorded in
+   [final verification](final-validation-cleanup.md); this section is the reusable procedure.
 4. For a Git-connected Amplify build, create a Secrets Manager secret containing
    the GitHub access token in its entire plaintext SecretString; grant the
    CloudFormation deployment role permission to read this secret. Supply

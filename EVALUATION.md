@@ -1,5 +1,13 @@
 # Evaluation
 
+The [September 15 final run](evals/results/final-validation-2026-09-15.json)
+passed all **61 deterministic cases** with unchanged dataset and expected answers:
+mean 13.449 ms, p50 12.981 ms, p95 18.156 ms, zero model tokens and $0 model cost.
+The separate real AWS infrastructure-only smoke passed nine checks using a fixed
+refusal and zero model usage; it measures infrastructure and enforcement, not
+model quality. [Final validation](docs/final-validation-cleanup.md) records that
+scope and the subsequent cleanup. Live Bedrock remains **BLOCKED / NOT TESTED**.
+
 As of 2026-09-09, the **61-case local deterministic baseline passes every gate**.
 **Live Bedrock qualification: FAIL; twenty-case evaluation: NOT TESTED.** Two
 actual Tokyo single-case attempts failed before the three-case smoke or suite could run.
@@ -150,5 +158,6 @@ suite independently checks formulas, provenance, exact snapshot reproduction,
 missing/invalid/duplicate data, business-period freshness, strict fixed SQL,
 schema/hash errors, outages, privacy and compulsory review. Local adapter and
 mocked SDK tests are distinguished from the actual native browser/container
-profile requests and from unexecuted Databricks workspace integration.
+profile requests and from the separately executed real Databricks wheel pipeline,
+exact live table reconciliation, governed SDK adapter and browser review.
 See [Databricks validation](docs/databricks-validation.md) for concrete evidence.

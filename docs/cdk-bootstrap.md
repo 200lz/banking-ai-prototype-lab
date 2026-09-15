@@ -14,11 +14,14 @@ completed with exit 0 at 13:18:44 UTC, and actual AWS verification completed at
 `CREATE_COMPLETE`. The deployed template matched the reviewed template. See the
 [sanitized execution evidence](validation/cdk-bootstrap-2026-09-09.json).
 
-**Disposition: KEEP FOR PLANNED SANDBOX DEPLOYMENT.** The bootstrap remains in the
-approved account. The application stack is still missing; application deployment,
-AWS smoke and the twenty-case live evaluation remain **NOT TESTED**. Bootstrap
-success does not clear the Lambda/Bedrock capacity or Amplify connection blockers.
-No application runtime source or IAM control was changed.
+**Current disposition (September 15): CLEANUP PASS.** The application was deployed,
+passed nine infrastructure-only smoke checks and was removed. After dependency
+review, both bootstrap asset versions and its image were removed, `CDKToolkit`
+reached `DELETE_COMPLETE`, and its retained bucket, repository, five roles and
+version parameter were verified absent. See [actual cleanup](final-validation-cleanup.md).
+The original September 9 decision was to keep bootstrap for that deployment;
+the remaining sections preserve its creation evidence and reusable procedure.
+Live Bedrock remains **NOT TESTED / BLOCKED**, independently of infrastructure.
 
 ## Acceptance criteria
 
@@ -102,10 +105,12 @@ caller independently as the approved non-root SSO assumed role. The fifth role
 trusts `cloudformation.amazonaws.com`. Empty external-trust parameters do not
 narrow the standard deploy role's generic outbound permissions. [AWS account-principal semantics](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html)
 
-## Retention, cost and cleanup disposition
+## Historical September 9 retention decision and cleanup considerations
 
-**Disposition: KEEP FOR PLANNED SANDBOX DEPLOYMENT; no cleanup was executed.**
-The observed bucket and repository are empty. Bootstrap resources contain no
+**September 9 disposition: KEEP FOR PLANNED SANDBOX DEPLOYMENT.** No cleanup had
+been executed then; the observed bucket and repository were empty. The September
+15 deployment and verified cleanup supersede that resource disposition.
+Bootstrap resources contain no
 application compute, but future S3 assets and
 ECR images can incur storage charges. Current S3 versions have no automatic
 expiry; noncurrent versions expire after 30 days and incomplete multipart uploads
@@ -129,7 +134,7 @@ bill or assert that the account incurred no charges.
 
 ## Safe teardown procedure
 
-This is a future cleanup procedure, **not an executed deletion**. It applies only
+This reusable procedure applies only
 after cleanup has been authorized and every application using this regional
 bootstrap has been removed or migrated. Bootstrap resources are shared by CDK
 applications in the same account/region; checking only this portfolio stack is
@@ -213,7 +218,7 @@ complete read-only inventories until all four collections are empty, then follow
 the stack/bucket deletion sequence above. Neither a delete marker nor deletion of
 only the latest version removes all stored versions. [S3 version-aware batch deletion](https://docs.aws.amazon.com/cli/latest/reference/s3api/delete-objects.html)
 
-## Local verification of this runbook
+## September 9 offline verification of this runbook
 
 The reviewed template hash and conditional resource count were rechecked without
 AWS access. Both PowerShell examples parsed successfully. The cleanup example

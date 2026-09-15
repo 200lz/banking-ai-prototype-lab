@@ -1,0 +1,279 @@
+{
+  "recorded_at": "2026-09-15T09:00:57.223514+00:00",
+  "status": "PASS_WITH_DISCLOSED_SYSTEM_BACKUP",
+  "region": "ap-northeast-1",
+  "authorization": "User explicitly authorized exact project application, retained resources and unused bootstrap cleanup after nine-check smoke and evidence preservation",
+  "prior_validation": "aws-final-validation-2026-09-15.json",
+  "application_cleanup": "PASS",
+  "bootstrap_cleanup": "PASS",
+  "stages": {
+    "inventory": {
+      "status": "PASS",
+      "stage": "inventory",
+      "region": "ap-northeast-1",
+      "started_at": "2026-09-15T08:52:59.948622+00:00",
+      "completed_at": "2026-09-15T08:53:05.830497+00:00",
+      "evidence_binding": {},
+      "checks": {
+        "application_resources": 34,
+        "bootstrap_resources": 11,
+        "retained_application_resources": 6,
+        "corpus_versions_markers": 13,
+        "bootstrap_versions_markers": 2,
+        "table_backups": 0,
+        "mutation_performed": false
+      },
+      "provider_calls": 16
+    },
+    "application-delete": {
+      "status": "PASS",
+      "stage": "application-delete",
+      "region": "ap-northeast-1",
+      "started_at": "2026-09-15T08:53:48.243700+00:00",
+      "completed_at": "2026-09-15T08:54:22.168682+00:00",
+      "evidence_binding": {
+        "smoke_sha256": "53eef24b5d07bc9b753e3cab18b3a401f91689bc4ea6bf25931b1a416b6f49ce",
+        "public_evidence_sha256": "30b08abf7c4b78bee1ad89469dbe72bc6c4a084210ca292ff0033b2ef77c127d",
+        "public_evidence_path": "docs/validation/aws-final-validation-2026-09-15.json"
+      },
+      "checks": {
+        "cloudformation_application": "DELETE_COMPLETE",
+        "retained_resources": "PENDING_EXPLICIT_CLEANUP"
+      },
+      "provider_calls": 14
+    },
+    "retained-delete": {
+      "status": "PASS",
+      "stage": "retained-delete",
+      "region": "ap-northeast-1",
+      "started_at": "2026-09-15T08:54:36.744609+00:00",
+      "completed_at": "2026-09-15T08:54:54.308961+00:00",
+      "evidence_binding": {
+        "smoke_sha256": "53eef24b5d07bc9b753e3cab18b3a401f91689bc4ea6bf25931b1a416b6f49ce",
+        "public_evidence_sha256": "30b08abf7c4b78bee1ad89469dbe72bc6c4a084210ca292ff0033b2ef77c127d",
+        "public_evidence_path": "docs/validation/aws-final-validation-2026-09-15.json"
+      },
+      "checks": {
+        "retained_application_resources_processed": 6,
+        "table_backups_remaining": 1,
+        "backup_disposition": "REPORTED_ONLY; no backup deletion or new backup creation performed"
+      },
+      "provider_calls": 32
+    },
+    "application-verify": {
+      "status": "PASS",
+      "stage": "application-verify",
+      "region": "ap-northeast-1",
+      "started_at": "2026-09-15T08:57:26.923113+00:00",
+      "completed_at": "2026-09-15T08:57:35.488778+00:00",
+      "evidence_binding": {},
+      "checks": {
+        "application_absence_checks": 14,
+        "all_passed": true,
+        "table_backups_remaining": 1,
+        "lambda_applied_concurrency": 1000,
+        "lambda_unreserved_concurrency": 1000,
+        "subordinate_api_pool_app_resources": "Parent resource absence plus CloudFormation deletion; no independent child enumeration claimed"
+      },
+      "provider_calls": 17
+    },
+    "bootstrap-inventory": {
+      "status": "PASS",
+      "stage": "bootstrap-inventory",
+      "region": "ap-northeast-1",
+      "started_at": "2026-09-15T08:57:35.747283+00:00",
+      "completed_at": "2026-09-15T08:57:40.556313+00:00",
+      "evidence_binding": {},
+      "checks": {
+        "active_stack_dependencies": 0,
+        "external_non_cloudformation_consumers": "NOT TESTED; operator must establish no other bootstrap consumers before bootstrap execution",
+        "bootstrap_resources": 11,
+        "versions_and_markers": 2,
+        "multipart_uploads": 0,
+        "ecr_digests": 1,
+        "mutation_performed": false
+      },
+      "provider_calls": 11
+    },
+    "bootstrap-empty": {
+      "status": "PASS",
+      "stage": "bootstrap-empty",
+      "region": "ap-northeast-1",
+      "started_at": "2026-09-15T08:58:25.631609+00:00",
+      "completed_at": "2026-09-15T08:58:36.419863+00:00",
+      "evidence_binding": {
+        "smoke_sha256": "53eef24b5d07bc9b753e3cab18b3a401f91689bc4ea6bf25931b1a416b6f49ce",
+        "public_evidence_sha256": "30b08abf7c4b78bee1ad89469dbe72bc6c4a084210ca292ff0033b2ef77c127d",
+        "public_evidence_path": "docs/validation/aws-final-validation-2026-09-15.json"
+      },
+      "checks": {
+        "bootstrap_bucket_empty": true,
+        "ecr_empty": true,
+        "other_consumers_operator_confirmed_absent": true
+      },
+      "provider_calls": 33
+    },
+    "bootstrap-delete": {
+      "status": "PASS",
+      "stage": "bootstrap-delete",
+      "region": "ap-northeast-1",
+      "started_at": "2026-09-15T08:59:13.372527+00:00",
+      "completed_at": "2026-09-15T08:59:55.527397+00:00",
+      "evidence_binding": {
+        "smoke_sha256": "53eef24b5d07bc9b753e3cab18b3a401f91689bc4ea6bf25931b1a416b6f49ce",
+        "public_evidence_sha256": "30b08abf7c4b78bee1ad89469dbe72bc6c4a084210ca292ff0033b2ef77c127d",
+        "public_evidence_path": "docs/validation/aws-final-validation-2026-09-15.json"
+      },
+      "checks": {
+        "bootstrap_stack": "DELETE_COMPLETE",
+        "retained_bootstrap_bucket": "ABSENT"
+      },
+      "provider_calls": 41
+    },
+    "verify": {
+      "status": "PASS",
+      "stage": "verify",
+      "region": "ap-northeast-1",
+      "started_at": "2026-09-15T09:00:06.222627+00:00",
+      "completed_at": "2026-09-15T09:00:17.043328+00:00",
+      "evidence_binding": {},
+      "checks": {
+        "application_absence_checks": 14,
+        "all_passed": true,
+        "table_backups_remaining": 1,
+        "lambda_applied_concurrency": 1000,
+        "lambda_unreserved_concurrency": 1000,
+        "subordinate_api_pool_app_resources": "Parent resource absence plus CloudFormation deletion; no independent child enumeration claimed",
+        "bootstrap_absence_checks": 9,
+        "bootstrap_all_passed": true,
+        "reviewed_stack_resources_absent": true,
+        "native_dynamodb_backups_absent": false,
+        "backup_scope": "DynamoDB-native ListBackups; AWS Backup recovery points not enumerated",
+        "billing": "NOT MEASURED; service-managed retention/backups are reported separately",
+        "excluded": [
+          "Databricks",
+          "SSO configuration",
+          "Support cases",
+          "quota settings",
+          "other regions",
+          "AWS-managed encryption keys"
+        ]
+      },
+      "provider_calls": 26
+    }
+  },
+  "verified_absent": [
+    "application stack",
+    "Lambda function",
+    "API Gateway API",
+    "unconnected Amplify app",
+    "Cognito user pool and contained synthetic identity",
+    "DynamoDB audit table",
+    "three CloudWatch log groups",
+    "three CloudWatch alarms and dashboard",
+    "corpus bucket and all thirteen versions",
+    "bootstrap stack",
+    "bootstrap asset bucket and two versions",
+    "ECR repository and its one image digest",
+    "two application roles and five bootstrap roles",
+    "bootstrap SSM version parameter"
+  ],
+  "child_resource_verification": "Removed parent service resource plus successful CloudFormation deletion; no independent child enumeration claim",
+  "bootstrap_dependency_review": {
+    "started_at": "2026-09-15T08:55:02.572868+00:00",
+    "region": "ap-northeast-1",
+    "execution": "live_read_only_aws",
+    "account_identifier_public": false,
+    "coverage": {
+      "lambda": {
+        "status": "PASS",
+        "functions": 0,
+        "image_functions": 0,
+        "scope": "Current function code and environment configuration; no code download"
+      },
+      "ecs": {
+        "status": "PASS",
+        "clusters": 0,
+        "task_definitions": 0,
+        "running_or_pending_tasks": 0
+      },
+      "apprunner": {
+        "status": "PASS",
+        "services": 0
+      },
+      "batch": {
+        "status": "PASS",
+        "job_definitions": 0,
+        "job_queues": 0,
+        "compute_environments": 0,
+        "nonterminal_jobs": 0
+      },
+      "sagemaker": {
+        "status": "PASS",
+        "models": 0,
+        "scope": "Registered model container images and model-data URIs"
+      },
+      "codebuild": {
+        "status": "PASS",
+        "projects": 0,
+        "scope": "Existing project environment/source/artifact configurations"
+      },
+      "eks": {
+        "status": "PASS",
+        "clusters": 0
+      },
+      "ec2": {
+        "status": "PASS",
+        "nonterminated_instances": 0
+      },
+      "glue": {
+        "status": "PASS",
+        "jobs": 0
+      }
+    },
+    "errors": [],
+    "unknowns": [],
+    "references": [],
+    "expected_account_non_root_sso_verified": true,
+    "nonproject_exact_references": 0,
+    "known_project_exact_references": 0,
+    "status": "PASS_WITH_STATED_SCOPE",
+    "read_only_calls": 15,
+    "completed_at": "2026-09-15T08:55:09.500068+00:00",
+    "not_claimed": [
+      "Whole-account or other-region absence proof",
+      "External source repositories, CI systems, or developer hosts holding deployment dependencies",
+      "Image/script content or indirect references assembled at runtime",
+      "Historical deleted resource definitions or future consumers",
+      "SageMaker training/processing jobs, EMR clusters, and other unenumerated service classes",
+      "CloudFormation dependencies; checked separately by the teardown helper"
+    ],
+    "public_evidence_sha256": "30b08abf7c4b78bee1ad89469dbe72bc6c4a084210ca292ff0033b2ef77c127d"
+  },
+  "retained": [
+    {
+      "kind": "AWS-managed DynamoDB SYSTEM recovery backup",
+      "count": 1,
+      "status": "AVAILABLE",
+      "expires_at": "2026-10-20T08:54:43.950000+00:00",
+      "reason": "Automatically created when the PITR-enabled audit table was deleted; retained for provider expiry",
+      "additional_cost": "No additional cost under the AWS-documented SYSTEM backup policy; no account bill measured",
+      "official_reference": "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BackupSummary.html"
+    },
+    {
+      "kind": "Support history and provider-managed account/service history",
+      "reason": "Not application compute; Support, SSO configuration, quota settings and AWS-managed encryption keys were outside deletion scope"
+    }
+  ],
+  "retention_limits": [
+    "No whole-account or immediate physical-erasure claim",
+    "AWS Backup recovery points were not independently enumerated; native table-associated backups were",
+    "CloudTrail, service metrics/traces and provider histories can outlive resource deletion"
+  ],
+  "model_invocations": 0,
+  "paid_support_or_capacity_purchase": false,
+  "other_region_actions": false,
+  "private_helper": "Stopped after successful smoke and application removal",
+  "billing": "Actual infrastructure charges were not measured; historical request and deployment charges are not reversed by cleanup",
+  "verification_helper_failure": "Initial Amplify absence check passed a recorded CloudFormation app ARN to GetApp, which requires appId. Strict same-account/Tokyo ARN normalization corrected only the private checker; ValidationException still fails closed. Subsequent direct checks passed."
+}

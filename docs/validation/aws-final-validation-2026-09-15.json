@@ -1,0 +1,110 @@
+{
+  "recorded_at": "2026-09-15T08:52:34.947642+00:00",
+  "scope": "Actual Tokyo AWS infrastructure and fixed prohibited-credit refusal; no model-quality claim",
+  "source_checkpoint": "ad9eb001717c7817834e1f2f77b4df9019a3c5af",
+  "verifier_change": "Developer-only CloudWatch delivery wait: 25 attempts, 120 seconds total sleep; all validation unchanged",
+  "verifier_sha256": "4ad15c4379b6fd0733acab6d7a81cac4fd685c5b3074b27eb1679a256c422a48",
+  "deployment_evidence": "aws-deployment-2026-09-15.json",
+  "cloudformation_at_deployment": "CREATE_COMPLETE; 34 resources; deployed template equals reviewed template",
+  "region": "ap-northeast-1",
+  "runtime_iam_changed": false,
+  "lambda_reserved_concurrency": 3,
+  "regional_applied_concurrency": 1000,
+  "regional_unreserved_concurrency_at_deployment": 997,
+  "oauth": {
+    "status": "PASS",
+    "completed_at": "2026-09-15T08:41:23.280737+00:00",
+    "flow": "authorization_code_pkce_s256",
+    "state_verified": true,
+    "token_endpoint_status": 200,
+    "scoped_access_token": true,
+    "access_token_lifetime_seconds": 900
+  },
+  "gateway_jwt_and_scope_validation": "PASS; real authenticated fixed refusal and unauthorized rejection",
+  "previous_transaction": "Discarded without redemption after exposure; fresh state and PKCE used for the successful transaction",
+  "smoke": {
+    "started_at": "2026-09-15T08:51:12.095378+00:00",
+    "completed_at": "2026-09-15T08:51:58.338388+00:00",
+    "elapsed_seconds": 46.25,
+    "exit_code": 0,
+    "invocation": "python -m scripts.aws_smoke --infrastructure-only",
+    "expected_account_non_root_sso_verified": true,
+    "region": "ap-northeast-1",
+    "report": {
+      "bedrock_evaluation": "NOT TESTED",
+      "checks": [
+        {
+          "name": "stack_and_resource_scope",
+          "status": "PASS"
+        },
+        {
+          "name": "reviewed_s3_corpus",
+          "status": "PASS"
+        },
+        {
+          "name": "lambda_configuration",
+          "status": "PASS"
+        },
+        {
+          "name": "cognito_configuration",
+          "status": "PASS"
+        },
+        {
+          "name": "gateway_authorization",
+          "status": "PASS"
+        },
+        {
+          "name": "unauthorized_request_denied",
+          "status": "PASS"
+        },
+        {
+          "name": "authorized_query_and_citations",
+          "status": "PASS"
+        },
+        {
+          "name": "correlated_dynamodb_audit",
+          "status": "PASS"
+        },
+        {
+          "name": "cloudwatch_metadata",
+          "status": "PASS"
+        }
+      ],
+      "document_count": 12,
+      "execution": "live_aws",
+      "measurements": {
+        "cost_estimate_complete": true,
+        "estimated_cost_usd": 0.0,
+        "input_tokens": 0,
+        "latency_ms": 664.39,
+        "model_latency_ms": 0.0,
+        "output_tokens": 0,
+        "retrieval_latency_ms": 499.217
+      },
+      "scope": "infrastructure_only",
+      "status": "PASS",
+      "verified_excerpt_count": 6
+    }
+  },
+  "private_smoke_sha256": "53eef24b5d07bc9b753e3cab18b3a401f91689bc4ea6bf25931b1a416b6f49ce",
+  "correlation": {
+    "dynamodb": "PASS; exact request audit, all nine stages, tools and review",
+    "cloudwatch": "PASS; exact runtime audit and matching API access record"
+  },
+  "s3_corpus": {
+    "documents": 12,
+    "objects_including_manifest": 13,
+    "encrypted_bytes": 10527,
+    "manifest_published_last": true,
+    "byte_integrity": "PASS"
+  },
+  "bedrock": {
+    "live_evaluation": "NOT TESTED",
+    "capacity": "BLOCKED at last verification; relevant Tokyo quotas zero",
+    "previous_qualification": "FAIL, provider throttling",
+    "model_invocations_in_this_milestone": 0
+  },
+  "initial_failure": "aws-infrastructure-smoke-initial-failure-2026-09-15.json",
+  "interpretation": "Nine-check scope passed after correcting only the developer log-delivery polling bound. One observed response latency is not a service-level benchmark. A review flag is not completed human approval.",
+  "cleanup_state_when_preserved": "NOT STARTED; preserve dated validation separately from final resource disposition"
+}

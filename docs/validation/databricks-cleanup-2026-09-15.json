@@ -1,0 +1,122 @@
+{
+  "recorded_at": "2026-09-15T08:58:57.149251+00:00",
+  "status": "PASS",
+  "scope": "Removal of the reviewed synthetic project resources in the existing user-confirmed Databricks Free Edition workspace, followed by a separate live read-only verification invocation",
+  "historical_execution": {
+    "status": "PASS",
+    "checkpoint_date_jst": "2026-09-10",
+    "evidence": "docs/validation/databricks-wheel-2026-09-10.json",
+    "pipeline_or_model_rerun_during_cleanup": false
+  },
+  "timestamps": {
+    "reviewed_inventory_at": "2026-09-15T08:56:36.098097+00:00",
+    "cleanup_started_at": "2026-09-15T08:58:20.258264+00:00",
+    "cleanup_completed_at": "2026-09-15T08:58:35.597064+00:00",
+    "independent_verification_at": "2026-09-15T08:58:57.149251+00:00"
+  },
+  "reviewed_inventory": {
+    "sha256": "de3943216deee401228de6d5fed394e0abf0506ef8efc34dbabe7e521f18ced9",
+    "exact_existing_workspace_and_user_match": true,
+    "job_creator_and_run_as_match": true,
+    "schema_volume_and_table_ownership_match": true,
+    "fresh_inventory_rechecked_before_mutation": true,
+    "unchanged_since_review": true,
+    "workspace_descendant_objects": 27,
+    "workspace_descendant_files": 18,
+    "workspace_descendant_directories": 9,
+    "source_manifest_files": 15,
+    "metadata_object_bound": 200
+  },
+  "removed_project_resources": {
+    "saved_jobs": 1,
+    "dedicated_bundle_roots": 1,
+    "managed_delta_tables": 4,
+    "table_names": [
+      "financial_bronze",
+      "financial_silver",
+      "financial_rejected",
+      "financial_gold"
+    ],
+    "managed_artifact_volumes": 1,
+    "synthetic_schemas": 1,
+    "wheel_files": 1,
+    "wheel_digest_directories": 1,
+    "wheel_filename": "banking_ai_financial-0.1.0-py3-none-any.whl",
+    "wheel_bytes": 11407,
+    "wheel_sha256": "d5f2b811db9beb1d04aea256888c3831ddb8238fcffa4f72c2e0a56b466f3166"
+  },
+  "execution": {
+    "bundle_destroy_exit_code": 0,
+    "fixed_named_tables_deleted_after_identity_checks": true,
+    "exact_wheel_deleted_then_empty_digest_directory_removed": true,
+    "volume_deleted_only_after_empty_check": true,
+    "schema_deleted_without_cascade_after_empty_checks": true,
+    "remaining_bundle_directories_deleted_only_when_empty": true,
+    "unexpected_partial_failure": false,
+    "destructive_operations_retried": false
+  },
+  "independent_verification": {
+    "status": "PASS",
+    "separate_process_invocation": true,
+    "project_job_absent": true,
+    "project_bundle_absent": true,
+    "four_tables_absent": true,
+    "managed_volume_absent": true,
+    "synthetic_schema_absent": true,
+    "warehouse_stopped": true,
+    "no_active_runs_queries": true,
+    "existing_catalog_warehouse_preserved": true,
+    "active_job_runs": 0,
+    "active_queries": 0,
+    "active_classic_compute": 0,
+    "warehouse_state": "STOPPED",
+    "preexisting_catalog_retained": true,
+    "preexisting_warehouse_retained": true,
+    "physical_storage_erasure_claimed": false
+  },
+  "preservation": {
+    "existing_evidence_files": 20,
+    "execution_outputs_and_full_synthetic_table_exports_preserved": true,
+    "bundle_source_and_metadata_exports_preserved": true,
+    "independent_wheel_download_sha256_matches": true,
+    "reviewed_inventory_sha256": "de3943216deee401228de6d5fed394e0abf0506ef8efc34dbabe7e521f18ced9",
+    "cleanup_result_sha256": "2816b6f1346be57cf31f9c82980295d4080c6445e48296d58e8201787c1db0bb",
+    "independent_verification_sha256": "9b66cb7e84d2092f39731392ba9e59e288799aef330a8e0105ba2b167dd74b3e",
+    "bundle_destroy_output_sha256": "23aaa7904aaa2c5fe9cd706f8fc23c22e058fde67366ffe11f7894e220f1f086",
+    "initial_inventory_failures_and_both_verification_results_archived_read_only": true,
+    "local_preserved_artifacts_deleted": false
+  },
+  "inventory_compatibility_findings": [
+    {
+      "recorded_at": "2026-09-15T08:53:09.466330+00:00",
+      "status": "RESOLVED before deletion",
+      "finding": "Jobs list rejected limit 100: maximum 26",
+      "correction": "Page size 25; SDK next-page iteration remains complete and the helper fails above 200 metadata objects",
+      "preserved_error_sha256": "8aeccae3dd239190acaca1d7a2da7c5491a856999cd1b0edadf96aabc4fc500b",
+      "free_edition_unsupported_capability_established": false
+    },
+    {
+      "recorded_at": "2026-09-15T08:54:47.462322+00:00",
+      "status": "RESOLVED before deletion",
+      "finding": "Dedicated project bundle contained the unlisted empty artifacts/.internal directory",
+      "correction": "Allow only this exact relative directory after a fresh live empty listing; other path and file guards unchanged",
+      "preserved_error_sha256": "ecef4654dc772bd7310d6aaf43dfb7cf02337f66ff78d8a9592e81047d2d59c4",
+      "free_edition_unsupported_capability_established": false
+    }
+  ],
+  "boundaries": {
+    "free_edition_basis": "Retained explicit user confirmation and historical private edition confirmation; edition was not independently queried by the cleanup helper",
+    "new_compute_started": false,
+    "warehouse_start_requests": 0,
+    "sql_statements_submitted": 0,
+    "jobs_submitted": 0,
+    "paid_trial_started": false,
+    "payment_method_added": false,
+    "edition_changed": false,
+    "paid_resources_created": false,
+    "unrelated_resources_deleted": false,
+    "model_invocations": 0,
+    "physical_storage_erasure": "NOT CLAIMED; logical resource absence is verified"
+  },
+  "privacy": "Workspace hosts, user/principal identifiers, resource IDs, provider responses, credentials and private capture paths are omitted; exact local evidence and artifact SHA-256 hashes are retained for integrity comparison"
+}

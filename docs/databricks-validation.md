@@ -1,17 +1,48 @@
 # Databricks integration validation
 
-Updated 2026-09-10 JST. **Real Free Edition workspace validation: PASS** for the
-Volume-backed wheel smoke, native pipeline, exact live table reconciliation, Gold
-query, real SDK/API tool and browser SME review. All entities and records are
-synthetic. AWS remains frozen; no model was invoked.
+Updated 2026-09-15 JST. **Historical real Free Edition workspace validation:
+PASS (2026-09-10 JST). Current project cleanup: PASS (2026-09-15 JST).** The
+historical execution covered the Volume-backed wheel smoke, native pipeline,
+exact live table reconciliation, Gold query, real SDK/API tool and browser SME
+review. All entities and records are synthetic. AWS was frozen at that historical
+checkpoint; no model was invoked during either Databricks milestone.
 
 [Acceptance criteria](databricks-wheel-acceptance.md) were recorded before
-implementation. [Current machine-readable evidence](validation/databricks-wheel-2026-09-10.json)
+implementation. [Historical execution evidence](validation/databricks-wheel-2026-09-10.json)
 preserves actual timings, artifact hashes, checks and sanitized run references.
 The [earlier failed execution](validation/databricks-workspace-2026-09-10.json)
 remains historical evidence; it has not been relabeled as successful.
 
-## Diagnosis and source-delivery change
+## Current cleanup verification (2026-09-15)
+
+[Cleanup evidence](validation/databricks-cleanup-2026-09-15.json) records the
+reviewed inventory, guarded deletion and separate live verification. Cleanup
+completed at **08:58:35 UTC**; independent verification passed at **08:58:57 UTC**.
+The project job, dedicated bundle, four managed Delta tables, wheel, managed
+artifact Volume and synthetic schema were removed. The pre-existing catalog and
+SQL warehouse were retained; the warehouse was **STOPPED**, with no active runs
+or queries. Private execution outputs, data exports, source exports and the
+hash-verified wheel were preserved before deletion. Immediate physical storage
+erasure is not claimed.
+
+Exact workspace identity, ownership and resource contents matched the reviewed
+inventory. Free Edition is based on the retained explicit user confirmation,
+not a newly queried edition endpoint. Cleanup started no compute, submitted no
+SQL statements or jobs, and made no payment, trial or edition changes.
+
+Two private inventory-helper compatibility findings were resolved before any
+deletion: the Jobs API rejected a page size of 100 with a maximum of 26, so the
+helper used 25 with complete SDK pagination and a 200-object bound; the bundle
+contained an empty `artifacts/.internal` directory, which was allowed only at that
+exact path after a fresh empty-directory check. Both original failures were
+preserved. Neither finding establishes an unsupported Free Edition capability.
+
+The following execution narrative describes the **2026-09-10 JST checkpoint**.
+Its retained resources and RUNNING warehouse observation are historical; they
+are superseded by the cleanup evidence above. Reproduction now requires a newly
+approved deployment of the removed project resources.
+
+## Historical diagnosis and source-delivery change (2026-09-10)
 
 The two historical `spark_python_task` runs failed after **71.903 s** and
 **104.309 s**, including four task attempts. All four full traces were inspected.
@@ -39,7 +70,7 @@ maintained business implementation. Runtime module origins must match the
 installed distribution, and runtime code does not change `sys.path` or read the
 bundle's Workspace source tree. Bundle-synced files remain available for inspection.
 
-## Actual live results
+## Historical actual live results (2026-09-10)
 
 Official CLI **1.16.0** and SDK **0.136.0** used the existing OAuth U2M development
 profile. Credentials remain outside Git. User-confirmed **Free Edition** was
@@ -159,23 +190,27 @@ Verify real complete/missing/stale/absent profiles and actual browser behavior;
 do not reinterpret injected failures as live permission testing. Keep workspace
 hosts, identities, job/task/statement IDs and raw provider responses private.
 
-## Retained resources, cost and cleanup
+## Historical retained resources and cleanup procedure (2026-09-10)
 
-The existing unscheduled job is updated; the one-time smoke and first wheel
-pipeline runs are terminal. Retained project resources are the bounded schema,
+At the September 10 checkpoint, the existing unscheduled job had been updated;
+the one-time smoke and first wheel pipeline runs were terminal. Retained project
+resources then comprised the bounded schema,
 one MANAGED Volume, one wheel, four named Delta tables and bundle inspection files.
 No catalog, warehouse, classic cluster, external storage or cloud credentials were
-created. The existing serverless **2X-Small** SQL warehouse was **RUNNING** at final
-inspection with its unchanged **10-minute auto-stop**. This differs from the
-STOPPED state before this milestone; final auto-stop completion was not asserted.
+created. The existing serverless **2X-Small** SQL warehouse was **RUNNING** at that
+inspection with its unchanged **10-minute auto-stop**. This differed from the
+STOPPED state before that milestone; final auto-stop completion was not asserted
+then. The September 15 independent verification now establishes **STOPPED**.
 
 [Free Edition](https://docs.databricks.com/aws/en/getting-started/free-edition-limitations)
 is no-cost with fair-use limits and no SLA. No charge is expected; a metered dollar
 amount was not exposed or measured. Job durations are not DBUs. No paid trial,
 payment method, paid resource or edition change occurred. See [cost boundaries](../COST.md).
 
-Cleanup has **not** been executed. Preserve private evidence and confirm the exact
-workspace/profile and ownership before removing anything. From `databricks/`,
+Cleanup had **not** been executed at the September 10 checkpoint; the September
+15 cleanup above is now **PASS**. The following procedure is retained for a
+future separately approved deployment. Preserve private evidence and confirm the
+exact workspace/profile and ownership before removing anything. From `databricks/`,
 inspect `bundle summary`, then `bundle destroy` with `-t dev`, the same catalog,
 `wheel_path` and profile variables above. Review the plan; verify only this job and
 its deployment files are removed. Inspect any residual personal bundle directory
